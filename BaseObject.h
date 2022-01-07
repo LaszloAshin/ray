@@ -1,12 +1,8 @@
 #ifndef _BASEOBJECT_H
 #define _BASEOBJECT_H	1
 
-class Material;
-class BaseObject;
-
 #include "Color.h"
-#include "Scene.h"
-#include "KdTree.h"
+#include "VectorMath.h"
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -43,7 +39,7 @@ public:
 };
 
 class BaseObject {
-	friend class KdTree;
+	friend class Scene;
 	BaseObject *next;
 protected:
 	Vector pos;
@@ -62,9 +58,7 @@ public:
 	virtual bool hasMidPoint() const { return true; }
 	virtual Vector midPoint() const { return pos; }
 	virtual float intersect(const Ray &r, Vector &N) const = 0;
-	virtual int onSideOfPlane(Axis axis, float d) const;
 	virtual Color texelAt(const Vector &mp) const;
-
 };
 
 #endif /* _BASEOBJECT_H */

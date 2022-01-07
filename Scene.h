@@ -6,16 +6,17 @@ class Scene;
 #include "Color.h"
 #include "Light.h"
 #include "BaseObject.h"
-#include "KdTree.h"
 
 class Scene {
 	Light *firstLight;
 	Material *firstMater;
-	KdTree *tree;
+	BaseObject *firstObj; // initial object list
 
 	void build(int frame);
 	void addLight(Light *p);
 	void addMaterial(Material *p);
+	void addObject(BaseObject *p);
+	float intersect(const Ray &r, Vector &N, BaseObject **O) const;
 
 public:
 	Scene(int frame);

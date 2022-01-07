@@ -37,26 +37,6 @@ Ellipsoid::intersect(const Ray &r, Vector &N) const
 	return t0;
 }
 
-int
-Ellipsoid::onSideOfPlane(Axis axis, float d) const
-{
-	switch (axis) {
-		case axisX:
-			if (pos.x + c.x < d) return -1;
-			if (pos.x - c.x > d) return 1;
-			return 0;
-		case axisY:
-			if (pos.y + c.y < d) return -1;
-			if (pos.y - c.y > d) return 1;
-			return 0;
-		case axisZ:
-			if (pos.z + c.z < d) return -1;
-			if (pos.z - c.z > d) return 1;
-			return 0;
-	}
-	return 0;
-}
-
 Color
 Ellipsoid::texelAt(const Vector &mp) const
 {

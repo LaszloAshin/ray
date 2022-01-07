@@ -20,29 +20,3 @@ Plane::intersect(const Ray &r, Vector &N) const
 	N = pos;
 	return (pos * d - r.s) * pos / f;
 }
-
-int
-Plane::onSideOfPlane(Axis axis, float d) const
-{
-	switch (axis) {
-		case axisX:
-			if (fabs(pos.y) > EPSILON) return 0;
-			if (fabs(pos.z) > EPSILON) return 0;
-			if (this->d < d - EPSILON) return -1;
-			if (this->d > d + EPSILON) return 1;
-			return 0;
-		case axisY:
-			if (fabs(pos.x) > EPSILON) return 0;
-			if (fabs(pos.z) > EPSILON) return 0;
-			if (this->d < d - EPSILON) return -1;
-			if (this->d > d + EPSILON) return 1;
-			return 0;
-		case axisZ:
-			if (fabs(pos.x) > EPSILON) return 0;
-			if (fabs(pos.y) > EPSILON) return 0;
-			if (this->d < d - EPSILON) return -1;
-			if (this->d > d + EPSILON) return 1;
-			return 0;
-	}
-	return 0;
-}

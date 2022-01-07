@@ -18,7 +18,6 @@ public:
 	virtual bool hasMidPoint() const { return false; }
 
 	virtual float intersect(const Ray &r, Vector &N) const;
-	virtual int onSideOfPlane(Axis axis, float d) const;
 };
 
 #endif /* _PLANE_H */

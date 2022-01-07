@@ -144,7 +144,6 @@ Tracer::blockTracer(void *p)
 				if ((up[i].dist(right) < 0.001f) && (up[i+1].dist(left) < 0.001f)) {
 					c = (up[i] + up[i+1] + left + right) * 0.25f;
 				} else {
-					Color pr;
 					for (int j = 0; j < SAMPLES; ++j) {
 						float hx = halton(2, j + 1);
 						float hy = halton(3, j + 1);

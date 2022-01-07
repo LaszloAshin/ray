@@ -36,7 +36,7 @@ Scene::build(int frame)
 	addMaterial(iron);
 	addMaterial(mirror);
 	v = Vector(5.0f, 5.0f, 5.0f);
-	tree->addObject(new Ellipsoid(Vector(0.0f, 4.0f, -25.0f), glass, v));
+	addObject(new Ellipsoid(Vector(0.0f, 4.0f, -25.0f), glass, v));
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina = sinf(angle);
@@ -52,7 +52,7 @@ Scene::build(int frame)
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
 		v = Vector(5.0f, 2.0f, 5.0f);
-		tree->addObject(new Ellipsoid(
+		addObject(new Ellipsoid(
 			Vector(x, -4.0f, z - 25.0f),
                         iron, v
 		));
@@ -85,15 +85,15 @@ Scene::build(int frame)
 				20.0f * y - 193.0f
 			);
 			if (p.length() < 10.0f) continue;
-			tree->addObject(new Ellipsoid(
+			addObject(new Ellipsoid(
 				p, iron, Vector(5.0f, 8.0f, 5.0f)
 			));
 		}*/
-	tree->addObject(new Plane(
+	addObject(new Plane(
 		Vector(0.0f, 1.0f, 0.0f), -4.5f,
 		mirror
 	));
-	tree->addObject(new Plane(
+	addObject(new Plane(
 		Vector(0.0f, -1.0f, 0.0f), -15.0f,
 		mirror
 	));
@@ -101,40 +101,36 @@ Scene::build(int frame)
 		Vector(0.0f, 10.0f, -25.0f),
 		Color::white
 	));
-/*	tree->addObject(new Triangle(
+/*	addObject(new Triangle(
 		Vector( 5.0f, -3.0f, -5.0f),
 		Vector(-5.0f, -3.0f, -5.0f),
 		Vector( 0.0f, -3.0f, -10.0f),
 		iron
 	));*/
-/*	tree->addObject(new Triangle(
+/*	addObject(new Triangle(
 		Vector(30.0f, 30.0f, -60.0f),
 		Vector(-30.0f, -10.0f, -60.0f),
 		Vector(30.0f, -10.0f, -60.0f),
 		iron
 	));
-	tree->addObject(new Triangle(
+	addObject(new Triangle(
 		Vector(30.0f, 30.0f, -60.0f),
 		Vector(-30.0f, 30.0f, -60.0f),
 		Vector(-30.0f, -10.0f, -60.0f),
 		iron
 	));
-	tree->addObject(new Triangle(
+	addObject(new Triangle(
 		Vector(-30.0f, 30.0f, -60.0f),
 		Vector(-30.0f, -10.0f, -15.0f),
 		Vector(-30.0f, -10.0f, -60.0f),
 		iron
 	));
-	tree->addObject(new Triangle(
+	addObject(new Triangle(
 		Vector(30.0f, 30.0f, -60.0f),
 		Vector(30.0f, -10.0f, -60.0f),
 		Vector(30.0f, -10.0f, -15.0f),
 		iron
 	));*/
-#ifdef USE_KD_TREE
-	tree->build();
-#endif
-//	tree.dump();
 }
 
 void
@@ -151,16 +147,46 @@ Scene::addMaterial(Material *p)
 	firstMater = p;
 }
 
+void
+Scene::addObject(BaseObject *p)
+{
+	p->next = firstObj;
+	firstObj = p;
+}
+
+float
+Scene::intersect(const Ray &r, Vector &N, BaseObject **O) const
+{
+	float t = 0.0f;
+	bool found = false;
+	for (BaseObject *p = firstObj; p != NULL; p = p->next) {
+		Vector nv;
+		float to = p->intersect(r, nv);
+		if (to > 0.0f && (!found || to < t)) {
+			found = true;
+			t = to;
+			N = nv;
+			if (O != NULL) *O = p;
+		}
+	}
+	return found ? t : -1.0f;
+}
+
 Scene::Scene(int frame) :
 	firstLight(NULL),
-	firstMater(NULL)
+	firstMater(NULL),
+    firstObj(NULL)
 {
-	tree = new KdTree();
 	build(frame);
 }
 	
 Scene::~Scene()
 {
+	while (firstObj != NULL) {
+		BaseObject *p = firstObj;
+		firstObj = p->next;
+		delete p;
+	}
 	while (firstLight != NULL) {
 		Light *p = firstLight;
 		firstLight = p->next;
@@ -171,7 +197,6 @@ Scene::~Scene()
 		firstMater = p->next;
 		delete p;
 	}
-	delete tree;
 }
 
 Color
@@ -186,7 +211,7 @@ Scene::trace(const Ray &r, int depth, float weight) const
 
 	Vector N;
 	BaseObject *O = NULL;
-	float t = tree->intersect(r, N, &O);
+	float t = intersect(r, N, &O);
 	if (t < 0.0f) return ret;
 	Vector mp = r.s + (r.d * t);
 	ret = O->mater->ka;
@@ -196,7 +221,7 @@ Scene::trace(const Ray &r, int depth, float weight) const
 		Vector L;
 		BaseObject *o = NULL;
 		// light source doesn't take effect if we are in shadow
-		float sh = tree->intersect(Ray(l->pos, d), L, &o);
+		float sh = intersect(Ray(l->pos, d), L, &o);
 		if (o != O && sh > 0.0f && sh < 1.0f)
 			continue;
 

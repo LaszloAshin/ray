@@ -15,8 +15,6 @@ using namespace std;
 # include "config.h"
 #endif
 
-// whether use kd tree
-//#define USE_KD_TREE 1
 // Enable HDR (High Dynamic Range) computations
 //#define USE_HDR 1
 
@@ -47,5 +45,5 @@ main(int argc, char *argv[])
 	Tracer::exec(scene, img, FNAME, THREADS);
 
 	delete img;
-	pthread_exit(NULL);
+//	pthread_exit(NULL);
 }

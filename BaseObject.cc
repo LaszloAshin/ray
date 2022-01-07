@@ -20,29 +20,8 @@ Material::brdf(const Vector &L, const Vector &N, const Vector &V)
 	return ret;
 }
 
-int
-BaseObject::onSideOfPlane(Axis axis, float d) const
-{
-	switch (axis) {
-		case axisX:
-			if (pos.x < d - EPSILON) return -1;
-			if (pos.x > d + EPSILON) return 1;
-			return 0;
-		case axisY:
-			if (pos.y < d - EPSILON) return -1;
-			if (pos.y > d + EPSILON) return 1;
-			return 0;
-		case axisZ:
-			if (pos.z < d - EPSILON) return -1;
-			if (pos.z > d + EPSILON) return 1;
-			return 0;
-	}
-	return 0;
-}
-
 Color
-BaseObject::texelAt(const Vector &mp) const
+BaseObject::texelAt(const Vector &) const
 {
-	fabsf(mp.x); /* prevent icc to report mp is unused */
 	return Color::white;
 }

@@ -16,7 +16,6 @@ public:
 
 	// ellipsoid - ray intersection
 	virtual float intersect(const Ray &r, Vector &N) const;
-	virtual int onSideOfPlane(Axis axis, float d) const;
 	virtual Color texelAt(const Vector &mp) const;
 };
 

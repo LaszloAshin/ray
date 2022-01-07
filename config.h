@@ -19,6 +19,4 @@
 // number of threads
 #define THREADS		4
 
-//#define USE_KD_TREE	1
-
 #endif /* _CONFIG_H */

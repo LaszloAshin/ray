@@ -4,6 +4,8 @@
 #include "BaseObject.h"
 
 class Triangle : public BaseObject {
+	enum Axis { axisX, axisY, axisZ };
+
 	Vector pos2, pos3, n;
 	Vector2D a2d, b2d, c2d;
 	Axis masterPlane;
@@ -14,7 +16,6 @@ public:
 
 	virtual float intersect(const Ray &r, Vector &N) const;
 	virtual Vector midPoint() const { return (pos + pos2 + pos3) * (1.0f / 3.0f); }
-	virtual int onSideOfPlane(Axis axis, float d) const;
 };
 
 #endif /* _TRIANGLE_H */
