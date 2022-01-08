@@ -3,7 +3,6 @@
 
 #include "Ellipsoid.h"
 #include "Plane.h"
-#include "Triangle.h"
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -57,38 +56,6 @@ Scene::build(int frame)
                         iron, v
 		));
 	}
-/*	addLight(new Light(
-		Vector(-10.0f, 5.0f, 10.0f),
-		Color(0.0f, 1.0f, 0.0f)
-	));
-	addLight(new Light(
-		Vector(10.0f, 5.0f, 10.0f),
-		Color(1.0f, 1.0f, 0.0f)
-	));
-	addLight(new Light(
-		Vector(0.0f, 5.0f, -20.0f),
-		Color(0.0f, 0.0f, 1.0f)
-	));
-	addLight(new Light(
-		Vector(-25.0f, 5.0f, -25.0f),
-		Color(1.0f, 0.0f, 0.0f)
-	));
-	addLight(new Light(
-		Vector(25.0f, 5.0f, -25.0f),
-		Color(1.0f, 0.0f, 0.0f)
-	));*/
-/*	for (int x = 0; x < 20; ++x)
-		for (int y = 0; y < 20; ++y) {
-			Vector p = Vector(
-				20.0f * x - 210.0f,
-				-4.0f,
-				20.0f * y - 193.0f
-			);
-			if (p.length() < 10.0f) continue;
-			addObject(new Ellipsoid(
-				p, iron, Vector(5.0f, 8.0f, 5.0f)
-			));
-		}*/
 	addObject(new Plane(
 		Vector(0.0f, 1.0f, 0.0f), -4.5f,
 		mirror
@@ -101,36 +68,6 @@ Scene::build(int frame)
 		Vector(0.0f, 10.0f, -25.0f),
 		Color::white
 	));
-/*	addObject(new Triangle(
-		Vector( 5.0f, -3.0f, -5.0f),
-		Vector(-5.0f, -3.0f, -5.0f),
-		Vector( 0.0f, -3.0f, -10.0f),
-		iron
-	));*/
-/*	addObject(new Triangle(
-		Vector(30.0f, 30.0f, -60.0f),
-		Vector(-30.0f, -10.0f, -60.0f),
-		Vector(30.0f, -10.0f, -60.0f),
-		iron
-	));
-	addObject(new Triangle(
-		Vector(30.0f, 30.0f, -60.0f),
-		Vector(-30.0f, 30.0f, -60.0f),
-		Vector(-30.0f, -10.0f, -60.0f),
-		iron
-	));
-	addObject(new Triangle(
-		Vector(-30.0f, 30.0f, -60.0f),
-		Vector(-30.0f, -10.0f, -15.0f),
-		Vector(-30.0f, -10.0f, -60.0f),
-		iron
-	));
-	addObject(new Triangle(
-		Vector(30.0f, 30.0f, -60.0f),
-		Vector(30.0f, -10.0f, -60.0f),
-		Vector(30.0f, -10.0f, -15.0f),
-		iron
-	));*/
 }
 
 void

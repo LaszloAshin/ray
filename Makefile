@@ -1,5 +1,5 @@
 PROGS = ray
-ray_OBJS = BaseObject.o Color.o Ellipsoid.o Plane.o Ray.o Scene.o Targa.o Tracer.o Triangle.o VectorMath.o
+ray_OBJS = BaseObject.o Color.o Ellipsoid.o Plane.o Ray.o Scene.o Targa.o Tracer.o VectorMath.o
 
 CC = g++
 CFLAGS = -pedantic -Wall -DHAVE_CONFIG_H
