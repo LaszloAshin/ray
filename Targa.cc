@@ -14,18 +14,13 @@
 using namespace std;
 
 Targa::Targa(unsigned width, unsigned height) :
-	Image(width, height)
+	Image(width, height),
+	data(width * height * 3)
 {
-	data = new unsigned char[width * height * 3];
-	memset(data, 0xff, width * height * 3);
+	memset(data.data(), 0xff, data.size());
 	min = Color(1.0f, 1.0f, 1.0f);
 	max = Color(0.0f, 0.0f, 0.0f);
 	hdrnorm = false;
-}
-
-Targa::~Targa()
-{
-	delete[] data;
 }
 
 void
@@ -54,7 +49,7 @@ Targa::write(const char *fname) const
 //	hd[17] |= 0x0f & ((bytes < 3) ? bytes - 1 : bytes - 3);
 	hd[17] = 0x20;
 	f.write((char *)hd, sizeof(hd));
-	f.write((char *)data, width * height * 3);
+	f.write(reinterpret_cast<const char*>(data.data()), data.size());
 	f.write(magic, sizeof(magic));
 
 	f.close();

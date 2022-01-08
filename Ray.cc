@@ -34,16 +34,13 @@ main(int argc, char *argv[])
 		cerr << "frame: " << frame << endl;
 	}
 	Scene scene(frame);
-	Image *img = new Targa(WIDTH, HEIGHT);
+	Targa img(WIDTH, HEIGHT);
 
 #ifdef USE_HDR
 	cerr << "Starting pass #1" << endl;
-	Tracer::exec(scene, img, FNAME, THREADS, true);
+	Tracer::exec(scene, &img, FNAME, THREADS, true);
 	output.computeCorrection();
 	cerr << "Starting pass #2" << endl;
 #endif /* USE_HDR */
-	Tracer::exec(scene, img, FNAME, THREADS);
-
-	delete img;
-//	pthread_exit(NULL);
+	Tracer::exec(scene, &img, FNAME, THREADS);
 }
