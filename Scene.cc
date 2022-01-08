@@ -13,29 +13,26 @@ Scene::build(int frame)
 {
 	Vector v;
 
-	Material *glass = new Material(
+	auto glass = std::make_unique<Material>(
 		Color::black,
 		Color::gray01,
 		Color::gray04, 128.0f,
 		0.1f, 0.9f, 2.0f
 	);
-	Material *iron = new Material(
+	auto iron = std::make_unique<Material>(
 		Color::gray02,
 		Color::gray04,
 		Color::gray01, 128.0f,
 		0.4f, 0.0f, 1.0f
 	);
-	Material *mirror = new Material(
+	auto mirror = std::make_unique<Material>(
 		Color::black,
 		Color::gray01,
 		Color::gray08, 128.0f,
 		0.2f, 0.0f, 1.0f
 	);
-	addMaterial(glass);
-	addMaterial(iron);
-	addMaterial(mirror);
 	v = Vector(5.0f, 5.0f, 5.0f);
-	addObject(new Ellipsoid(Vector(0.0f, 4.0f, -25.0f), glass, v));
+	addObject(std::make_unique<Ellipsoid>(Vector(0.0f, 4.0f, -25.0f), glass.get(), v));
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina = sinf(angle);
@@ -43,7 +40,7 @@ Scene::build(int frame)
 		float x = 10.0f * sina;
 		float z = -10.0f * cosa;
 		Color c(sina, 0.5f, cosa);
-		addLight(new Light(Vector(x, 10.0f, z - 25.0f), c));
+		addLight(std::make_unique<Light>(Vector(x, 10.0f, z - 25.0f), c));
 		angle += 2.0f * (float)M_PI * frame / (25.0f * 10.0f);
 		// 10 sec alatt fordul korbe 25 fps-nel
 		sina = sinf(angle);
@@ -51,44 +48,44 @@ Scene::build(int frame)
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
 		v = Vector(5.0f, 2.0f, 5.0f);
-		addObject(new Ellipsoid(
+		addObject(std::make_unique<Ellipsoid>(
 			Vector(x, -4.0f, z - 25.0f),
-                        iron, v
+                        iron.get(), v
 		));
 	}
-	addObject(new Plane(
+	addObject(std::make_unique<Plane>(
 		Vector(0.0f, 1.0f, 0.0f), -4.5f,
-		mirror
+		mirror.get()
 	));
-	addObject(new Plane(
+	addObject(std::make_unique<Plane>(
 		Vector(0.0f, -1.0f, 0.0f), -15.0f,
-		mirror
+		mirror.get()
 	));
-	addLight(new Light(
+	addLight(std::make_unique<Light>(
 		Vector(0.0f, 10.0f, -25.0f),
 		Color::white
 	));
+	addMaterial(std::move(glass));
+	addMaterial(std::move(iron));
+	addMaterial(std::move(mirror));
 }
 
 void
-Scene::addLight(Light *p)
+Scene::addLight(std::unique_ptr<Light> light)
 {
-	p->next = firstLight;
-	firstLight = p;
+	lights.push_back(std::move(light));
 }
 
 void
-Scene::addMaterial(Material *p)
+Scene::addMaterial(std::unique_ptr<Material> material)
 {
-	p->next = firstMater;
-	firstMater = p;
+	materials.push_back(std::move(material));
 }
 
 void
-Scene::addObject(BaseObject *p)
+Scene::addObject(std::unique_ptr<BaseObject> object)
 {
-	p->next = firstObj;
-	firstObj = p;
+	objects.push_back(std::move(object));
 }
 
 float
@@ -96,46 +93,24 @@ Scene::intersect(const Ray &r, Vector &N, BaseObject **O) const
 {
 	float t = 0.0f;
 	bool found = false;
-	for (BaseObject *p = firstObj; p != NULL; p = p->next) {
+	for (const auto& object : objects) {
 		Vector nv;
-		float to = p->intersect(r, nv);
+		float to = object->intersect(r, nv);
 		if (to > 0.0f && (!found || to < t)) {
 			found = true;
 			t = to;
 			N = nv;
-			if (O != NULL) *O = p;
+			if (O != NULL) *O = object.get();
 		}
 	}
 	return found ? t : -1.0f;
 }
 
-Scene::Scene(int frame) :
-	firstLight(NULL),
-	firstMater(NULL),
-    firstObj(NULL)
+Scene::Scene(int frame)
 {
 	build(frame);
 }
 	
-Scene::~Scene()
-{
-	while (firstObj != NULL) {
-		BaseObject *p = firstObj;
-		firstObj = p->next;
-		delete p;
-	}
-	while (firstLight != NULL) {
-		Light *p = firstLight;
-		firstLight = p->next;
-		delete p;
-	}
-	while (firstMater != NULL) {
-		Material *p = firstMater;
-		firstMater = p->next;
-		delete p;
-	}
-}
-
 Color
 Scene::trace(const Ray &r, int depth, float weight) const
 {
@@ -153,21 +128,21 @@ Scene::trace(const Ray &r, int depth, float weight) const
 	Vector mp = r.s + (r.d * t);
 	ret = O->mater->ka;
 
-	for (Light *l = firstLight; l != NULL; l = l->next) {
-		Vector d = mp - l->pos;
+	for (const auto& light : lights) {
+		Vector d = mp - light->pos;
 		Vector L;
 		BaseObject *o = NULL;
 		// light source doesn't take effect if we are in shadow
-		float sh = intersect(Ray(l->pos, d), L, &o);
+		float sh = intersect(Ray(light->pos, d), L, &o);
 		if (o != O && sh > 0.0f && sh < 1.0f)
 			continue;
 
-		L = Vector(l->pos - mp).norm();
+		L = Vector(light->pos - mp).norm();
 		Vector V = Vector(r.s - mp).norm();
 		float dsq = d * d; // light distance square
 		if (dsq > EPSILON) {
 			dsq = 200.0f / dsq + 5.0f / sqrtf(dsq);
-			ret += l->c * O->mater->brdf(L, N, V) * dsq;
+			ret += light->c * O->mater->brdf(L, N, V) * dsq;
 		}
 	}
 

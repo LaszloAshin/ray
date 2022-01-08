@@ -15,12 +15,9 @@ protected:
 	Color kd; // diffuse
 	Color ks; // specular
 	float n; // shinyness
+public:
 	float v; // refraction index
 
-	friend class Scene;
-	Material *next;
-
-public:
 	const float kr; // reflection
 	const float kt; // refraction
 
@@ -39,12 +36,8 @@ public:
 };
 
 class BaseObject {
-	friend class Scene;
-	BaseObject *next;
-protected:
-	Vector pos;
-
 public:
+	Vector pos;
 	Material *mater;
 
 	BaseObject() {}

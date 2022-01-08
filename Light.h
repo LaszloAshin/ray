@@ -3,11 +3,8 @@
 
 #include "VectorMath.h"
 #include "Color.h"
-#include "Scene.h"
 
 class Light {
-	friend class Scene;
-	Light *next;
 public:
 	const Vector pos;
 	const Color c;
