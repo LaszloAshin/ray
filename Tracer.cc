@@ -16,6 +16,7 @@
 
 #include <cstdio>
 #include <unistd.h>
+#include <vector>
 
 using namespace std;
 
@@ -178,14 +179,11 @@ Tracer::getProgress(float *percent)
 void
 Tracer::exec(const Scene &scene, Image *img, const char *fname, int nthreads, bool turbo)
 {
-	Tracer **tracers;
-	pthread_t *threads;
+	std::vector<std::unique_ptr<Tracer>> tracers(nthreads);
+	std::vector<pthread_t> threads(nthreads);
 	pthread_attr_t attr;
 	int sec;
 	int n;
-
-	tracers = new Tracer*[nthreads];
-	threads = new pthread_t[nthreads];
 
 	next_block = 0;
 	done_blocks = 0;
@@ -198,16 +196,15 @@ Tracer::exec(const Scene &scene, Image *img, const char *fname, int nthreads, bo
 
 	n = 0;
 	for (int i = 0; i < nthreads; ++i) {
-		tracers[i] = new Tracer(i, scene, img);
+		tracers[i] = std::make_unique<Tracer>(i, scene, img);
 		int r = pthread_create(
 			&threads[i], &attr,
 			turbo ? Tracer::turboTracer : Tracer::blockTracer,
-			tracers[i]
+			tracers[i].get()
 		);
 		if (r) {
 			cerr << "unable to create thread #" << i << endl;
-			delete tracers[i];
-			tracers[i] = NULL;
+			tracers[i].reset();
 			continue;
 		}
 		++n;
@@ -237,13 +234,10 @@ Tracer::exec(const Scene &scene, Image *img, const char *fname, int nthreads, bo
 		if (r) {
 			cerr << "unable to join thread #" << i << endl;
 		}
-		delete tracers[i];
+		tracers[i].reset();
 	}
 
 free_it:pthread_mutex_destroy(&mutex_block);
 
 	if (fname) img->write(fname);
-
-	delete[] threads;
-	delete[] tracers;
 }
