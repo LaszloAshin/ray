@@ -5,12 +5,9 @@
 std::tuple<float, Vector>
 Ellipsoid::intersect(const Ray &r) const
 {
-	if (fabs(c.x) < EPSILON || fabs(c.y) < EPSILON ||
-		fabs(c.z) < EPSILON) return std::make_tuple(-1.0f, Vector{});
-
 	Vector p = r.s - this->pos;
-	p = Vector(p.x / c.x, p.y / c.y, p.z / c.z);
-	const Vector e(r.d.x / c.x, r.d.y / c.y, r.d.z / c.z);
+	p = Vector(p.x / radius.x, p.y / radius.y, p.z / radius.z);
+	const Vector e(r.d.x / radius.x, r.d.y / radius.y, r.d.z / radius.z);
 	const Vector q = e % p;
 	const float esq = e * e;
 	float D = esq - (q * q);
@@ -30,9 +27,9 @@ Ellipsoid::intersect(const Ray &r) const
 	if (t0 < 0.0f) return std::make_tuple(-1.0f, Vector{});
 	const Vector mp = r.s + r.d * t0;
 	Vector N = (mp - this->pos) * 2.0f;
-	N.x /= c.x * c.x;
-	N.y /= c.y * c.y;
-	N.z /= c.z * c.z;
+	N.x /= radius.x * radius.x;
+	N.y /= radius.y * radius.y;
+	N.z /= radius.z * radius.z;
 	N = N.norm();
 	return std::make_tuple(t0, N);
 }
@@ -41,9 +38,9 @@ Color
 Ellipsoid::texelAt(const Vector &mp) const
 {
 	Vector p = mp - pos;
-	float v = (float)M_1_PI * acosf(p.z / c.z);
-//	float u = 0.5f * M_1_PI * acosf(p.x / (c.x * sinf(M_PI * v)));
-	float u = 0.5f * (float)M_1_PI * (atan2f(p.y / c.y, p.x / c.x) + (float)M_PI);
+	float v = (float)M_1_PI * acosf(p.z / radius.z);
+//	float u = 0.5f * M_1_PI * acosf(p.x / (radius.x * sinf(M_PI * v)));
+	float u = 0.5f * (float)M_1_PI * (atan2f(p.y / radius.y, p.x / radius.x) + (float)M_PI);
 	int x = (int)(u * 16.0f);
 	int y = (int)(v * 16.0f);
 	return ((x ^ y) & 1) ? Color(0.0f, 0.0f, 0.0f) : Color(1.0f, 1.0f, 1.0f);

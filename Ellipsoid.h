@@ -4,12 +4,18 @@
 #include "VectorMath.h"
 #include "BaseObject.h"
 
+#include <cassert>
+
 class Ellipsoid : public BaseObject {
-	Vector c;
+	Vector radius;
+
 public:
-	Ellipsoid(const Vector &p, Material *m, const Vector &center) :
-		BaseObject(p, m), c(center)
+	Ellipsoid(const Vector &p, Material *m, const Vector &radius) :
+		BaseObject(p, m), radius(radius)
 	{
+		assert(fabs(radius.x) > EPSILON);
+		assert(fabs(radius.y) > EPSILON);
+		assert(fabs(radius.z) > EPSILON);
 	}
 
 	// ellipsoid - ray intersection

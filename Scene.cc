@@ -11,8 +11,6 @@
 void
 Scene::build(int frame)
 {
-	Vector v;
-
 	auto glass = std::make_unique<Material>(
 		Color::black,
 		Color::gray01,
@@ -31,8 +29,7 @@ Scene::build(int frame)
 		Color::gray08, 128.0f,
 		0.2f, 0.0f, 1.0f
 	);
-	v = Vector(5.0f, 5.0f, 5.0f);
-	addObject(std::make_unique<Ellipsoid>(Vector(0.0f, 4.0f, -25.0f), glass.get(), v));
+	addObject(std::make_unique<Ellipsoid>(Vector(0.0f, 4.0f, -25.0f), glass.get(), Vector{5.0f, 5.0f, 5.0f}));
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina = sinf(angle);
@@ -47,10 +44,9 @@ Scene::build(int frame)
 		cosa = cosf(angle);
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
-		v = Vector(5.0f, 2.0f, 5.0f);
 		addObject(std::make_unique<Ellipsoid>(
 			Vector(x, -4.0f, z - 25.0f),
-                        iron.get(), v
+                        iron.get(), Vector{5.0f, 2.0f, 5.0f}
 		));
 	}
 	addObject(std::make_unique<Plane>(
