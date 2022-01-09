@@ -5,31 +5,33 @@
 std::tuple<float, Vector>
 Ellipsoid::intersect(const Ray &r) const
 {
-	Vector p = r.s - this->pos;
-	p = Vector(p.x / radius.x, p.y / radius.y, p.z / radius.z);
-	const Vector e(r.d.x / radius.x, r.d.y / radius.y, r.d.z / radius.z);
-	const Vector q = e % p;
-	const float esq = e * e;
-	float D = esq - (q * q);
-	if (D < 0.0f) return std::make_tuple(-1.0f, Vector{});
-	D = sqrtf(D);
-	float t0 = e * p;
-	float t1 = (-t0 - D) / esq;
-	t0 = (-t0 + D) / esq;
-	// sort t0 and t1
+	const Vector s{r.s - pos};
+	const Vector d{r.d};
+	const float a = d.x * d.x * ryzsq + d.y * d.y * rxzsq + d.z * d.z * rxysq;
+	const float m1 = d.x * s.y - d.y * s.x;
+	const float m2 = d.x * s.z - d.z * s.x;
+	const float m3 = d.y * s.z - d.z * s.y;
+	const float preD = m1 * m1 * rzsq + m2 * m2 * rysq + m3 * m3 * rxsq;
+	if (a < preD) return std::make_tuple(-1.0f, Vector{});
+
+	const float Dsqrt = sqrtf(rxsq * rysq * rzsq * (a - preD));
+	const float b = s.x * d.x * ryzsq + s.y * d.y * rxzsq + s.z * d.z * rxysq;
+	float t0 = (-b + Dsqrt) / a;
+	float t1 = (-b - Dsqrt) / a;
 	if (t1 < t0) {
 		const float tmp = t0;
 		t0 = t1;
 		t1 = tmp;
 	}
-	// give back the less positive
+	// return the smaller positive
 	if (t0 < 0.0f) t0 = t1;
 	if (t0 < 0.0f) return std::make_tuple(-1.0f, Vector{});
+
 	const Vector mp = r.s + r.d * t0;
 	Vector N = (mp - this->pos) * 2.0f;
-	N.x /= radius.x * radius.x;
-	N.y /= radius.y * radius.y;
-	N.z /= radius.z * radius.z;
+	N.x /= rxsq;
+	N.y /= rysq;
+	N.z /= rzsq;
 	N = N.norm();
 	return std::make_tuple(t0, N);
 }

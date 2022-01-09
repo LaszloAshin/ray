@@ -8,10 +8,19 @@
 
 class Ellipsoid : public BaseObject {
 	Vector radius;
+	float rxsq, rysq, rzsq;
+	float rxysq, rxzsq, ryzsq;
 
 public:
-	Ellipsoid(const Vector &p, Material *m, const Vector &radius) :
-		BaseObject(p, m), radius(radius)
+	Ellipsoid(const Vector &p, Material *m, const Vector &radius)
+	: BaseObject(p, m)
+	, radius(radius)
+	, rxsq{radius.x * radius.x}
+	, rysq{radius.y * radius.y}
+	, rzsq{radius.z * radius.z}
+	, rxysq{rxsq * rysq}
+	, rxzsq{rxsq * rzsq}
+	, ryzsq{rysq * rzsq}
 	{
 		assert(fabs(radius.x) > EPSILON);
 		assert(fabs(radius.y) > EPSILON);
