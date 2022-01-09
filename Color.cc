@@ -15,11 +15,6 @@ const Color Color::red(1.0f, 0.0f, 0.0f);
 const Color Color::green(0.0f, 1.0f, 0.0f);
 const Color Color::blue(0.0f, 0.0f, 1.0f);
 
-Color::Color(float r, float g, float b)
-{
-	set(r, g, b);
-}
-
 void
 Color::clamp()
 {
@@ -28,41 +23,10 @@ Color::clamp()
 	if (b < 0.0f) b = 0.0f; else if (b > 1.0f) b = 1.0f;
 }
 
-void
-Color::set(float r, float g, float b)
-{
-	this->r = r, this->g = g, this->b = b;
-}
-
-Color
-Color::operator+=(const Color &c)
-{
-	r += c.r, g += c.g, b += c.b;
-	return *this;
-}
-
-Color
-Color::operator+(const Color &c) const
-{
-	return Color(r + c.r, g + c.g, b + c.b);
-}
-
 Color
 Color::operator-(const Color &c) const
 {
 	return Color(r - c.r, g - c.g, b - c.b);
-}
-
-Color
-Color::operator*(float a) const
-{
-	return Color(a * r, a * g, a * b);
-}
-
-Color
-Color::operator*(const Color &c) const
-{
-	return Color(r * c.r, g * c.g, b * c.b);
 }
 
 float

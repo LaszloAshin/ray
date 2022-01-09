@@ -4,18 +4,14 @@
 Color
 Material::brdf(const Vector &L, const Vector &N, const Vector &V)
 {
-	Color ret(0.0f, 0.0f, 0.0f);
 	const float cosLN = L * N;
 	if (cosLN < 0.0f)
-		return ret; // watching from the back
-
-	// diffuse reflection
-	ret += kd * cosLN;
+		return Color::black; // watching from the back
 
 	// specular reflection (Phong)
 	const Vector R = N * (cosLN * 2.0f) - L;
-	float cosRV = R * V;
-	if (cosRV < 0.0f) cosRV = 0.0f;
-	ret += ks * powf(cosRV, this->n);
-	return ret;
+	const float cosRV = std::max(R * V, 0.0f);
+
+	return kd * cosLN                // diffuse
+		+ ks * powf(cosRV, this->n); // specular
 }
