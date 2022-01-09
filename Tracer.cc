@@ -96,7 +96,7 @@ Tracer::turboTracer(void *p)
 
 		do {
 			for (unsigned x = x0; x < x1; ++x) {
-				Ray r(Vector::null, viewVec(x, y, 0.5f, 0.5f));
+				Ray r(Vector{}, viewVec(x, y, 0.5f, 0.5f));
 				tracer->img->setPixel(x, y, tracer->scene.trace(r, DEPTH_LIMIT, 1.0f));
 			}
 		} while (++y < y1);
@@ -130,15 +130,15 @@ Tracer::blockTracer(void *p)
 		Color up[BLOCKSIZE + 1];
 		int i = 0;
 		for (unsigned x = x0; x <= x1; ++x, ++i) {
-			Ray r(Vector::null, viewVec(x, y, 0.0f, 0.0f));
+			Ray r(Vector{}, viewVec(x, y, 0.0f, 0.0f));
 			up[i] = tracer->scene.trace(r, DEPTH_LIMIT, 1.0f);
 		}
 		do {
-			Ray r(Vector::null, viewVec(x0, y, 0.0, 1.0));
+			Ray r(Vector{}, viewVec(x0, y, 0.0, 1.0));
 			Color left = tracer->scene.trace(r, DEPTH_LIMIT, 1.0f);
 			i = 0;
 			for (unsigned x = x0; x < x1; ++x, ++i) {
-				r = Ray(Vector::null, viewVec(x, y, 1.0, 1.0));
+				r = Ray(Vector{}, viewVec(x, y, 1.0, 1.0));
 				Color right = tracer->scene.trace(r, DEPTH_LIMIT, 1.0f);
 				
 				Color c;
