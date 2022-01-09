@@ -88,22 +88,22 @@ Scene::addObject(std::unique_ptr<BaseObject> object)
 	objects.push_back(std::move(object));
 }
 
-float
-Scene::intersect(const Ray &r, Vector &N, BaseObject **O) const
+std::tuple<BaseObject*, float, Vector>
+Scene::intersect(const Ray &ray) const
 {
 	float t = 0.0f;
-	bool found = false;
+	Vector normal;
+	BaseObject* nearestObject = nullptr;
 	for (const auto& object : objects) {
-		Vector nv;
-		float to = object->intersect(r, nv);
-		if (to > 0.0f && (!found || to < t)) {
-			found = true;
+		Vector n;
+		float to = object->intersect(ray, n);
+		if (to > 0.0f && (!nearestObject || to < t)) {
+			nearestObject = object.get();
 			t = to;
-			N = nv;
-			if (O != NULL) *O = object.get();
+			normal = n;
 		}
 	}
-	return found ? t : -1.0f;
+	return std::make_tuple(nearestObject, t, normal);
 }
 
 Scene::Scene(int frame)
@@ -112,33 +112,31 @@ Scene::Scene(int frame)
 }
 	
 Color
-Scene::trace(const Ray &r, int depth, float weight) const
+Scene::trace(const Ray &ray, int depth, float weight) const
 {
-	Color ret = Color(0.0f, 0.0f, 0.0f);
+	Color ret(0.0f, 0.0f, 0.0f);
 	if (!depth--)
 		return ret;
 
 	if (weight < RAY_ERROR)
-		return ret; // don't go further if our result doesnt matter
+		return ret; // don't go further if our result doesn't matter
 
-	Vector N;
-	BaseObject *O = NULL;
-	float t = intersect(r, N, &O);
-	if (t < 0.0f) return ret;
-	Vector mp = r.s + (r.d * t);
+	const auto [O, t, N] = intersect(ray);
+	if (O == nullptr) {
+		return ret;
+	}
+	const Vector mp = ray.s + (ray.d * t);
 	ret = O->mater->ka;
 
 	for (const auto& light : lights) {
-		Vector d = mp - light->pos;
-		Vector L;
-		BaseObject *o = NULL;
+		const Vector d = mp - light->pos;
 		// light source doesn't take effect if we are in shadow
-		float sh = intersect(Ray(light->pos, d), L, &o);
-		if (o != O && sh > 0.0f && sh < 1.0f)
+		const auto [o, sh, _] = intersect(Ray(light->pos, d));
+		if (o != nullptr && o != O && sh < 1.0f)
 			continue;
 
-		L = Vector(light->pos - mp).norm();
-		Vector V = Vector(r.s - mp).norm();
+		const Vector L = Vector(light->pos - mp).norm();
+		const Vector V = Vector(ray.s - mp).norm();
 		float dsq = d * d; // light distance square
 		if (dsq > EPSILON) {
 			dsq = 200.0f / dsq + 5.0f / sqrtf(dsq);
@@ -146,8 +144,8 @@ Scene::trace(const Ray &r, int depth, float weight) const
 		}
 	}
 
-	Vector V = Vector(r.s - mp).norm();
-	float cosVN = V * N;
+	const Vector V = Vector(ray.s - mp).norm();
+	const float cosVN = V * N;
 
 	// tukor
 	Vector R = N * (cosVN * 2.0f) - V;
@@ -163,8 +161,8 @@ Scene::trace(const Ray &r, int depth, float weight) const
 			v = 1.0f / v;
 			s = -1.0f;
 		}
-		Vector B = (N * cosVN - V) * v;
-		float sq = 1 - (B * B);
+		const Vector B = (N * cosVN - V) * v;
+		const float sq = 1 - (B * B);
 		if (sq >= 0.0f) { // if there is no full reflection
 			R = B + (N * sqrt(sq) * s);
 			rR = Ray(mp + (R * EPSILON), R);

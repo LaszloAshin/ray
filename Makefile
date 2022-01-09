@@ -2,7 +2,7 @@ PROGS = ray
 ray_OBJS = BaseObject.o Color.o Ellipsoid.o Plane.o Ray.o Scene.o Targa.o Tracer.o VectorMath.o
 
 CC = g++
-CFLAGS = -pedantic -Wall -DHAVE_CONFIG_H
+CFLAGS := -pedantic -Wall -DHAVE_CONFIG_H
 CFLAGS += -O3 -march=native
 CFLAGS += -ggdb3
 #CFLAGS = -march=nocona -O3 -fomit-frame-pointer -fgcse-after-reload -funswitch-loops -mfpmath=sse -mtune=nocona -DHAVE_CONFIG_H
@@ -10,7 +10,8 @@ CFLAGS += -ggdb3
 #CFLAGS = -Wall -DHAVE_CONFIG_H -fast
 #CFLAGS = -pedantic -Wall -O0 -g -DHAVE_CONFIG_H
 
-CXXFLAGS = $(CFLAGS)
+CXXFLAGS := $(CFLAGS)
+CXXFLAGS += -std=c++17
 LDFLAGS = -pthread
 
 DEPDIR = .deps
