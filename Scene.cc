@@ -95,8 +95,7 @@ Scene::intersect(const Ray &ray) const
 	Vector normal;
 	BaseObject* nearestObject = nullptr;
 	for (const auto& object : objects) {
-		Vector n;
-		float to = object->intersect(ray, n);
+		const auto [to, n] = object->intersect(ray);
 		if (to > 0.0f && (!nearestObject || to < t)) {
 			nearestObject = object.get();
 			t = to;

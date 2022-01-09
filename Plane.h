@@ -15,9 +15,7 @@ public:
 	Plane(const Vector &r1, const Vector &r2, const Vector &r3, Material *m);
 	~Plane() {}
 
-	virtual bool hasMidPoint() const { return false; }
-
-	virtual float intersect(const Ray &r, Vector &N) const;
+	std::tuple<float, Vector> intersect(const Ray &) const override;
 };
 
 #endif /* _PLANE_H */

@@ -2,39 +2,39 @@
 #include "Ellipsoid.h"
 
 // ellipsoid - ray intersection
-float
-Ellipsoid::intersect(const Ray &r, Vector &N) const
+std::tuple<float, Vector>
+Ellipsoid::intersect(const Ray &r) const
 {
 	if (fabs(c.x) < EPSILON || fabs(c.y) < EPSILON ||
-		fabs(c.z) < EPSILON) return -1.0f;
+		fabs(c.z) < EPSILON) return std::make_tuple(-1.0f, Vector{});
 
 	Vector p = r.s - this->pos;
 	p = Vector(p.x / c.x, p.y / c.y, p.z / c.z);
-	Vector e(r.d.x / c.x, r.d.y / c.y, r.d.z / c.z);
-	Vector q = e % p;
-	float esq = e * e;
+	const Vector e(r.d.x / c.x, r.d.y / c.y, r.d.z / c.z);
+	const Vector q = e % p;
+	const float esq = e * e;
 	float D = esq - (q * q);
-	if (D < 0.0f) return -1.0f;
+	if (D < 0.0f) return std::make_tuple(-1.0f, Vector{});
 	D = sqrtf(D);
 	float t0 = e * p;
 	float t1 = (-t0 - D) / esq;
 	t0 = (-t0 + D) / esq;
 	// sort t0 and t1
 	if (t1 < t0) {
-		float tmp = t0;
+		const float tmp = t0;
 		t0 = t1;
 		t1 = tmp;
 	}
 	// give back the less positive
 	if (t0 < 0.0f) t0 = t1;
-	if (t0 < 0.0f) return -1.0f;
-	Vector mp = r.s + r.d * t0;
-	N = (mp - this->pos) * 2.0f;
+	if (t0 < 0.0f) return std::make_tuple(-1.0f, Vector{});
+	const Vector mp = r.s + r.d * t0;
+	Vector N = (mp - this->pos) * 2.0f;
 	N.x /= c.x * c.x;
 	N.y /= c.y * c.y;
 	N.z /= c.z * c.z;
 	N = N.norm();
-	return t0;
+	return std::make_tuple(t0, N);
 }
 
 Color

@@ -12,11 +12,9 @@ Plane::Plane(const Vector &r1, const Vector &r2, const Vector &r3, Material *m) 
 	d = (l > EPSILON) ? ((pos * r1) / l) : 0.0f;
 }
 
-float
-Plane::intersect(const Ray &r, Vector &N) const
+std::tuple<float, Vector>
+Plane::intersect(const Ray &ray) const
 {
-	float f = r.d * pos;
-	if (f > -EPSILON) return -1.0f;
-	N = pos;
-	return (pos * d - r.s) * pos / f;
+	const float f = ray.d * pos;
+	return std::make_tuple((f > -EPSILON) ? -1.0 : (pos * d - ray.s) * pos / f, pos);
 }

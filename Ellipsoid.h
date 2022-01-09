@@ -12,11 +12,9 @@ public:
 	{
 	}
 
-	virtual ~Ellipsoid() {}
-
 	// ellipsoid - ray intersection
-	virtual float intersect(const Ray &r, Vector &N) const;
-	virtual Color texelAt(const Vector &mp) const;
+	std::tuple<float, Vector> intersect(const Ray &) const override;
+	Color texelAt(const Vector &mp) const override;
 };
 
 #endif /* _ELLIPSOID_H */

@@ -8,6 +8,8 @@
 # include "config.h"
 #endif
 
+#include <tuple>
+
 class Material {
 public:
 	Color ka; // ambient
@@ -48,10 +50,8 @@ public:
 
 	virtual ~BaseObject() {}
 
-	virtual bool hasMidPoint() const { return true; }
-	virtual Vector midPoint() const { return pos; }
-	virtual float intersect(const Ray &r, Vector &N) const = 0;
-	virtual Color texelAt(const Vector &mp) const;
+	virtual std::tuple<float, Vector> intersect(const Ray &r) const = 0;
+	virtual Color texelAt(const Vector &mp) const { return Color::white; }
 };
 
 #endif /* _BASEOBJECT_H */
