@@ -12,7 +12,8 @@ ray_OBJS += Tracer.o
 ray_OBJS += VectorMath.o
 
 CC = g++
-CFLAGS := -pedantic -Wall -DHAVE_CONFIG_H
+CFLAGS := -pedantic -Wall -Wextra
+CFLAGS += -DHAVE_CONFIG_H
 CFLAGS += -O3 -march=native
 CFLAGS += -ggdb3
 #CFLAGS = -march=nocona -O3 -fomit-frame-pointer -fgcse-after-reload -funswitch-loops -mfpmath=sse -mtune=nocona -DHAVE_CONFIG_H
@@ -22,6 +23,8 @@ CFLAGS += -ggdb3
 
 CXXFLAGS := $(CFLAGS)
 CXXFLAGS += -std=c++17
+CXXFLAGS += -fno-exceptions -fno-rtti
+#CXXFLAGS += -fno-builtin
 LDFLAGS = -pthread
 
 DEPDIR = .deps

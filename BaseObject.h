@@ -63,7 +63,7 @@ public:
 	virtual ~BaseObject() {}
 
 	virtual std::tuple<float, Vector> intersect(const Ray &r) const = 0;
-	virtual Color texelAt(const Vector &mp) const { return Color::white; }
+	virtual Color texelAt(const Vector &) const { return Color::white; }
 };
 
 #endif /* _BASEOBJECT_H */
