@@ -27,8 +27,6 @@ main(int argc, char *argv[])
 {
 	int frame = 0;
 
-	srand(time(NULL));
-
 	if (argc > 1) {
 		frame = atoi(argv[1]);
 		cerr << "frame: " << frame << endl;

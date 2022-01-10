@@ -1,5 +1,7 @@
 #include "Color.h"
 
+#include <algorithm> // clamp
+
 const Color Color::gray01(0.1f, 0.1f, 0.1f);
 const Color Color::gray02(0.2f, 0.2f, 0.2f);
 const Color Color::gray03(0.3f, 0.3f, 0.3f);
@@ -18,9 +20,9 @@ const Color Color::blue(0.0f, 0.0f, 1.0f);
 void
 Color::clamp()
 {
-	if (r < 0.0f) r = 0.0f; else if (r > 1.0f) r = 1.0f;
-	if (g < 0.0f) g = 0.0f; else if (g > 1.0f) g = 1.0f;
-	if (b < 0.0f) b = 0.0f; else if (b > 1.0f) b = 1.0f;
+	r = std::clamp(r, 0.0f, 1.0f);
+	g = std::clamp(g, 0.0f, 1.0f);
+	b = std::clamp(b, 0.0f, 1.0f);
 }
 
 Color

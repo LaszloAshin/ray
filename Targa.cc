@@ -83,22 +83,9 @@ Targa::setPixel(unsigned x, unsigned y, Color c)
 	}
 	c.clamp();
 
-	const float m = 255.0f - EPSILON;
-	unsigned char r = (unsigned char)(c.r * m);
-	if ((rand() & 0xffff) < 65536.0f * (255.0f * c.r - r))
-		++r;
-
-	unsigned char g = (unsigned char)(c.g * m);
-	if ((rand() & 0xffff) < 65536.0f * (255.0f * c.g - g))
-		++g;
-
-	unsigned char b = (unsigned char)(c.b * m);
-	if ((rand() & 0xffff) < 65536.0f * (255.0f * c.b - b))
-		++b;
-
-	data[offs++] = b;
-	data[offs++] = g;
-	data[offs] = r;
+	data[offs++] = c.b * 255.0f;
+	data[offs++] = c.g * 255.0f;
+	data[offs] = c.r * 255.0f;
 }
 
 void
