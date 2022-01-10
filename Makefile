@@ -11,26 +11,24 @@ ray_OBJS += Targa.o
 ray_OBJS += Tracer.o
 ray_OBJS += VectorMath.o
 
-CC = g++
+CPPFLAGS := -DHAVE_CONFIG_H
+CPPFLAGS += -MD
+
 CFLAGS := -pedantic -Wall -Wextra
-CFLAGS += -DHAVE_CONFIG_H
 CFLAGS += -O3 -march=native
 CFLAGS += -ggdb3
-#CFLAGS = -march=nocona -O3 -fomit-frame-pointer -fgcse-after-reload -funswitch-loops -mfpmath=sse -mtune=nocona -DHAVE_CONFIG_H
-#CC = icpc
-#CFLAGS = -Wall -DHAVE_CONFIG_H -fast
-#CFLAGS = -pedantic -Wall -O0 -g -DHAVE_CONFIG_H
 
 CXXFLAGS := $(CFLAGS)
 CXXFLAGS += -std=c++17
 CXXFLAGS += -fno-exceptions -fno-rtti
-#CXXFLAGS += -fno-builtin
-LDFLAGS = -pthread
+LDFLAGS := -pthread
 
 DEPDIR = .deps
 df = $(DEPDIR)/$(*F)
 BUILDDIR = .build
 bf = $(BUILDDIR)/$(*F)
+
+Q := $(if $V,,@)
 
 .PHONY: all clean
 
@@ -43,20 +41,20 @@ $(DEPDIR):
 	@mkdir $(DEPDIR)
 
 $(BUILDDIR)/%.o: %.c
-	@$(CC) -MD $(CFLAGS) -c -o $@ $<
-	@echo "  CC    $<"
+	$Q$(CC) -c $(CPPFLAGS) $(CFLAGS) $(OUTPUT_OPTION) $<
+	$(if $Q,@echo "  CC    $@")
 	@mv $(bf).d $(df).d
 
 $(BUILDDIR)/%.o: %.cc
-	@$(CC) -MD $(CXXFLAGS) -c -o $@ $<
-	@echo "  CC    $<"
+	$Q$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $(OUTPUT_OPTION) $<
+	$(if $Q,@echo "  CXX   $@")
 	@mv $(bf).d $(df).d
 
 -include $(ray_OBJS:%.o=$(DEPDIR)/%.d)
 
 ray: $(ray_OBJS:%.o=$(BUILDDIR)/%.o)
-	@$(CC) $(LDFLAGS) $^ $(LOADLIBES) $(OUTPUT_OPTION)
-	@echo "  LN    $@"
+	$Q$(CXX) $(LDFLAGS) $^ $(LOADLIBES) $(OUTPUT_OPTION)
+	$(if $Q,@echo "  LINK  $@")
 
 clean:
 	@rm -rf $(BUILDDIR) $(PROGS) $(DEPDIR)
