@@ -7,7 +7,6 @@
 #endif
 
 #include <iostream>
-#include <pthread.h>
 #include "Tracer.h"
 
 #ifdef HAVE_CONFIG_H
@@ -17,17 +16,17 @@
 #include <cstdio>
 #include <unistd.h>
 #include <vector>
+#include <thread>
+#include <mutex>
 
 using namespace std;
 
-int Tracer::next_block;
-int Tracer::x_blocks, Tracer::all_blocks;
-int Tracer::done_blocks;
-pthread_mutex_t Tracer::mutex_block;
+static volatile int next_block;
+static int x_blocks, all_blocks;
+static volatile int done_blocks;
+static std::mutex mutex_block;
 
-float
-Tracer::halton(int base, int n)
-{
+static float halton(int base, int n) {
 	float ret = 0.0f;
 	int b = base;
 
@@ -39,9 +38,7 @@ Tracer::halton(int base, int n)
 	return ret;
 }
 
-Vector
-Tracer::viewVec(int x0, int y0, float dx, float dy)
-{
+Vector viewVec(int x0, int y0, float dx, float dy) {
 	float x = dx + x0;
 	float y = dy + y0;
 	return Vector(
@@ -51,10 +48,8 @@ Tracer::viewVec(int x0, int y0, float dx, float dy)
 	).norm();
 }
 
-int
-Tracer::getNextBlock(void)
-{
-	pthread_mutex_lock(&mutex_block);
+static int getNextBlock(void) {
+	std::lock_guard<std::mutex> l{mutex_block};
 	int ret = next_block;
 	if (ret < all_blocks) {
 		int y = next_block / x_blocks;
@@ -73,16 +68,13 @@ Tracer::getNextBlock(void)
 		}
 		++done_blocks;
 	}
-	pthread_mutex_unlock(&mutex_block);
 	return ret;
 }
 
-void *
-Tracer::turboTracer(void *p)
+void
+Tracer::turboTracer(Tracer *tracer)
 {
 	int block;
-
-	Tracer *tracer = (Tracer *)p;
 
 	while ((block = getNextBlock()) < all_blocks) {
 		unsigned y  = (block / x_blocks) * BLOCKSIZE;
@@ -102,17 +94,12 @@ Tracer::turboTracer(void *p)
 		} while (++y < y1);
 
 	}
-
-	pthread_exit(NULL);
-	return NULL;
 }
 
-void *
-Tracer::blockTracer(void *p)
+void
+Tracer::blockTracer(Tracer *tracer)
 {
 	int block;
-
-	Tracer *tracer = (Tracer *)p;
 
 	while ((block = getNextBlock()) < all_blocks) {
 		unsigned y  = (block / x_blocks) * BLOCKSIZE;
@@ -162,9 +149,6 @@ Tracer::blockTracer(void *p)
 		} while (++y < y1);
 
 	}
-
-	pthread_exit(NULL);
-	return NULL;
 }
 
 bool
@@ -177,43 +161,27 @@ Tracer::getProgress(float *percent)
 }
 
 void
-Tracer::exec(const Scene &scene, Image *img, const char *fname, int nthreads, bool turbo)
+Tracer::exec(const Scene &scene, Image *img, const char *fname, bool turbo)
 {
+	const int nthreads = std::thread::hardware_concurrency();
 	std::vector<std::unique_ptr<Tracer>> tracers(nthreads);
-	std::vector<pthread_t> threads(nthreads);
-	pthread_attr_t attr;
+	std::vector<std::thread> threads;
 	int sec;
-	int n;
 
 	next_block = 0;
 	done_blocks = 0;
 	x_blocks = (img->getWidth() + BLOCKSIZE - 1) / BLOCKSIZE;
 	all_blocks = ((img->getHeight() + BLOCKSIZE - 1) / BLOCKSIZE) * x_blocks;
-	pthread_mutex_init(&mutex_block, NULL);
 	sec = 0;
-	pthread_attr_init(&attr);
-	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-	n = 0;
+	std::cerr << "Spawning " << nthreads << " threads...\n";
+	threads.reserve(nthreads);
 	for (int i = 0; i < nthreads; ++i) {
-		tracers[i] = std::make_unique<Tracer>(i, scene, img);
-		int r = pthread_create(
-			&threads[i], &attr,
+		tracers[i] = std::make_unique<Tracer>(scene, img);
+		threads.push_back(std::thread{
 			turbo ? Tracer::turboTracer : Tracer::blockTracer,
 			tracers[i].get()
-		);
-		if (r) {
-			cerr << "unable to create thread #" << i << endl;
-			tracers[i].reset();
-			continue;
-		}
-		++n;
-	}
-	pthread_attr_destroy(&attr);
-
-	if (!n) {
-		cerr << "There are no usable threads." << endl;
-		goto free_it;
+		});
 	}
 
 	sleep(1), ++sec;
@@ -230,14 +198,9 @@ Tracer::exec(const Scene &scene, Image *img, const char *fname, int nthreads, bo
 
 	for (int i = 0; i < nthreads; ++i) {
 		if (!tracers[i]) continue;
-		int r = pthread_join(threads[i], NULL);
-		if (r) {
-			cerr << "unable to join thread #" << i << endl;
-		}
+		threads[i].join();
 		tracers[i].reset();
 	}
-
-free_it:pthread_mutex_destroy(&mutex_block);
 
 	if (fname) img->write(fname);
 }

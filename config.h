@@ -16,7 +16,4 @@
 #define DEPTH_LIMIT	16
 #define RAY_ERROR	0.002f
 
-// number of threads
-#define THREADS		4
-
 #endif /* _CONFIG_H */

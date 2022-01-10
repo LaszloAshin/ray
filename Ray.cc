@@ -38,9 +38,9 @@ main(int argc, char *argv[])
 
 #ifdef USE_HDR
 	cerr << "Starting pass #1" << endl;
-	Tracer::exec(scene, &img, FNAME, THREADS, true);
+	Tracer::exec(scene, &img, FNAME, true);
 	output.computeCorrection();
 	cerr << "Starting pass #2" << endl;
 #endif /* USE_HDR */
-	Tracer::exec(scene, &img, FNAME, THREADS);
+	Tracer::exec(scene, &img, FNAME);
 }
