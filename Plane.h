@@ -1,5 +1,4 @@
-#ifndef _PLANE_H
-#define _PLANE_H	1
+#pragma once
 
 #include "BaseObject.h"
 
@@ -17,5 +16,3 @@ public:
 
 	std::tuple<float, Vector> intersect(const Ray &) const override;
 };
-
-#endif /* _PLANE_H */

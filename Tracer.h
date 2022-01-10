@@ -1,5 +1,4 @@
-#ifndef _TRACER_H
-#define _TRACER_H	1
+#pragma once
 
 #include "Scene.h"
 #include "Image.h"
@@ -20,5 +19,3 @@ public:
 	Tracer(const Scene &s, Image *i) : scene(s), img(i) {}
 
 };
-
-#endif /* _TRACER_H */

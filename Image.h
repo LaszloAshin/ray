@@ -1,5 +1,4 @@
-#ifndef _IMAGE_H
-#define _IMAGE_H	1
+#pragma once
 
 #include "Color.h"
 
@@ -22,5 +21,3 @@ public:
 	unsigned getHeight(void) { return height; }
 
 };
-
-#endif /* _IMAGE_H */

@@ -1,5 +1,4 @@
-#ifndef _TARGA_H
-#define _TARGA_H	1
+#pragma once
 
 #include "Image.h"
 
@@ -20,5 +19,3 @@ public:
 	void computeCorrection(void);
 
 };
-
-#endif /* _TARGA_H */

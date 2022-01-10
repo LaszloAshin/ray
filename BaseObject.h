@@ -1,5 +1,4 @@
-#ifndef _BASEOBJECT_H
-#define _BASEOBJECT_H	1
+#pragma once
 
 #include "Color.h"
 #include "VectorMath.h"
@@ -65,5 +64,3 @@ public:
 	virtual std::tuple<float, Vector> intersect(const Ray &r) const = 0;
 	virtual Color texelAt(const Vector &) const { return Color::white; }
 };
-
-#endif /* _BASEOBJECT_H */

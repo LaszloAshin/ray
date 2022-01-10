@@ -1,5 +1,4 @@
-#ifndef _ELLIPSOID_H
-#define _ELLIPSOID_H	1
+#pragma once
 
 #include "VectorMath.h"
 #include "BaseObject.h"
@@ -31,5 +30,3 @@ public:
 	std::tuple<float, Vector> intersect(const Ray &) const override;
 	Color texelAt(const Vector &mp) const override;
 };
-
-#endif /* _ELLIPSOID_H */

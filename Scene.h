@@ -1,5 +1,4 @@
-#ifndef _SCENE_H
-#define _SCENE_H	1
+#pragma once
 
 #include <vector>
 #include <memory>
@@ -26,5 +25,3 @@ public:
 
 	Color trace(const Ray &r, int depth, float weight) const;
 };
-
-#endif /* _SCENE_H */

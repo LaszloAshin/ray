@@ -1,5 +1,4 @@
-#ifndef _VECTORMATH_H
-#define _VECTORMATH_H	1
+#pragma once
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -70,5 +69,3 @@ struct Ray {
 	{
 	}
 };
-
-#endif /* _VECTORMATH_H */

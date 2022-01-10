@@ -1,5 +1,4 @@
-#ifndef _CONFIG_H
-#define _CONFIG_H	1
+#pragma once
 
 // resolution of the output image
 #define WIDTH		1280
@@ -15,5 +14,3 @@
 // depth limit of tracer recursion
 #define DEPTH_LIMIT	16
 #define RAY_ERROR	0.002f
-
-#endif /* _CONFIG_H */

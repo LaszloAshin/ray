@@ -1,5 +1,4 @@
-#ifndef	_COLOR_H
-#define _COLOR_H	1
+#pragma once
 
 #include <iostream>
 
@@ -37,5 +36,3 @@ struct Color {
 };
 
 std::ostream &operator<<(std::ostream &os, const Color &c);
-
-#endif /* _COLOR_H */

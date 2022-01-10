@@ -1,5 +1,4 @@
-#ifndef _LIGHT_H
-#define _LIGHT_H	1
+#pragma once
 
 #include "VectorMath.h"
 #include "Color.h"
@@ -14,5 +13,3 @@ public:
 	{
 	}
 };
-
-#endif /* _LIGHT_H */
