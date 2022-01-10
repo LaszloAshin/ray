@@ -1,12 +1,3 @@
-#ifdef __WIN32__
-/* This needs to go first before stdio is included. */
-# include <windows.h>
-# if !defined(__CYGWIN32__)
-#  define sleep(x) Sleep((x) * 1000)
-# endif
-#endif
-
-#include <iostream>
 #include "Tracer.h"
 
 #ifdef HAVE_CONFIG_H
@@ -18,6 +9,7 @@
 #include <vector>
 #include <thread>
 #include <mutex>
+#include <condition_variable>
 
 using namespace std;
 
@@ -25,6 +17,7 @@ static volatile int next_block;
 static int x_blocks, all_blocks;
 static volatile int done_blocks;
 static std::mutex mutex_block;
+static std::condition_variable cond;
 
 static float halton(int base, int n) {
 	float ret = 0.0f;
@@ -49,7 +42,7 @@ Vector viewVec(int x0, int y0, float dx, float dy) {
 }
 
 static int getNextBlock(void) {
-	std::lock_guard<std::mutex> l{mutex_block};
+	std::unique_lock<std::mutex> lk{mutex_block};
 	int ret = next_block;
 	if (ret < all_blocks) {
 		int y = next_block / x_blocks;
@@ -67,6 +60,10 @@ static int getNextBlock(void) {
 				--next_block;
 		}
 		++done_blocks;
+		if (done_blocks == all_blocks) {
+			lk.unlock();
+			cond.notify_one();
+		}
 	}
 	return ret;
 }
@@ -166,13 +163,11 @@ Tracer::exec(const Scene &scene, Image *img, const char *fname, bool turbo)
 	const int nthreads = std::thread::hardware_concurrency();
 	std::vector<std::unique_ptr<Tracer>> tracers(nthreads);
 	std::vector<std::thread> threads;
-	int sec;
 
 	next_block = 0;
 	done_blocks = 0;
 	x_blocks = (img->getWidth() + BLOCKSIZE - 1) / BLOCKSIZE;
 	all_blocks = ((img->getHeight() + BLOCKSIZE - 1) / BLOCKSIZE) * x_blocks;
-	sec = 0;
 
 	std::cerr << "Spawning " << nthreads << " threads...\n";
 	threads.reserve(nthreads);
@@ -184,16 +179,15 @@ Tracer::exec(const Scene &scene, Image *img, const char *fname, bool turbo)
 		});
 	}
 
-	sleep(1), ++sec;
 	for (;;) {
+		std::unique_lock<std::mutex> lk(mutex_block);
 		float p;
 
 		if (!getProgress(&p)) break;
 
 		fprintf(stderr, "\r%5.2f%% ", p);
-		sleep(1), ++sec;
-		if (fname && !(sec % 10) && p < 95.0)
-			img->write(fname);
+		cond.wait_for(lk, std::chrono::seconds(1));
+		if (fname) img->write(fname);
 	}
 
 	for (int i = 0; i < nthreads; ++i) {
