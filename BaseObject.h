@@ -31,13 +31,13 @@ public:
 		n = n0, v = v0;
 	}
 
-	Color brdf(const Vector &L, const Vector &N, const Vector &V) const {
+	Color brdf(const Vec3f &L, const Vec3f &N, const Vec3f &V) const {
 		const float cosLN = L * N;
 		if (cosLN < 0.0f)
 			return Color::black; // watching from the back
 
 		// specular reflection (Phong)
-		const Vector R = N * (cosLN * 2.0f) - L;
+		const Vec3f R = N * (cosLN * 2.0f) - L;
 		const float cosRV = std::max(R * V, 0.0f);
 
 		return kd * cosLN                // diffuse
@@ -50,17 +50,17 @@ public:
 
 class BaseObject {
 public:
-	Vector pos;
+	Vec3f pos;
 	int mater;
 
 	BaseObject() {}
 
-	BaseObject(const Vector &p, int m) : pos(p), mater(m)
+	BaseObject(const Vec3f &p, int m) : pos(p), mater(m)
 	{
 	}
 
 	virtual ~BaseObject() {}
 
-	virtual std::tuple<float, Vector> intersect(const Ray &r) const = 0;
-	virtual Color texelAt(const Vector &) const { return Color::white; }
+	virtual std::tuple<float, Vec3f> intersect(const Ray &r) const = 0;
+	virtual Color texelAt(const Vec3f &) const { return Color::white; }
 };

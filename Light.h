@@ -5,10 +5,10 @@
 
 class Light {
 public:
-	const Vector pos;
+	const Vec3f pos;
 	const Color c;
 
-	Light(const Vector &p, const Color &color) :
+	Light(const Vec3f &p, const Color &color) :
 		pos(p), c(color)
 	{
 	}

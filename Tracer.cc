@@ -31,10 +31,10 @@ static float halton(int base, int n) {
 	return ret;
 }
 
-Vector viewVec(int x0, int y0, float dx, float dy) {
+Vec3f viewVec(int x0, int y0, float dx, float dy) {
 	float x = dx + x0;
 	float y = dy + y0;
-	return Vector(
+	return Vec3f(
 		(x / (WIDTH / 2.0f)) - 1.0f,
 		((HEIGHT / 2.0f) - y) / (WIDTH / 2.0f),
 		-0.5f
@@ -85,7 +85,7 @@ Tracer::turboTracer(Tracer *tracer)
 
 		do {
 			for (unsigned x = x0; x < x1; ++x) {
-				Ray r(Vector{}, viewVec(x, y, 0.5f, 0.5f));
+				Ray r(Vec3f{}, viewVec(x, y, 0.5f, 0.5f));
 				tracer->img->setPixel(x, y, tracer->scene.trace(r, DEPTH_LIMIT, 1.0f));
 			}
 		} while (++y < y1);
@@ -114,15 +114,15 @@ Tracer::blockTracer(Tracer *tracer)
 		Color up[BLOCKSIZE + 1];
 		int i = 0;
 		for (unsigned x = x0; x <= x1; ++x, ++i) {
-			Ray r(Vector{}, viewVec(x, y, 0.0f, 0.0f));
+			Ray r(Vec3f{}, viewVec(x, y, 0.0f, 0.0f));
 			up[i] = tracer->scene.trace(r, DEPTH_LIMIT, 1.0f);
 		}
 		do {
-			Ray r(Vector{}, viewVec(x0, y, 0.0, 1.0));
+			Ray r(Vec3f{}, viewVec(x0, y, 0.0, 1.0));
 			Color left = tracer->scene.trace(r, DEPTH_LIMIT, 1.0f);
 			i = 0;
 			for (unsigned x = x0; x < x1; ++x, ++i) {
-				r = Ray(Vector{}, viewVec(x, y, 1.0, 1.0));
+				r = Ray(Vec3f{}, viewVec(x, y, 1.0, 1.0));
 				Color right = tracer->scene.trace(r, DEPTH_LIMIT, 1.0f);
 				
 				Color c;

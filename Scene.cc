@@ -29,7 +29,7 @@ Scene::build(int frame)
 		Color::gray08, 128.0f,
 		0.2f, 0.0f, 1.0f
 	});
-	addObject(std::make_unique<Ellipsoid>(Vector(0.0f, 4.0f, -25.0f), glass, Vector{5.0f, 5.0f, 5.0f}));
+	addObject(std::make_unique<Ellipsoid>(Vec3f(0.0f, 4.0f, -25.0f), glass, Vec3f{5.0f, 5.0f, 5.0f}));
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina = sinf(angle);
@@ -37,7 +37,7 @@ Scene::build(int frame)
 		float x = 10.0f * sina;
 		float z = -10.0f * cosa;
 		Color c(sina, 0.5f, cosa);
-		addLight({Vector(x, 10.0f, z - 25.0f), c});
+		addLight({Vec3f(x, 10.0f, z - 25.0f), c});
 		angle += 2.0f * (float)M_PI * frame / (25.0f * 10.0f);
 		// 10 sec alatt fordul korbe 25 fps-nel
 		sina = sinf(angle);
@@ -45,20 +45,20 @@ Scene::build(int frame)
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
 		addObject(std::make_unique<Ellipsoid>(
-			Vector(x, -4.0f, z - 25.0f),
-                        iron, Vector{5.0f, 2.0f, 5.0f}
+			Vec3f(x, -4.0f, z - 25.0f),
+                        iron, Vec3f{5.0f, 2.0f, 5.0f}
 		));
 	}
 	addObject(std::make_unique<Plane>(
-		Vector(0.0f, 1.0f, 0.0f), -4.5f,
+		Vec3f(0.0f, 1.0f, 0.0f), -4.5f,
 		mirror
 	));
 	addObject(std::make_unique<Plane>(
-		Vector(0.0f, -1.0f, 0.0f), -15.0f,
+		Vec3f(0.0f, -1.0f, 0.0f), -15.0f,
 		mirror
 	));
 	addLight({
-		Vector(0.0f, 10.0f, -25.0f),
+		Vec3f(0.0f, 10.0f, -25.0f),
 		Color::white
 	});
 }
@@ -82,11 +82,11 @@ Scene::addObject(std::unique_ptr<BaseObject> object)
 	objects.push_back(std::move(object));
 }
 
-std::tuple<BaseObject*, float, Vector>
+std::tuple<BaseObject*, float, Vec3f>
 Scene::intersect(const Ray &ray) const
 {
 	float t = 0.0f;
-	Vector normal;
+	Vec3f normal;
 	BaseObject* nearestObject = nullptr;
 	for (const auto& object : objects) {
 		const auto [to, n] = object->intersect(ray);
@@ -120,18 +120,18 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 	}
 
 	const Material& mater = materials[O->mater];
-	const Vector mp = ray.s + (ray.d * t);
+	const Vec3f mp = ray.s + (ray.d * t);
 	ret = mater.ka;
 
 	for (const auto& light : lights) {
-		const Vector d = mp - light.pos;
+		const Vec3f d = mp - light.pos;
 		// light source doesn't take effect if we are in shadow
 		const auto [o, sh, _] = intersect(Ray(light.pos, d));
 		if (o != nullptr && o != O && sh < 1.0f)
 			continue;
 
-		const Vector L = Vector(light.pos - mp).norm();
-		const Vector V = Vector(ray.s - mp).norm();
+		const Vec3f L = Vec3f(light.pos - mp).norm();
+		const Vec3f V = Vec3f(ray.s - mp).norm();
 		float dsq = d * d; // light distance square
 		if (dsq > EPSILON) {
 			dsq = 200.0f / dsq + 5.0f / sqrtf(dsq);
@@ -139,11 +139,11 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 		}
 	}
 
-	const Vector V = Vector(ray.s - mp).norm();
+	const Vec3f V = Vec3f(ray.s - mp).norm();
 	const float cosVN = V * N;
 
 	// tukor
-	Vector R = N * (cosVN * 2.0f) - V;
+	Vec3f R = N * (cosVN * 2.0f) - V;
 	Ray rR(mp + (R * EPSILON), R);
 	if (mater.isReflective())
 		ret += trace(rR, depth, weight * mater.kr) * mater.kr;
@@ -156,7 +156,7 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 			v = 1.0f / v;
 			s = -1.0f;
 		}
-		const Vector B = (N * cosVN - V) * v;
+		const Vec3f B = (N * cosVN - V) * v;
 		const float sq = 1 - (B * B);
 		if (sq >= 0.0f) { // if there is no full reflection
 			R = B + (N * sqrt(sq) * s);

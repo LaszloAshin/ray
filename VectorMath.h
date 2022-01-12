@@ -6,53 +6,53 @@
 
 #include <cmath>
 
-struct Vector {
+struct Vec3f {
 	float x, y, z;
 
-	Vector() : x{}, y{}, z{} {}
+	Vec3f() : x{}, y{}, z{} {}
 
-	Vector(float x0, float y0, float z0) : x{x0}, y{y0}, z{z0} {}
+	Vec3f(float x0, float y0, float z0) : x{x0}, y{y0}, z{z0} {}
 
-	Vector&	operator+=(const Vector &rhs) {
+	Vec3f&	operator+=(const Vec3f &rhs) {
 		x += rhs.x, y += rhs.y, z += rhs.z;
 		return *this;
 	}
 
-	friend Vector operator+(Vector lhs, const Vector &rhs) {
+	friend Vec3f operator+(Vec3f lhs, const Vec3f &rhs) {
 		return lhs += rhs;
 	}
 
-	Vector& operator-=(const Vector &rhs) {
+	Vec3f& operator-=(const Vec3f &rhs) {
 		x -= rhs.x, y -= rhs.y, z -= rhs.z;
 		return *this;
 	}
 
-	friend Vector operator-(Vector lhs, const Vector& rhs) {
+	friend Vec3f operator-(Vec3f lhs, const Vec3f& rhs) {
 		return lhs -= rhs;
 	}
 
-	Vector& operator*=(float rhs) {
+	Vec3f& operator*=(float rhs) {
 		x *= rhs, y *= rhs, z *= rhs;
 		return *this;
 	}
 
-	friend Vector operator*(Vector lhs, float rhs) {
+	friend Vec3f operator*(Vec3f lhs, float rhs) {
 		return lhs *= rhs;
 	}
 
-	friend float operator*(const Vector &lhs, const Vector &rhs) {
+	friend float operator*(const Vec3f &lhs, const Vec3f &rhs) {
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 	}
 
 	float length() const { return sqrtf(x * x + y * y + z * z); }
 
-	Vector norm() const {
+	Vec3f norm() const {
 		// maybe http://rrrola.wz.cz/inv_sqrt.html ?
 		const float len = length();
-		return (len > EPSILON) ? (*this * (1.0f / len)) : Vector{};
+		return (len > EPSILON) ? (*this * (1.0f / len)) : Vec3f{};
 	}
 
-	friend Vector operator%(const Vector &lhs, const Vector &rhs) {
+	friend Vec3f operator%(const Vec3f &lhs, const Vec3f &rhs) {
 		return {
 			lhs.y * rhs.z - lhs.z * rhs.y,
 			lhs.z * rhs.x - lhs.x * rhs.z,
@@ -62,9 +62,9 @@ struct Vector {
 };
 
 struct Ray {
-	Vector s, d;
+	Vec3f s, d;
 
-	Ray(const Vector &source, const Vector &dir) :
+	Ray(const Vec3f &source, const Vec3f &dir) :
 		s(source), d(dir)
 	{
 	}

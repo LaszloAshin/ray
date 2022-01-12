@@ -6,12 +6,12 @@
 #include <cassert>
 
 class Ellipsoid final : public BaseObject {
-	Vector radius;
+	Vec3f radius;
 	float rxsq, rysq, rzsq;
 	float rxysq, rxzsq, ryzsq;
 
 public:
-	Ellipsoid(const Vector &p, int material, const Vector &radius)
+	Ellipsoid(const Vec3f &p, int material, const Vec3f &radius)
 	: BaseObject(p, material)
 	, radius(radius)
 	, rxsq{radius.x * radius.x}
@@ -27,6 +27,6 @@ public:
 	}
 
 	// ellipsoid - ray intersection
-	std::tuple<float, Vector> intersect(const Ray &) const override;
-	Color texelAt(const Vector &mp) const override;
+	std::tuple<float, Vec3f> intersect(const Ray &) const override;
+	Color texelAt(const Vec3f &mp) const override;
 };
