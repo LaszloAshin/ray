@@ -13,6 +13,7 @@ ray_OBJS += VectorMath.o
 
 CPPFLAGS := -DHAVE_CONFIG_H
 CPPFLAGS += -MD
+CPPFLAGS += -ffunction-sections -fdata-sections
 
 CFLAGS := -pedantic -Wall -Wextra
 CFLAGS += -O3 -march=native
@@ -21,7 +22,9 @@ CFLAGS += -ggdb3
 CXXFLAGS := $(CFLAGS)
 CXXFLAGS += -std=c++17
 CXXFLAGS += -fno-exceptions -fno-rtti
+
 LDFLAGS := -pthread
+LDFLAGS += -Wl,--gc-sections
 
 DEPDIR = .deps
 df = $(DEPDIR)/$(*F)
