@@ -169,7 +169,7 @@ Tracer::exec(const Scene &scene, Image *img, const char *fname, bool turbo)
 	x_blocks = (img->getWidth() + BLOCKSIZE - 1) / BLOCKSIZE;
 	all_blocks = ((img->getHeight() + BLOCKSIZE - 1) / BLOCKSIZE) * x_blocks;
 
-	std::cerr << "Spawning " << nthreads << " threads...\n";
+	fprintf(stderr, "Spawning %d threads...\n", nthreads);
 	threads.reserve(nthreads);
 	for (int i = 0; i < nthreads; ++i) {
 		tracers[i] = std::make_unique<Tracer>(scene, img);

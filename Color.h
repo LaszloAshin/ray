@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 struct Color {
 	float r, g, b;
 
@@ -34,5 +32,3 @@ struct Color {
 
 	float dist(const Color &c) const;
 };
-
-std::ostream &operator<<(std::ostream &os, const Color &c);

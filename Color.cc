@@ -36,11 +36,3 @@ Color::dist(const Color &c) const
 {
 	return (r - c.r) * (r - c.r) + (g - c.g) * (g - c.g) + (b - c.b) * (b - c.b);
 }
-
-std::ostream &
-operator<<(std::ostream &os, const Color &c)
-{
-	os << '(' << c.r << ", " << c.g << ", " << c.b << ')';
-	return os;
-}
-

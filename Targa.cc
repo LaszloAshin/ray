@@ -1,17 +1,15 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <cmath>
-#include <cstring>
-#include <cstdlib>
+#include "Targa.h"
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
 
-#include "Targa.h"
-
-using namespace std;
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <fcntl.h>
+#include <unistd.h>
 
 Targa::Targa(unsigned width, unsigned height) :
 	Image(width, height),
@@ -23,16 +21,31 @@ Targa::Targa(unsigned width, unsigned height) :
 	hdrnorm = false;
 }
 
+struct File {
+	File(int fd) : fd{fd} {}
+	~File() { if (isValid()) close(fd); }
+	File(const File&) = delete;
+	File& operator=(const File&) = delete;
+
+	bool isValid() const { return fd != -1; }
+
+	ssize_t write(const void* buf, size_t count) {
+		return ::write(fd, buf, count);
+	}
+
+private:
+	int fd;
+};
+
 void
 Targa::write(const char *fname) const
 {
 	unsigned char hd[18];
 	static const char magic[] = "\0\0\0\0\0\0\0\0TRUEVISION-XFILE.";
 
-	ofstream f(fname, ios::out | ios::binary);
-	if (!f) {
-		cerr << "Targa::Write(): unable to open output file ";
-		cerr << fname << endl;
+	File f(open(fname, O_CREAT | O_WRONLY | O_TRUNC, 0644));
+	if (!f.isValid()) {
+		fprintf(stderr, "Targa::Write(): unable to open output file \"%s\"\n", fname);
 		return;
 	}
 
@@ -48,12 +61,11 @@ Targa::write(const char *fname) const
 //	hd[17] = 0x20;
 //	hd[17] |= 0x0f & ((bytes < 3) ? bytes - 1 : bytes - 3);
 	hd[17] = 0x20;
-	f.write((char *)hd, sizeof(hd));
-	f.write(reinterpret_cast<const char*>(data.data()), data.size());
+	f.write(hd, sizeof(hd));
+	f.write(data.data(), data.size());
 	f.write(magic, sizeof(magic));
 
-	f.close();
-	cerr << "Output has been written to " << fname << endl;
+	fprintf(stderr, "Output has been written to \"%s\"\n", fname);
 }
 
 void
@@ -91,9 +103,6 @@ Targa::setPixel(unsigned x, unsigned y, Color c)
 void
 Targa::computeCorrection(void)
 {
-	cerr << "HDR correction values:" << endl;
-	cerr << "min: " << min << endl;
-	cerr << "max: " << max << endl;
 	if (min.r < 0.0f) min.r = 0.0f;
 	if (min.g < 0.0f) min.g = 0.0f;
 	if (min.b < 0.0f) min.b = 0.0f;
@@ -101,6 +110,5 @@ Targa::computeCorrection(void)
 	max.r = 1.0f / max.r;
 	max.g = 1.0f / max.g;
 	max.b = 1.0f / max.b;
-	cerr << "corr: " << max << endl;
 	hdrnorm = true;
 }

@@ -1,11 +1,3 @@
-/**
- * Ray.cpp
- */
-
-#include <iostream>
-#include <stdlib.h> /* atoi() */
-using namespace std;
-
 #include "Image.h"
 #include "Targa.h"
 #include "Scene.h"
@@ -15,12 +7,13 @@ using namespace std;
 # include "config.h"
 #endif
 
+#include <cstdio>
+#include <cstdlib> // atoi()
+
 // Enable HDR (High Dynamic Range) computations
 //#define USE_HDR 1
 
 #define FNAME		"tracement.tga"
-
-#include <sstream>
 
 int
 main(int argc, char *argv[])
@@ -29,16 +22,16 @@ main(int argc, char *argv[])
 
 	if (argc > 1) {
 		frame = atoi(argv[1]);
-		cerr << "frame: " << frame << endl;
+		fprintf(stderr, "frame: %d\n", frame);
 	}
 	Scene scene(frame);
 	Targa img(WIDTH, HEIGHT);
 
 #ifdef USE_HDR
-	cerr << "Starting pass #1" << endl;
+	fprintf(stderr, "Starting pass #1\n");
 	Tracer::exec(scene, &img, FNAME, true);
 	output.computeCorrection();
-	cerr << "Starting pass #2" << endl;
+	fprintf(stderr, "Starting pass #2\n");
 #endif /* USE_HDR */
 	Tracer::exec(scene, &img, FNAME);
 }
