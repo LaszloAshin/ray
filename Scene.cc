@@ -11,24 +11,24 @@
 void
 Scene::build(int frame)
 {
-	const int glass = addMaterial(std::make_unique<Material>(
+	const int glass = addMaterial({
 		Color::black,
 		Color::gray01,
 		Color::gray04, 128.0f,
 		0.1f, 0.9f, 2.0f
-	));
-	const int iron = addMaterial(std::make_unique<Material>(
+	});
+	const int iron = addMaterial({
 		Color::gray02,
 		Color::gray04,
 		Color::gray01, 128.0f,
 		0.4f, 0.0f, 1.0f
-	));
-	const int mirror = addMaterial(std::make_unique<Material>(
+	});
+	const int mirror = addMaterial({
 		Color::black,
 		Color::gray01,
 		Color::gray08, 128.0f,
 		0.2f, 0.0f, 1.0f
-	));
+	});
 	addObject(std::make_unique<Ellipsoid>(Vector(0.0f, 4.0f, -25.0f), glass, Vector{5.0f, 5.0f, 5.0f}));
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
@@ -37,7 +37,7 @@ Scene::build(int frame)
 		float x = 10.0f * sina;
 		float z = -10.0f * cosa;
 		Color c(sina, 0.5f, cosa);
-		addLight(std::make_unique<Light>(Vector(x, 10.0f, z - 25.0f), c));
+		addLight({Vector(x, 10.0f, z - 25.0f), c});
 		angle += 2.0f * (float)M_PI * frame / (25.0f * 10.0f);
 		// 10 sec alatt fordul korbe 25 fps-nel
 		sina = sinf(angle);
@@ -57,20 +57,20 @@ Scene::build(int frame)
 		Vector(0.0f, -1.0f, 0.0f), -15.0f,
 		mirror
 	));
-	addLight(std::make_unique<Light>(
+	addLight({
 		Vector(0.0f, 10.0f, -25.0f),
 		Color::white
-	));
+	});
 }
 
 void
-Scene::addLight(std::unique_ptr<Light> light)
+Scene::addLight(Light light)
 {
 	lights.push_back(std::move(light));
 }
 
 int
-Scene::addMaterial(std::unique_ptr<Material> material)
+Scene::addMaterial(Material material)
 {
 	materials.push_back(std::move(material));
 	return materials.size() - 1;
@@ -119,23 +119,23 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 		return ret;
 	}
 
-	const Material& mater = *materials[O->mater];
+	const Material& mater = materials[O->mater];
 	const Vector mp = ray.s + (ray.d * t);
 	ret = mater.ka;
 
 	for (const auto& light : lights) {
-		const Vector d = mp - light->pos;
+		const Vector d = mp - light.pos;
 		// light source doesn't take effect if we are in shadow
-		const auto [o, sh, _] = intersect(Ray(light->pos, d));
+		const auto [o, sh, _] = intersect(Ray(light.pos, d));
 		if (o != nullptr && o != O && sh < 1.0f)
 			continue;
 
-		const Vector L = Vector(light->pos - mp).norm();
+		const Vector L = Vector(light.pos - mp).norm();
 		const Vector V = Vector(ray.s - mp).norm();
 		float dsq = d * d; // light distance square
 		if (dsq > EPSILON) {
 			dsq = 200.0f / dsq + 5.0f / sqrtf(dsq);
-			ret += light->c * mater.brdf(L, N, V) * dsq;
+			ret += light.c * mater.brdf(L, N, V) * dsq;
 		}
 	}
 
