@@ -51,11 +51,11 @@ public:
 class BaseObject {
 public:
 	Vector pos;
-	Material *mater;
+	int mater;
 
 	BaseObject() {}
 
-	BaseObject(const Vector &p, Material *m) : pos(p), mater(m)
+	BaseObject(const Vector &p, int m) : pos(p), mater(m)
 	{
 	}
 

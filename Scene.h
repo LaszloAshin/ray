@@ -16,7 +16,7 @@ class Scene {
 
 	void build(int frame);
 	void addLight(std::unique_ptr<Light> light);
-	void addMaterial(std::unique_ptr<Material> material);
+	int addMaterial(std::unique_ptr<Material> material);
 	void addObject(std::unique_ptr<BaseObject> object);
 	std::tuple<BaseObject*, float, Vector> intersect(const Ray &r) const;
 

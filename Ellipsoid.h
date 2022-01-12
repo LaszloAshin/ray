@@ -11,8 +11,8 @@ class Ellipsoid final : public BaseObject {
 	float rxysq, rxzsq, ryzsq;
 
 public:
-	Ellipsoid(const Vector &p, Material *m, const Vector &radius)
-	: BaseObject(p, m)
+	Ellipsoid(const Vector &p, int material, const Vector &radius)
+	: BaseObject(p, material)
 	, radius(radius)
 	, rxsq{radius.x * radius.x}
 	, rysq{radius.y * radius.y}

@@ -2,8 +2,8 @@
 #include "Plane.h"
 
 
-Plane::Plane(const Vector &r1, const Vector &r2, const Vector &r3, Material *m) :
-	BaseObject(r1, m)
+Plane::Plane(const Vector &r1, const Vector &r2, const Vector &r3, int material) :
+	BaseObject(r1, material)
 {
 	Vector diff1 = r2 - r1;
 	Vector diff2 = r3 - r1;
