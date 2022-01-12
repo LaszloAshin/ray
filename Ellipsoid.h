@@ -5,7 +5,7 @@
 
 #include <cassert>
 
-class Ellipsoid : public BaseObject {
+class Ellipsoid final : public BaseObject {
 	Vector radius;
 	float rxsq, rysq, rzsq;
 	float rxysq, rxzsq, ryzsq;

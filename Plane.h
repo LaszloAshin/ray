@@ -2,7 +2,7 @@
 
 #include "BaseObject.h"
 
-class Plane : public BaseObject {
+class Plane final : public BaseObject {
 	float d;
 
 public:
