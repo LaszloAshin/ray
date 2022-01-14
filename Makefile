@@ -9,6 +9,7 @@ ray_OBJS += Ray.o
 ray_OBJS += Scene.o
 ray_OBJS += Targa.o
 ray_OBJS += Tracer.o
+ray_OBJS += Vector.o
 ray_OBJS += VectorMath.o
 
 CPPFLAGS := -DHAVE_CONFIG_H

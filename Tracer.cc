@@ -1,12 +1,13 @@
 #include "Tracer.h"
 
+#include "Vector.h"
+
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
 
 #include <cstdio>
 #include <unistd.h>
-#include <vector>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
@@ -161,8 +162,8 @@ void
 Tracer::exec(const Scene &scene, Image *img, const char *fname, bool turbo)
 {
 	const int nthreads = std::thread::hardware_concurrency();
-	std::vector<std::unique_ptr<Tracer>> tracers(nthreads);
-	std::vector<std::thread> threads;
+	Vector<Tracer, 32> tracers;
+	Vector<std::thread, 32> threads;
 
 	next_block = 0;
 	done_blocks = 0;
@@ -170,13 +171,12 @@ Tracer::exec(const Scene &scene, Image *img, const char *fname, bool turbo)
 	all_blocks = ((img->getHeight() + BLOCKSIZE - 1) / BLOCKSIZE) * x_blocks;
 
 	fprintf(stderr, "Spawning %d threads...\n", nthreads);
-	threads.reserve(nthreads);
 	for (int i = 0; i < nthreads; ++i) {
-		tracers[i] = std::make_unique<Tracer>(scene, img);
-		threads.push_back(std::thread{
+		tracers.emplace_back(scene, img);
+		threads.emplace_back(
 			turbo ? Tracer::turboTracer : Tracer::blockTracer,
-			tracers[i].get()
-		});
+			&tracers[i]
+		);
 	}
 
 	for (;;) {
@@ -191,9 +191,7 @@ Tracer::exec(const Scene &scene, Image *img, const char *fname, bool turbo)
 	}
 
 	for (int i = 0; i < nthreads; ++i) {
-		if (!tracers[i]) continue;
 		threads[i].join();
-		tracers[i].reset();
 	}
 
 	if (fname) img->write(fname);

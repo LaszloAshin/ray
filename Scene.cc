@@ -37,7 +37,7 @@ Scene::build(int frame)
 		float x = 10.0f * sina;
 		float z = -10.0f * cosa;
 		Color c(sina, 0.5f, cosa);
-		addLight({Vec3f(x, 10.0f, z - 25.0f), c});
+		lights.emplace_back(Vec3f(x, 10.0f, z - 25.0f), c);
 		angle += 2.0f * (float)M_PI * frame / (25.0f * 10.0f);
 		// 10 sec alatt fordul korbe 25 fps-nel
 		sina = sinf(angle);
@@ -57,16 +57,7 @@ Scene::build(int frame)
 		Vec3f(0.0f, -1.0f, 0.0f), -15.0f,
 		mirror
 	));
-	addLight({
-		Vec3f(0.0f, 10.0f, -25.0f),
-		Color::white
-	});
-}
-
-void
-Scene::addLight(Light light)
-{
-	lights.push_back(std::move(light));
+	lights.emplace_back(Vec3f(0.0f, 10.0f, -25.0f), Color::white);
 }
 
 int

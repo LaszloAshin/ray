@@ -1,21 +1,18 @@
 #pragma once
 
-#include <vector>
-#include <memory>
-
-class Scene;
-
+#include "BaseObject.h"
 #include "Color.h"
 #include "Light.h"
-#include "BaseObject.h"
+#include "Vector.h"
+
+#include <memory>
 
 class Scene {
-	std::vector<Light> lights;
-	std::vector<Material> materials;
-	std::vector<std::unique_ptr<BaseObject>> objects;
+	Vector<Light, 8> lights;
+	Vector<Material, 4> materials;
+	Vector<std::unique_ptr<BaseObject>, 8> objects;
 
 	void build(int frame);
-	void addLight(Light light);
 	int addMaterial(Material material);
 	void addObject(std::unique_ptr<BaseObject> object);
 	std::tuple<BaseObject*, float, Vec3f> intersect(const Ray &r) const;
