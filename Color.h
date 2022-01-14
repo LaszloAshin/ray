@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm> // clamp
+
 struct Color {
 	float r, g, b;
 
@@ -9,7 +11,11 @@ struct Color {
 
 	Color(float r = 0.0f, float g = 0.0f, float b = 0.0f) : r{r}, g{g}, b{b} {}
 
-	void clamp();
+	void clamp() {
+		r = std::clamp(r, 0.0f, 1.0f);
+		g = std::clamp(g, 0.0f, 1.0f);
+		b = std::clamp(b, 0.0f, 1.0f);
+	}
 
 	Color operator+=(const Color &c) {
 		r += c.r, g += c.g, b += c.b;
@@ -20,7 +26,9 @@ struct Color {
 		return lhs += rhs;
 	}
 
-	Color operator-(const Color &c) const;
+	Color operator-(const Color &c) const {
+		return Color(r - c.r, g - c.g, b - c.b);
+	}
 
 	friend Color operator*(const Color& lhs, float rhs) {
 		return {lhs.r * rhs, lhs.g * rhs, lhs.b * rhs};
@@ -30,5 +38,7 @@ struct Color {
 		return {lhs.r * rhs.r, lhs.g * rhs.g, lhs.b * rhs.b};
 	}
 
-	float dist(const Color &c) const;
+	float dist(const Color &c) const {
+		return (r - c.r) * (r - c.r) + (g - c.g) * (g - c.g) + (b - c.b) * (b - c.b);
+	}
 };
