@@ -29,7 +29,7 @@ Scene::build(int frame)
 		Color::gray08, 128.0f,
 		0.2f, 0.0f, 1.0f
 	});
-	addObject(std::make_unique<Ellipsoid>(Vec3f(0.0f, 4.0f, -25.0f), glass, Vec3f{5.0f, 5.0f, 5.0f}));
+	ellipsoids.emplace_back(Vec3f(0.0f, 4.0f, -25.0f), glass, Vec3f{5.0f, 5.0f, 5.0f});
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina = sinf(angle);
@@ -44,19 +44,13 @@ Scene::build(int frame)
 		cosa = cosf(angle);
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
-		addObject(std::make_unique<Ellipsoid>(
+		ellipsoids.emplace_back(
 			Vec3f(x, -4.0f, z - 25.0f),
                         iron, Vec3f{5.0f, 2.0f, 5.0f}
-		));
+		);
 	}
-	addObject(std::make_unique<Plane>(
-		Vec3f(0.0f, 1.0f, 0.0f), -4.5f,
-		mirror
-	));
-	addObject(std::make_unique<Plane>(
-		Vec3f(0.0f, -1.0f, 0.0f), -15.0f,
-		mirror
-	));
+	planes.emplace_back(Vec3f(0.0f, 1.0f, 0.0f), -4.5f, mirror);
+	planes.emplace_back(Vec3f(0.0f, -1.0f, 0.0f), -15.0f, mirror);
 	lights.emplace_back(Vec3f(0.0f, 10.0f, -25.0f), Color::white);
 }
 
@@ -67,22 +61,24 @@ Scene::addMaterial(Material material)
 	return materials.size() - 1;
 }
 
-void
-Scene::addObject(std::unique_ptr<BaseObject> object)
-{
-	objects.push_back(std::move(object));
-}
-
-std::tuple<BaseObject*, float, Vec3f>
+std::tuple<const BaseObject*, float, Vec3f>
 Scene::intersect(const Ray &ray) const
 {
 	float t = 0.0f;
 	Vec3f normal;
-	BaseObject* nearestObject = nullptr;
-	for (const auto& object : objects) {
-		const auto [to, n] = object->intersect(ray);
+	const BaseObject* nearestObject = nullptr;
+	for (const auto& object : ellipsoids) {
+		const auto [to, n] = object.intersect(ray);
 		if (to > 0.0f && (!nearestObject || to < t)) {
-			nearestObject = object.get();
+			nearestObject = &object;
+			t = to;
+			normal = n;
+		}
+	}
+	for (const auto& object : planes) {
+		const auto [to, n] = object.intersect(ray);
+		if (to > 0.0f && (!nearestObject || to < t)) {
+			nearestObject = &object;
 			t = to;
 			normal = n;
 		}
