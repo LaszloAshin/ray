@@ -14,7 +14,6 @@ class Scene {
 	Vector<Ellipsoid, 8> ellipsoids;
 	Vector<Plane, 2> planes;
 
-	void build(int frame);
 	int addMaterial(Material material);
 	std::tuple<const BaseObject*, float, Vec3f> intersect(const Ray &r) const;
 

@@ -8,8 +8,7 @@
 # include "config.h"
 #endif
 
-void
-Scene::build(int frame)
+Scene::Scene(int frame)
 {
 	const int glass = addMaterial({
 		Color::black,
@@ -86,11 +85,6 @@ Scene::intersect(const Ray &ray) const
 	return std::make_tuple(nearestObject, t, normal);
 }
 
-Scene::Scene(int frame)
-{
-	build(frame);
-}
-	
 Color
 Scene::trace(const Ray &ray, int depth, float weight) const
 {
