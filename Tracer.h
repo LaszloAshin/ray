@@ -1,21 +1,18 @@
 #pragma once
 
-#include "Scene.h"
 #include "Image.h"
+#include "Scene.h"
 
-class Tracer {
+struct Tracer {
+	Tracer(const Scene &s, Image *i) : scene(s), img(i) {}
+
+	void exec(const char *fname, bool turbo=false);
+
+private:
+	void turboTracer();
+	void blockTracer();
+	static bool getProgress(float *percent);
 
 	const Scene &scene;
 	Image *img;
-
-	static void turboTracer(Tracer *);
-	static void blockTracer(Tracer *);
-	static bool getProgress(float *percent);
-
-public:
-
-	static void exec(const Scene &scene, Image *img, const char *fname, bool turbo=false);
-
-	Tracer(const Scene &s, Image *i) : scene(s), img(i) {}
-
 };

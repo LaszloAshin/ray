@@ -27,11 +27,12 @@ main(int argc, char *argv[])
 	Scene scene(frame);
 	Targa img(WIDTH, HEIGHT);
 
+	Tracer tracer{scene, &img};
 #ifdef USE_HDR
 	fprintf(stderr, "Starting pass #1\n");
-	Tracer::exec(scene, &img, FNAME, true);
-	output.computeCorrection();
+	tracer.exec(FNAME, true);
+	img.computeCorrection();
 	fprintf(stderr, "Starting pass #2\n");
 #endif /* USE_HDR */
-	Tracer::exec(scene, &img, FNAME);
+	tracer.exec(FNAME);
 }

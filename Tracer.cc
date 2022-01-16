@@ -32,7 +32,7 @@ static float halton(int base, int n) {
 	return ret;
 }
 
-Vec3f viewVec(int x0, int y0, float dx, float dy) {
+static Vec3f viewVec(int x0, int y0, float dx, float dy) {
 	float x = dx + x0;
 	float y = dy + y0;
 	return Vec3f(
@@ -70,7 +70,7 @@ static int getNextBlock(void) {
 }
 
 void
-Tracer::turboTracer(Tracer *tracer)
+Tracer::turboTracer()
 {
 	int block;
 
@@ -79,15 +79,15 @@ Tracer::turboTracer(Tracer *tracer)
 		unsigned x0 = (block % x_blocks) * BLOCKSIZE;
 		unsigned x1 = x0 + BLOCKSIZE;
 		unsigned y1 = y + BLOCKSIZE;
-		if (x1 > tracer->img->getWidth())
-			x1 = tracer->img->getWidth();
-		if (y1 > tracer->img->getHeight())
-			y1 = tracer->img->getHeight();
+		if (x1 > img->getWidth())
+			x1 = img->getWidth();
+		if (y1 > img->getHeight())
+			y1 = img->getHeight();
 
 		do {
 			for (unsigned x = x0; x < x1; ++x) {
 				Ray r(Vec3f{}, viewVec(x, y, 0.5f, 0.5f));
-				tracer->img->setPixel(x, y, tracer->scene.trace(r, DEPTH_LIMIT, 1.0f));
+				img->setPixel(x, y, scene.trace(r, DEPTH_LIMIT, 1.0f));
 			}
 		} while (++y < y1);
 
@@ -95,7 +95,7 @@ Tracer::turboTracer(Tracer *tracer)
 }
 
 void
-Tracer::blockTracer(Tracer *tracer)
+Tracer::blockTracer()
 {
 	int block;
 
@@ -105,26 +105,26 @@ Tracer::blockTracer(Tracer *tracer)
 		unsigned x1 = x0 + BLOCKSIZE;
 		unsigned y1 = y + BLOCKSIZE;
 
-		if (x1 > tracer->img->getWidth()) {
-			x1 = tracer->img->getWidth();
+		if (x1 > img->getWidth()) {
+			x1 = img->getWidth();
 		}
-		if (y1 > tracer->img->getHeight()) {
-			y1 = tracer->img->getHeight();
+		if (y1 > img->getHeight()) {
+			y1 = img->getHeight();
 		}
 
 		Color up[BLOCKSIZE + 1];
 		int i = 0;
 		for (unsigned x = x0; x <= x1; ++x, ++i) {
 			Ray r(Vec3f{}, viewVec(x, y, 0.0f, 0.0f));
-			up[i] = tracer->scene.trace(r, DEPTH_LIMIT, 1.0f);
+			up[i] = scene.trace(r, DEPTH_LIMIT, 1.0f);
 		}
 		do {
 			Ray r(Vec3f{}, viewVec(x0, y, 0.0, 1.0));
-			Color left = tracer->scene.trace(r, DEPTH_LIMIT, 1.0f);
+			Color left = scene.trace(r, DEPTH_LIMIT, 1.0f);
 			i = 0;
 			for (unsigned x = x0; x < x1; ++x, ++i) {
 				r = Ray(Vec3f{}, viewVec(x, y, 1.0, 1.0));
-				Color right = tracer->scene.trace(r, DEPTH_LIMIT, 1.0f);
+				Color right = scene.trace(r, DEPTH_LIMIT, 1.0f);
 				
 				Color c;
 				if ((up[i].dist(right) < 0.001f) && (up[i+1].dist(left) < 0.001f)) {
@@ -134,11 +134,11 @@ Tracer::blockTracer(Tracer *tracer)
 						float hx = halton(2, j + 1);
 						float hy = halton(3, j + 1);
 						r.d = viewVec(x, y, hx, hy);
-						c += tracer->scene.trace(r, DEPTH_LIMIT, 1.0f);
+						c += scene.trace(r, DEPTH_LIMIT, 1.0f);
 					}
 					c = c * (1.0f / SAMPLES);
 				}
-				tracer->img->setPixel(x, y, c);
+				img->setPixel(x, y, c);
 
 				up[i] = left;
 				left = right;
@@ -159,10 +159,9 @@ Tracer::getProgress(float *percent)
 }
 
 void
-Tracer::exec(const Scene &scene, Image *img, const char *fname, bool turbo)
+Tracer::exec(const char *fname, bool turbo)
 {
 	const int nthreads = std::thread::hardware_concurrency();
-	Vector<Tracer, 32> tracers;
 	Vector<std::thread, 32> threads;
 
 	next_block = 0;
@@ -172,10 +171,9 @@ Tracer::exec(const Scene &scene, Image *img, const char *fname, bool turbo)
 
 	fprintf(stderr, "Spawning %d threads...\n", nthreads);
 	for (int i = 0; i < nthreads; ++i) {
-		tracers.emplace_back(scene, img);
 		threads.emplace_back(
-			turbo ? Tracer::turboTracer : Tracer::blockTracer,
-			&tracers[i]
+			turbo ? &Tracer::turboTracer : &Tracer::blockTracer,
+			this
 		);
 	}
 
