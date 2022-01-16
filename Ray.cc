@@ -1,7 +1,7 @@
 #include "Image.h"
 #include "Targa.h"
 #include "Scene.h"
-#include "Tracer.h"
+#include "MultithreadedTracer.h"
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -27,7 +27,7 @@ main(int argc, char *argv[])
 	Scene scene(frame);
 	Targa img(WIDTH, HEIGHT);
 
-	Tracer tracer{scene, &img};
+	MultithreadedTracer tracer{scene, &img};
 #ifdef USE_HDR
 	fprintf(stderr, "Starting pass #1\n");
 	tracer.exec(FNAME, true);

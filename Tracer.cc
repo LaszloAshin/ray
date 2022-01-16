@@ -8,17 +8,8 @@
 
 #include <cstdio>
 #include <unistd.h>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
 
 using namespace std;
-
-static volatile int next_block;
-static int x_blocks, all_blocks;
-static volatile int done_blocks;
-static std::mutex mutex_block;
-static std::condition_variable cond;
 
 static float halton(int base, int n) {
 	float ret = 0.0f;
@@ -42,9 +33,9 @@ static Vec3f viewVec(int x0, int y0, float dx, float dy) {
 	).norm();
 }
 
-static int getNextBlock(void) {
-	std::unique_lock<std::mutex> lk{mutex_block};
+int Tracer::getNextBlock() {
 	int ret = next_block;
+	fprintf(stderr, "\r%5.2f%% ", float(done_blocks) * 100.0f / all_blocks);
 	if (ret < all_blocks) {
 		int y = next_block / x_blocks;
 		int x = next_block % x_blocks;
@@ -61,10 +52,6 @@ static int getNextBlock(void) {
 				--next_block;
 		}
 		++done_blocks;
-		if (done_blocks == all_blocks) {
-			lk.unlock();
-			cond.notify_one();
-		}
 	}
 	return ret;
 }
@@ -149,48 +136,25 @@ Tracer::blockTracer()
 	}
 }
 
-bool
-Tracer::getProgress(float *percent)
+void
+Tracer::consumeBlocks(bool turbo)
 {
-	if (percent) {
-		*percent = (float)done_blocks * 100.0f / all_blocks;
+	if (turbo) {
+		turboTracer();
+	} else {
+		blockTracer();
 	}
-	return next_block < all_blocks;
 }
 
 void
 Tracer::exec(const char *fname, bool turbo)
 {
-	const int nthreads = std::thread::hardware_concurrency();
-	Vector<std::thread, 32> threads;
-
 	next_block = 0;
 	done_blocks = 0;
 	x_blocks = (img->getWidth() + BLOCKSIZE - 1) / BLOCKSIZE;
 	all_blocks = ((img->getHeight() + BLOCKSIZE - 1) / BLOCKSIZE) * x_blocks;
 
-	fprintf(stderr, "Spawning %d threads...\n", nthreads);
-	for (int i = 0; i < nthreads; ++i) {
-		threads.emplace_back(
-			turbo ? &Tracer::turboTracer : &Tracer::blockTracer,
-			this
-		);
-	}
-
-	for (;;) {
-		std::unique_lock<std::mutex> lk(mutex_block);
-		float p;
-
-		if (!getProgress(&p)) break;
-
-		fprintf(stderr, "\r%5.2f%% ", p);
-		cond.wait_for(lk, std::chrono::seconds(1));
-		if (fname) img->write(fname);
-	}
-
-	for (int i = 0; i < nthreads; ++i) {
-		threads[i].join();
-	}
+	consumeBlocks(turbo);
 
 	if (fname) img->write(fname);
 }
