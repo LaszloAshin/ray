@@ -1,13 +1,13 @@
 PROGS = ray
 ray_OBJS += BaseObject.o
 ray_OBJS += Color.o
-ray_OBJS += Ellipsoid.o
 ray_OBJS += Image.o
 ray_OBJS += Light.o
 ray_OBJS += MultithreadedTracer.o
 ray_OBJS += Plane.o
 ray_OBJS += Ray.o
 ray_OBJS += Scene.o
+ray_OBJS += Spheroid.o
 ray_OBJS += Targa.o
 ray_OBJS += Tracer.o
 ray_OBJS += Vector.o

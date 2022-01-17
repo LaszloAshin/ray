@@ -1,9 +1,6 @@
 #include <cmath>
 #include "Scene.h"
 
-#include "Ellipsoid.h"
-#include "Plane.h"
-
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
@@ -28,7 +25,7 @@ Scene::Scene(int frame)
 		Color::gray08, 128.0f,
 		0.2f, 0.0f, 1.0f
 	});
-	ellipsoids.emplace_back(Vec3f(0.0f, 4.0f, -25.0f), glass, Vec3f{5.0f, 5.0f, 5.0f});
+	spheroids.emplace_back(Vec3f(0.0f, 4.0f, -25.0f), glass, 5.0f, 5.0f);
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina = sinf(angle);
@@ -43,10 +40,7 @@ Scene::Scene(int frame)
 		cosa = cosf(angle);
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
-		ellipsoids.emplace_back(
-			Vec3f(x, -4.0f, z - 25.0f),
-                        iron, Vec3f{5.0f, 2.0f, 5.0f}
-		);
+		spheroids.emplace_back(Vec3f(x, -4.0f, z - 25.0f), iron, 5.0f, 2.0f);
 	}
 	planes.emplace_back(Vec3f(0.0f, 1.0f, 0.0f), -4.5f, mirror);
 	planes.emplace_back(Vec3f(0.0f, -1.0f, 0.0f), -15.0f, mirror);
@@ -66,7 +60,7 @@ Scene::intersect(const Ray &ray) const
 	float t = 0.0f;
 	Vec3f normal;
 	const BaseObject* nearestObject = nullptr;
-	for (const auto& object : ellipsoids) {
+	for (const auto& object : spheroids) {
 		const auto [to, n] = object.intersect(ray);
 		if (to > 0.0f && (!nearestObject || to < t)) {
 			nearestObject = &object;
