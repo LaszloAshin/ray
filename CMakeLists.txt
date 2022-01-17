@@ -12,6 +12,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #CPPFLAGS += -ffunction-sections -fdata-sections
 #LDFLAGS += -Wl,--gc-sections
 add_definitions(-DHAVE_CONFIG_H)
+add_definitions(-D_USE_MATH_DEFINES)
 
 find_package(Threads)
 
