@@ -93,9 +93,9 @@ Targa::setPixel(unsigned x, unsigned y, Color c)
 	}
 	c.clamp();
 
-	data[offs++] = c.b * 255.0f;
-	data[offs++] = c.g * 255.0f;
-	data[offs] = c.r * 255.0f;
+	data[offs++] = static_cast<unsigned char>(c.b * 255.0f);
+	data[offs++] = static_cast<unsigned char>(c.g * 255.0f);
+	data[offs] = static_cast<unsigned char>(c.r * 255.0f);
 }
 
 void
