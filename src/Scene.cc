@@ -51,7 +51,7 @@ int
 Scene::addMaterial(Material material)
 {
 	materials.push_back(std::move(material));
-	return materials.size() - 1;
+	return static_cast<int>(materials.size() - 1);
 }
 
 std::tuple<const BaseObject*, float, Vec3f>

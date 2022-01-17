@@ -34,7 +34,7 @@ struct Vector {
 		const T& operator*() { return *p; }
 
 	private:
-		friend class Vector;
+		friend struct Vector;
 
 		ConstIterator(const T* p) : p{p} {}
 

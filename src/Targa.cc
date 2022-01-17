@@ -8,8 +8,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <fcntl.h>
-#include <unistd.h>
 
 Targa::Targa(unsigned width, unsigned height) :
 	Image(width, height),
@@ -22,19 +20,19 @@ Targa::Targa(unsigned width, unsigned height) :
 }
 
 struct File {
-	File(int fd) : fd{fd} {}
-	~File() { if (isValid()) close(fd); }
+	File(FILE* fp) : fp{fp} {}
+	~File() { if (isValid()) fclose(fp); }
 	File(const File&) = delete;
 	File& operator=(const File&) = delete;
 
-	bool isValid() const { return fd != -1; }
+	bool isValid() const { return fp != NULL; }
 
-	ssize_t write(const void* buf, size_t count) {
-		return ::write(fd, buf, count);
+	size_t write(const void* buf, size_t count) {
+		return fwrite(buf, count, 1, fp);
 	}
 
 private:
-	int fd;
+	FILE* fp;
 };
 
 void
@@ -43,7 +41,7 @@ Targa::write(const char *fname) const
 	unsigned char hd[18];
 	static const char magic[] = "\0\0\0\0\0\0\0\0TRUEVISION-XFILE.";
 
-	File f(open(fname, O_CREAT | O_WRONLY | O_TRUNC, 0644));
+	File f(fopen(fname, "wb"));
 	if (!f.isValid()) {
 		fprintf(stderr, "Targa::Write(): unable to open output file \"%s\"\n", fname);
 		return;
