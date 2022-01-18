@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642519689750,
+  "lastUpdate": 1642521785452,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -58,6 +58,40 @@ window.BENCHMARK_DATA = {
             "name": "Benchmark - Executable Size",
             "value": 30936,
             "unit": "Bytes"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "ec7567312ea6d1bf37dad8c38162b169c3d1c627",
+          "message": "Make sure valgrind is installed",
+          "timestamp": "2022-01-18T17:02:21+01:00",
+          "tree_id": "c855450a595172521338d411e5346a1356d1cff1",
+          "url": "https://github.com/LaszloAshin/ray/commit/ec7567312ea6d1bf37dad8c38162b169c3d1c627"
+        },
+        "date": 1642521784695,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 670925583,
+            "unit": "Cycles"
           }
         ]
       }
