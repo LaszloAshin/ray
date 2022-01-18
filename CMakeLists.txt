@@ -24,16 +24,12 @@ endif()
 add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D_USE_MATH_DEFINES)
 
-find_package(Threads)
-
-add_executable(ray
+add_library(libray
 	src/BaseObject.cc
 	src/Color.cc
 	src/Image.cc
 	src/Light.cc
-	src/MultithreadedTracer.cc
 	src/Plane.cc
-	src/Ray.cc
 	src/Scene.cc
 	src/Spheroid.cc
 	src/Targa.cc
@@ -42,4 +38,10 @@ add_executable(ray
 	src/VectorMath.cc
 )
 
-target_link_libraries(ray ${CMAKE_THREAD_LIBS_INIT})
+add_executable(ray-single src/MainSingle.cc)
+target_link_libraries(ray-single libray)
+
+find_package(Threads)
+
+add_executable(ray src/MainMulti.cc src/MultithreadedTracer.cc)
+target_link_libraries(ray libray ${CMAKE_THREAD_LIBS_INIT})
