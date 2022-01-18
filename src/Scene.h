@@ -9,13 +9,31 @@
 #include <memory>
 
 class Scene {
+	struct Intersection {
+		const BaseObject* nearestObject = nullptr;
+		float t = 0.0f;
+		Vec3f normal;
+
+		template <class Objects>
+		void addObjects(const Ray& ray, const Objects& objects) {
+			for (const auto& object : objects) {
+				const auto [to, n] = object.intersect(ray);
+				if (to > 0.0f && (nearestObject == nullptr || to < t)) {
+					nearestObject = &object;
+					t = to;
+					normal = n;
+				}
+			}
+		}
+	};
+
 	Vector<Light, 8> lights;
 	Vector<Material, 4> materials;
 	Vector<Spheroid, 8> spheroids;
 	Vector<Plane, 2> planes;
 
 	int addMaterial(Material material);
-	std::tuple<const BaseObject*, float, Vec3f> intersect(const Ray &r) const;
+	Intersection intersect(const Ray &r) const;
 
 public:
 	Scene(int frame);

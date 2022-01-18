@@ -54,29 +54,13 @@ Scene::addMaterial(Material material)
 	return static_cast<int>(materials.size() - 1);
 }
 
-std::tuple<const BaseObject*, float, Vec3f>
+Scene::Intersection
 Scene::intersect(const Ray &ray) const
 {
-	float t = 0.0f;
-	Vec3f normal;
-	const BaseObject* nearestObject = nullptr;
-	for (const auto& object : spheroids) {
-		const auto [to, n] = object.intersect(ray);
-		if (to > 0.0f && (!nearestObject || to < t)) {
-			nearestObject = &object;
-			t = to;
-			normal = n;
-		}
-	}
-	for (const auto& object : planes) {
-		const auto [to, n] = object.intersect(ray);
-		if (to > 0.0f && (!nearestObject || to < t)) {
-			nearestObject = &object;
-			t = to;
-			normal = n;
-		}
-	}
-	return std::make_tuple(nearestObject, t, normal);
+	Intersection result;
+	result.addObjects(ray, spheroids);
+	result.addObjects(ray, planes);
+	return result;
 }
 
 Color
