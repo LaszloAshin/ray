@@ -27,10 +27,11 @@ public:
 	std::tuple<float, Vec3f> intersect(const Ray &r) const {
 		const Vec3f s{r.s - pos};
 		const Vec3f d{r.d};
+		const float a = (d.x * d.x + d.z * d.z) * ry2 + d.y * d.y * rxz2;
 		const float m1 = d.x * s.y - d.y * s.x;
 		const float m2 = d.x * s.z - d.z * s.x;
 		const float m3 = d.y * s.z - d.z * s.y;
-		const float Dlhs = rxz2 * (ry2 * (d.x * d.x + d.z * d.z) + rxz2 * d.y * d.y);
+		const float Dlhs = rxz2 * a;
 		const float Drhs = ry2 * m2 * m2 + rxz2 * (m1 * m1 + m3 * m3);
 		if (Dlhs < Drhs) return std::make_tuple(-1.0f, Vec3f{});
 
@@ -41,7 +42,6 @@ public:
 		float t0 = minusb - Dsqrt;
 		if (t0 < 0.0f) t0 = t1;
 
-		const float a = (d.x * d.x + d.z * d.z) * ry2 + d.y * d.y * rxz2;
 		t0 /= a;
 
 		const Vec3f mp = r.s + r.d * t0;
