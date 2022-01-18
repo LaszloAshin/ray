@@ -12,7 +12,11 @@ else()
 	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 
 	add_compile_options(-ffunction-sections -fdata-sections)
-	add_link_options(-Wl,--gc-sections)
+	if(APPLE)
+		add_link_options(-Wl,-dead_strip)
+	else()
+		add_link_options(-Wl,--gc-sections -Wl,--as-needed)
+	endif()
 endif()
 
 #add_compile_options(-march=native)
