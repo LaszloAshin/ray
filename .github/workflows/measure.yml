@@ -28,7 +28,10 @@ jobs:
 
     - name: Test
       working-directory: ${{github.workspace}}/build
-      run: ../benchmark.sh > output.txt
+      run: |
+        sudo apt update
+        sudo apt install --yes valgrind
+        ../benchmark.sh > output.txt
 
     # gh-pages branch is updated and pushed automatically with extracted benchmark data
     - name: Store benchmark result
