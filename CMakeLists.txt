@@ -8,8 +8,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(MSVC)
 	add_compile_options(/W4 /WX)
+	add_compile_options(/GX- /GR-)
 else()
 	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+	add_compile_options(-fno-exceptions -fno-rtti)
 
 	add_compile_options(-ffunction-sections -fdata-sections)
 	if(APPLE)
@@ -19,8 +21,6 @@ else()
 	endif()
 endif()
 
-#add_compile_options(-march=native)
-#CXXFLAGS += -fno-exceptions -fno-rtti
 add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D_USE_MATH_DEFINES)
 
