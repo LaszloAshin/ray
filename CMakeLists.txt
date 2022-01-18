@@ -48,5 +48,5 @@ target_link_libraries(ray-single libray)
 
 find_package(Threads)
 
-add_executable(ray src/MainMulti.cc src/MultithreadedTracer.cc)
+add_executable(ray src/MainMulti.cc)
 target_link_libraries(ray libray ${CMAKE_THREAD_LIBS_INIT})
