@@ -1,9 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Targa.h"
 
-#ifdef HAVE_CONFIG_H
-# include "config.h"
-#endif
+#include "config.h"
 
 #include <cmath>
 #include <cstdio>

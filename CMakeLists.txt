@@ -21,8 +21,13 @@ else()
 	endif()
 endif()
 
-add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D_USE_MATH_DEFINES)
+
+set(DEFAULT_WIDTH "1280" CACHE STRING "Width of the image the raytracer generates")
+set(DEFAULT_HEIGHT "800" CACHE STRING "Height of the image the raytracer generates")
+
+configure_file(src/config.h.in config.h @ONLY)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(libray
 	src/BaseObject.cc
