@@ -6,11 +6,17 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-#add_compile_options(-Wall -Wextra -pedantic -Werror)
-#add_compile_options(-O3 -march=native)
+if(MSVC)
+	add_compile_options(/W4 /WX)
+else()
+	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+
+	add_compile_options(-ffunction-sections -fdata-sections)
+	add_link_options(-Wl,--gc-sections)
+endif()
+
+#add_compile_options(-march=native)
 #CXXFLAGS += -fno-exceptions -fno-rtti
-#CPPFLAGS += -ffunction-sections -fdata-sections
-#LDFLAGS += -Wl,--gc-sections
 add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D_USE_MATH_DEFINES)
 
