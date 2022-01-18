@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642521785452,
+  "lastUpdate": 1642543364652,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -81,6 +81,40 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/ec7567312ea6d1bf37dad8c38162b169c3d1c627"
         },
         "date": 1642521784695,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 670925583,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "8e78c4a5ec63f5c013d338d54b43d7ae67bc850b",
+          "message": "Merge MultithreadedTracer into MainMulti",
+          "timestamp": "2022-01-18T23:01:10+01:00",
+          "tree_id": "b6cf007616120cdde744e14772b8c978a1f1ee6a",
+          "url": "https://github.com/LaszloAshin/ray/commit/8e78c4a5ec63f5c013d338d54b43d7ae67bc850b"
+        },
+        "date": 1642543364185,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
