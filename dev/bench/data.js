@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642585609311,
+  "lastUpdate": 1642587296812,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -193,6 +193,40 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 670805958,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "2c5aea99eee45c56df8f0fbfc5d31aff44a7fe06",
+          "message": "Use netpbm instead of targe as output format",
+          "timestamp": "2022-01-19T11:13:13+01:00",
+          "tree_id": "1c788e7d26d17b4dbe81c852e25af3acfe8059d0",
+          "url": "https://github.com/LaszloAshin/ray/commit/2c5aea99eee45c56df8f0fbfc5d31aff44a7fe06"
+        },
+        "date": 1642587296297,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 670810542,
             "unit": "Cycles"
           }
         ]
