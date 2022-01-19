@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642624991882,
+  "lastUpdate": 1642625035869,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -465,6 +465,40 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 516985993,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "752c6d8db68c2e5f191e4bde485740109bb5bc59",
+          "message": "Make color ctors constexpr\n\nThis helps to put static colors to the read-only section.",
+          "timestamp": "2022-01-19T21:42:55+01:00",
+          "tree_id": "656b87b4850a7d475c099fa0bdb95196ad96c682",
+          "url": "https://github.com/LaszloAshin/ray/commit/752c6d8db68c2e5f191e4bde485740109bb5bc59"
+        },
+        "date": 1642625035030,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 517012914,
             "unit": "Cycles"
           }
         ]
