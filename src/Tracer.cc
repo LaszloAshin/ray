@@ -31,26 +31,9 @@ static Vec3f viewVec(int x0, int y0, float dx, float dy) {
 }
 
 int Tracer::getNextBlock() {
-	int ret = next_block;
-	fprintf(stderr, "\r%5.2f%% ", float(done_blocks) * 100.0f / all_blocks);
-	if (ret < all_blocks) {
-		int y = next_block / x_blocks;
-		int x = next_block % x_blocks;
-
-		if (!(y & 1)) {
-			if (x + 1 == x_blocks)
-				next_block += x_blocks;
-			else
-				++next_block;
-		} else {
-			if (!x)
-				next_block += x_blocks;
-			else
-				--next_block;
-		}
-		++done_blocks;
-	}
-	return ret;
+	next_block = std::min(blocks.all_blocks, next_block + 1);
+	fprintf(stderr, "\r%5.2f%% ", float(next_block) * 100.0f / blocks.all_blocks);
+	return next_block;
 }
 
 void
@@ -58,23 +41,15 @@ Tracer::turboTracer()
 {
 	int block;
 
-	while ((block = getNextBlock()) < all_blocks) {
-		unsigned y  = (block / x_blocks) * BLOCKSIZE;
-		unsigned x0 = (block % x_blocks) * BLOCKSIZE;
-		unsigned x1 = x0 + BLOCKSIZE;
-		unsigned y1 = y + BLOCKSIZE;
-		if (x1 > img->getWidth())
-			x1 = img->getWidth();
-		if (y1 > img->getHeight())
-			y1 = img->getHeight();
+	while ((block = getNextBlock()) < blocks.all_blocks) {
+		const auto b = blocks.get(*img, block);
 
-		do {
-			for (unsigned x = x0; x < x1; ++x) {
+		for (int y = b.y0; y < b.y1; ++y) {
+			for (int x = b.x0; x < b.x1; ++x) {
 				Ray r(Vec3f{}, viewVec(x, y, 0.5f, 0.5f));
 				img->setPixel(x, y, scene.trace(r, DEPTH_LIMIT, 1.0f));
 			}
-		} while (++y < y1);
-
+		}
 	}
 }
 
@@ -83,30 +58,19 @@ Tracer::blockTracer()
 {
 	int block;
 
-	while ((block = getNextBlock()) < all_blocks) {
-		unsigned y  = (block / x_blocks) * BLOCKSIZE;
-		unsigned x0 = (block % x_blocks) * BLOCKSIZE;
-		unsigned x1 = x0 + BLOCKSIZE;
-		unsigned y1 = y + BLOCKSIZE;
+	while ((block = getNextBlock()) < blocks.all_blocks) {
+		const auto b = blocks.get(*img, block);
 
-		if (x1 > img->getWidth()) {
-			x1 = img->getWidth();
-		}
-		if (y1 > img->getHeight()) {
-			y1 = img->getHeight();
-		}
-
-		Color up[BLOCKSIZE + 1];
-		int i = 0;
-		for (unsigned x = x0; x <= x1; ++x, ++i) {
-			Ray r(Vec3f{}, viewVec(x, y, 0.0f, 0.0f));
+		Color up[MyBlocks::blockSize() + 1];
+		for (int x = b.x0, i = 0; x <= b.x1; ++x, ++i) {
+			Ray r(Vec3f{}, viewVec(x, b.y0, 0.0f, 0.0f));
 			up[i] = scene.trace(r, DEPTH_LIMIT, 1.0f);
 		}
-		do {
-			Ray r(Vec3f{}, viewVec(x0, y, 0.0, 1.0));
+		for (int y = b.y0; y < b.y1; ++y) {
+			Ray r(Vec3f{}, viewVec(b.x0, y, 0.0, 1.0));
 			Color left = scene.trace(r, DEPTH_LIMIT, 1.0f);
-			i = 0;
-			for (unsigned x = x0; x < x1; ++x, ++i) {
+			int i = 0;
+			for (int x = b.x0; x < b.x1; ++x, ++i) {
 				r = Ray(Vec3f{}, viewVec(x, y, 1.0, 1.0));
 				Color right = scene.trace(r, DEPTH_LIMIT, 1.0f);
 				
@@ -128,7 +92,7 @@ Tracer::blockTracer()
 				left = right;
 			}
 			up[i] = left;
-		} while (++y < y1);
+		}
 
 	}
 }
@@ -147,9 +111,6 @@ void
 Tracer::exec(const char *fname, bool turbo)
 {
 	next_block = 0;
-	done_blocks = 0;
-	x_blocks = (img->getWidth() + BLOCKSIZE - 1) / BLOCKSIZE;
-	all_blocks = ((img->getHeight() + BLOCKSIZE - 1) / BLOCKSIZE) * x_blocks;
 
 	consumeBlocks(turbo);
 

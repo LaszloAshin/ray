@@ -7,8 +7,6 @@
 // number of samples per pixel
 #define SAMPLES		16
 
-#define BLOCKSIZE	32
-
 #define EPSILON		0.001f
 
 // depth limit of tracer recursion

@@ -30,7 +30,7 @@ Image::setPixel(int x, int y, Color c)
 	assert(offs < data.size());
 	c.clamp();
 
-	data[offs++] = static_cast<unsigned char>(c.r * 255.0f);
-	data[offs++] = static_cast<unsigned char>(c.g * 255.0f);
-	data[offs] = static_cast<unsigned char>(c.b * 255.0f);
+	data[offs++] = static_cast<uint8_t>(c.r * 255.0f);
+	data[offs++] = static_cast<uint8_t>(c.g * 255.0f);
+	data[offs] = static_cast<uint8_t>(c.b * 255.0f);
 }

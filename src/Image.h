@@ -11,8 +11,8 @@ struct Image {
 	void write(const char* fname) const;
 	void setPixel(int x, int y, Color c);
 
-	unsigned getWidth() const { return width; }
-	unsigned getHeight() const { return static_cast<int>(data.size()) / (width * 3); }
+	int getWidth() const { return width; }
+	int getHeight() const { return static_cast<int>(data.size()) / (width * 3); }
 
 private:
 	std::vector<uint8_t> data;
