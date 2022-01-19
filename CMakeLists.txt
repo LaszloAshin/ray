@@ -14,6 +14,7 @@ else()
 	add_compile_options(-fno-exceptions -fno-rtti)
 	add_compile_options(-fno-asynchronous-unwind-tables)
 	add_compile_options(-fno-align-functions)
+	add_compile_options(-ffast-math)
 
 	add_compile_options(-ffunction-sections -fdata-sections)
 	if(APPLE)
