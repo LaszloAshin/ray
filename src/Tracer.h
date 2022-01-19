@@ -6,6 +6,7 @@
 template <int BlockSize>
 struct Blocks {
 	int x_blocks, all_blocks;
+	volatile int next_block{};
 
 	Blocks(const Image& img)
 	: x_blocks{(img.getWidth() + BlockSize - 1) / BlockSize}
@@ -22,9 +23,20 @@ struct Blocks {
 		, x1{std::min(x0 + BlockSize, img.getWidth())}
 		, y1{std::min(y0 + BlockSize, img.getHeight())}
 		{}
+
+		operator bool() const { return x0 < x1 && y0 < y1; }
 	};
 
-	Block get(const Image& img, int i) const { return Block{*this, img, i}; }
+	void reset() { next_block = 0; }
+
+	Block next(const Image& img) {
+		int result = next_block;
+		next_block = std::min(all_blocks, next_block + 1);
+		return Block{*this, img, result};
+	}
+
+	float progress() const { return static_cast<float>(next_block) / all_blocks; }
+
 	static constexpr int blockSize() { return BlockSize; }
 };
 
@@ -34,17 +46,16 @@ struct Tracer {
 	void exec(const char *fname, bool turbo=false);
 
 protected:
-	virtual int getNextBlock();
+	using MyBlocks = Blocks<32>;
+
+	virtual MyBlocks::Block getNextBlock();
 	virtual void consumeBlocks(bool turbo);
 
 private:
-	using MyBlocks = Blocks<32>;
-
 	void turboTracer();
 	void blockTracer();
 
 	const Scene &scene;
 	Image *img;
 	MyBlocks blocks;
-	volatile int next_block;
 };

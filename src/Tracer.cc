@@ -30,20 +30,15 @@ static Vec3f viewVec(int x0, int y0, float dx, float dy) {
 	).norm();
 }
 
-int Tracer::getNextBlock() {
-	next_block = std::min(blocks.all_blocks, next_block + 1);
-	fprintf(stderr, "\r%5.2f%% ", float(next_block) * 100.0f / blocks.all_blocks);
-	return next_block;
+Tracer::MyBlocks::Block Tracer::getNextBlock() {
+	fprintf(stderr, "\r%5.2f%% ", blocks.progress() * 100.0f);
+	return blocks.next(*img);
 }
 
 void
 Tracer::turboTracer()
 {
-	int block;
-
-	while ((block = getNextBlock()) < blocks.all_blocks) {
-		const auto b = blocks.get(*img, block);
-
+	while (const auto b = getNextBlock()) {
 		for (int y = b.y0; y < b.y1; ++y) {
 			for (int x = b.x0; x < b.x1; ++x) {
 				Ray r(Vec3f{}, viewVec(x, y, 0.5f, 0.5f));
@@ -56,11 +51,7 @@ Tracer::turboTracer()
 void
 Tracer::blockTracer()
 {
-	int block;
-
-	while ((block = getNextBlock()) < blocks.all_blocks) {
-		const auto b = blocks.get(*img, block);
-
+	while (const auto b = getNextBlock()) {
 		Color up[MyBlocks::blockSize() + 1];
 		for (int x = b.x0, i = 0; x <= b.x1; ++x, ++i) {
 			Ray r(Vec3f{}, viewVec(x, b.y0, 0.0f, 0.0f));
@@ -110,7 +101,7 @@ Tracer::consumeBlocks(bool turbo)
 void
 Tracer::exec(const char *fname, bool turbo)
 {
-	next_block = 0;
+	blocks.reset();
 
 	consumeBlocks(turbo);
 
