@@ -15,7 +15,6 @@ public:
 
 	virtual void write(const char *fname) const = 0;
 	virtual void setPixel(unsigned x, unsigned y, Color c) = 0;
-	virtual void computeCorrection(void) = 0;
 
 	unsigned getWidth(void) { return width; }
 	unsigned getHeight(void) { return height; }
