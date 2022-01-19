@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642626170337,
+  "lastUpdate": 1642626188740,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -533,6 +533,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - text Size",
             "value": 17911,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 832,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 16,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 517014143,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "825c53744319550b8b532d75c53ff571d4e4b729",
+          "message": "Disable async unwind tables",
+          "timestamp": "2022-01-19T22:02:02+01:00",
+          "tree_id": "33e43ce51b79de0e4066e9e2b1ccea9df9e3c47d",
+          "url": "https://github.com/LaszloAshin/ray/commit/825c53744319550b8b532d75c53ff571d4e4b729"
+        },
+        "date": 1642626187938,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 17087,
             "unit": "Bytes"
           },
           {
