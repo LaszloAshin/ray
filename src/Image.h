@@ -12,7 +12,7 @@ struct Image {
 	void setPixel(int x, int y, Color c);
 
 	unsigned getWidth() const { return width; }
-	unsigned getHeight() const { return data.size() / (width * 3); }
+	unsigned getHeight() const { return static_cast<int>(data.size()) / (width * 3); }
 
 private:
 	std::vector<uint8_t> data;
