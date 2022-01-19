@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642602278694,
+  "lastUpdate": 1642602524910,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -397,6 +397,40 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 670800489,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "9918b992408f2252623c476ffd38b23d68cf58d6",
+          "message": "Revert \"Use blocks for iteration\"\n\nThis reverts commit 8e2848b4446acf8fbf6a3e32abd3a3bcd3b1127f.\nReason: this commit introduced a performance degradation\nregarding to cachegrind.",
+          "timestamp": "2022-01-19T15:27:30+01:00",
+          "tree_id": "22ad2d859ba3e243977c7ac1828f3bac2a2794fa",
+          "url": "https://github.com/LaszloAshin/ray/commit/9918b992408f2252623c476ffd38b23d68cf58d6"
+        },
+        "date": 1642602524446,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 516985122,
             "unit": "Cycles"
           }
         ]
