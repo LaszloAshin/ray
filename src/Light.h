@@ -1,6 +1,6 @@
 #pragma once
 
-#include "VectorMath.h"
+#include "Geometry.h"
 #include "Color.h"
 
 class Light {

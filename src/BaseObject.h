@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Color.h"
-#include "VectorMath.h"
+#include "Geometry.h"
 
 #include "config.h"
 

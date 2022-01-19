@@ -32,6 +32,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_library(libray
 	src/BaseObject.cc
 	src/Color.cc
+	src/Geometry.cc
 	src/Image.cc
 	src/Light.cc
 	src/Plane.cc
@@ -40,7 +41,6 @@ add_library(libray
 	src/Targa.cc
 	src/Tracer.cc
 	src/Vector.cc
-	src/VectorMath.cc
 )
 
 add_executable(ray-single src/MainSingle.cc)

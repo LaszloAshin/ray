@@ -1,7 +1,7 @@
 #pragma once
 
-#include "VectorMath.h"
 #include "BaseObject.h"
+#include "Geometry.h"
 
 #include <cassert>
 #include <cmath>
