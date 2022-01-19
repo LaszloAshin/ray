@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642602524910,
+  "lastUpdate": 1642624991882,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -431,6 +431,40 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 516985122,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "c6529150f89300adac77fbba83338b36f68f2922",
+          "message": "Remove unneded virtual dtor\n\nBaseObject is not used in a context where it would be needed.",
+          "timestamp": "2022-01-19T21:39:16+01:00",
+          "tree_id": "d8004fce8e5866c1433edb45ab9e83597883924a",
+          "url": "https://github.com/LaszloAshin/ray/commit/c6529150f89300adac77fbba83338b36f68f2922"
+        },
+        "date": 1642624991093,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 516985993,
             "unit": "Cycles"
           }
         ]
