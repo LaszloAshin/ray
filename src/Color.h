@@ -3,13 +3,14 @@
 #include <algorithm> // clamp
 
 struct Color {
-	float r, g, b;
+	float r{}, g{}, b{};
 
 	static const Color gray01, gray02, gray03, gray04;
 	static const Color gray05, gray06, gray07, gray08, gray09;
 	static const Color black, white, red, green, blue;
 
-	Color(float r = 0.0f, float g = 0.0f, float b = 0.0f) : r{r}, g{g}, b{b} {}
+	constexpr Color() {}
+	constexpr Color(float r, float g, float b) : r{r}, g{g}, b{b} {}
 
 	void clamp() {
 		r = std::clamp(r, 0.0f, 1.0f);
