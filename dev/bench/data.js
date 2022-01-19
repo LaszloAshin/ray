@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642587296812,
+  "lastUpdate": 1642587775413,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -227,6 +227,40 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 670810542,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "9ba33e6891c6243665b515b3b8c5456d8b4defac",
+          "message": "Fix possible loss of precision warning of msvc",
+          "timestamp": "2022-01-19T11:21:41+01:00",
+          "tree_id": "6b5fa8b848dae27f816f5f4205f472156d0652d4",
+          "url": "https://github.com/LaszloAshin/ray/commit/9ba33e6891c6243665b515b3b8c5456d8b4defac"
+        },
+        "date": 1642587774817,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 670808895,
             "unit": "Cycles"
           }
         ]
