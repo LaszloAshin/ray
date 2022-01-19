@@ -46,18 +46,12 @@ public:
 	bool isRefractive() const { return kt > EPSILON; }
 };
 
-class BaseObject {
-public:
+struct BaseObject {
 	Vec3f pos;
 	int mater;
 
 	BaseObject() {}
-
-	BaseObject(const Vec3f &p, int m) : pos(p), mater(m)
-	{
-	}
-
-	virtual ~BaseObject() {}
+	BaseObject(const Vec3f &p, int m) : pos(p), mater(m) {}
 
 	virtual Color texelAt(const Vec3f &) const { return Color::white; }
 };
