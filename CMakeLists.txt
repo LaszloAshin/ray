@@ -38,7 +38,6 @@ add_library(libray
 	src/Plane.cc
 	src/Scene.cc
 	src/Spheroid.cc
-	src/Targa.cc
 	src/Tracer.cc
 	src/Vector.cc
 )

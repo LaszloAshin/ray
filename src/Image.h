@@ -2,21 +2,19 @@
 
 #include "Color.h"
 
-class Image {
+#include <cstdint>
+#include <vector>
 
-protected:
+struct Image {
+	Image(int width, int height) : data(width * height * 3), width{width} {}
 
-	unsigned width, height;
+	void write(const char* fname) const;
+	void setPixel(int x, int y, Color c);
 
-public:
+	unsigned getWidth() const { return width; }
+	unsigned getHeight() const { return data.size() / (width * 3); }
 
-	Image(unsigned w, unsigned h) : width(w), height(h) {}
-	virtual ~Image() {}
-
-	virtual void write(const char *fname) const = 0;
-	virtual void setPixel(unsigned x, unsigned y, Color c) = 0;
-
-	unsigned getWidth(void) { return width; }
-	unsigned getHeight(void) { return height; }
-
+private:
+	std::vector<uint8_t> data;
+	int width;
 };

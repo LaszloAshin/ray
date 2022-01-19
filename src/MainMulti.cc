@@ -1,5 +1,5 @@
+#include "Image.h"
 #include "Scene.h"
-#include "Targa.h"
 #include "Tracer.h"
 #include "Vector.h"
 
@@ -46,6 +46,6 @@ main(int argc, char *argv[])
 		fprintf(stderr, "frame: %d\n", frame);
 	}
 	Scene scene(frame);
-	Targa img(WIDTH, HEIGHT);
-	MultithreadedTracer{scene, &img}.exec("tracement.tga");
+	Image img(WIDTH, HEIGHT);
+	MultithreadedTracer{scene, &img}.exec("tracement.ppm");
 }

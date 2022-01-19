@@ -1,4 +1,4 @@
-#include "Targa.h"
+#include "Image.h"
 #include "Scene.h"
 #include "Tracer.h"
 
@@ -7,6 +7,6 @@
 int
 main()
 {
-	Targa img(WIDTH, HEIGHT);
-	Tracer{Scene{0}, &img}.exec("tracement.tga");
+	Image img(WIDTH, HEIGHT);
+	Tracer{Scene{0}, &img}.exec("tracement.ppm");
 }
