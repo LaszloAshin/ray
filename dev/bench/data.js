@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642601825481,
+  "lastUpdate": 1642602278694,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -353,6 +353,40 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/0eb12bb277debb8849fe2086ddc5251cd0e4572c"
         },
         "date": 1642601825045,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 670800489,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "b40b57e3135fc9a0f260386ec35b52991891638f",
+          "message": "Silence msvc warnings about getenv usage",
+          "timestamp": "2022-01-19T15:23:27+01:00",
+          "tree_id": "122e54386d6e4a299dab8c9e220858909508ad2f",
+          "url": "https://github.com/LaszloAshin/ray/commit/b40b57e3135fc9a0f260386ec35b52991891638f"
+        },
+        "date": 1642602278180,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
