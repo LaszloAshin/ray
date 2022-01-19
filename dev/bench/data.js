@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642584223526,
+  "lastUpdate": 1642585609311,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -159,6 +159,40 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 670925583,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "d89811180dbba6ef1ec133b086af4782f1e2a290",
+          "message": "Drop some dead code",
+          "timestamp": "2022-01-19T10:45:10+01:00",
+          "tree_id": "472f73516cebd193ab597b380f3934fde3c5bd12",
+          "url": "https://github.com/LaszloAshin/ray/commit/d89811180dbba6ef1ec133b086af4782f1e2a290"
+        },
+        "date": 1642585608879,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 670805958,
             "unit": "Cycles"
           }
         ]
