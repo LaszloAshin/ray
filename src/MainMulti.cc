@@ -15,7 +15,7 @@ struct MultithreadedTracer : public Tracer {
 	using Tracer::Tracer;
 
 private:
-	MyBlocks::Block getNextBlock() override {
+	int getNextBlock() override {
 		std::unique_lock<std::mutex> lk{mutex_block};
 		return Tracer::getNextBlock();
 	}

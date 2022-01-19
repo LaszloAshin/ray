@@ -26,15 +26,20 @@ Vec3f Tracer::viewVec(int x0, int y0, float dx, float dy) const {
 	return Vec3f(x * invwhalf - 1.0f, (hhalf - y) * invwhalf, -0.5f).norm();
 }
 
-Tracer::MyBlocks::Block Tracer::getNextBlock() {
-	fprintf(stderr, "\r%5.2f%% ", blocks.progress() * 100.0f);
-	return blocks.next(*img);
+int Tracer::getNextBlock() {
+	next_block = std::min(blocks.all_blocks, next_block + 1);
+	fprintf(stderr, "\r%5.2f%% ", float(next_block) * 100.0f / blocks.all_blocks);
+	return next_block;
 }
 
 void
 Tracer::turboTracer()
 {
-	while (const auto b = getNextBlock()) {
+	int block;
+
+	while ((block = getNextBlock()) < blocks.all_blocks) {
+		const auto b = blocks.get(*img, block);
+
 		for (int y = b.y0; y < b.y1; ++y) {
 			for (int x = b.x0; x < b.x1; ++x) {
 				Ray r(Vec3f{}, viewVec(x, y, 0.5f, 0.5f));
@@ -47,7 +52,11 @@ Tracer::turboTracer()
 void
 Tracer::blockTracer()
 {
-	while (const auto b = getNextBlock()) {
+	int block;
+
+	while ((block = getNextBlock()) < blocks.all_blocks) {
+		const auto b = blocks.get(*img, block);
+
 		Color up[MyBlocks::blockSize() + 1];
 		for (int x = b.x0, i = 0; x <= b.x1; ++x, ++i) {
 			Ray r(Vec3f{}, viewVec(x, b.y0, 0.0f, 0.0f));
@@ -97,7 +106,7 @@ Tracer::consumeBlocks(bool turbo)
 void
 Tracer::exec(const char *fname, bool turbo)
 {
-	blocks.reset();
+	next_block = 0;
 
 	consumeBlocks(turbo);
 
