@@ -41,7 +41,13 @@ struct Blocks {
 };
 
 struct Tracer {
-	Tracer(const Scene &s, Image *i) : scene{s}, img{i}, blocks{*i} {}
+	Tracer(const Scene &s, Image *i)
+	: scene{s}
+	, img{i}
+	, blocks{*i}
+	, invwhalf{1.0f / (i->getWidth() / 2.0f)}
+	, hhalf{i->getHeight() / 2.0f}
+	{}
 
 	void exec(const char *fname, bool turbo=false);
 
@@ -52,10 +58,13 @@ protected:
 	virtual void consumeBlocks(bool turbo);
 
 private:
+	Vec3f viewVec(int x0, int y0, float dx, float dy) const;
 	void turboTracer();
 	void blockTracer();
 
 	const Scene &scene;
 	Image *img;
 	MyBlocks blocks;
+	float invwhalf;
+	float hhalf;
 };

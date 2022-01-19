@@ -20,14 +20,10 @@ static float halton(int base, int n) {
 	return ret;
 }
 
-static Vec3f viewVec(int x0, int y0, float dx, float dy) {
+Vec3f Tracer::viewVec(int x0, int y0, float dx, float dy) const {
 	float x = dx + x0;
 	float y = dy + y0;
-	return Vec3f(
-		(x / (WIDTH / 2.0f)) - 1.0f,
-		((HEIGHT / 2.0f) - y) / (WIDTH / 2.0f),
-		-0.5f
-	).norm();
+	return Vec3f(x * invwhalf - 1.0f, (hhalf - y) * invwhalf, -0.5f).norm();
 }
 
 Tracer::MyBlocks::Block Tracer::getNextBlock() {
