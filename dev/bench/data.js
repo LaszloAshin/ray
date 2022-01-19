@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642628002045,
+  "lastUpdate": 1642628275190,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -646,6 +646,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 517014062,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "3a9980ff4a4e9d00f01d2951668c0835c5bdccd3",
+          "message": "Reduce size by not aligning functions",
+          "timestamp": "2022-01-19T22:36:18+01:00",
+          "tree_id": "af5ce006a3b727d3d648d4579beb0805c10af9dc",
+          "url": "https://github.com/LaszloAshin/ray/commit/3a9980ff4a4e9d00f01d2951668c0835c5bdccd3"
+        },
+        "date": 1642628273806,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30936,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 16663,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 832,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 16,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 517014044,
             "unit": "Cycles"
           }
         ]
