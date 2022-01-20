@@ -19,9 +19,9 @@ public:
 		assert(fabs(r) > EPSILON);
 	}
 
-	std::tuple<float, Vec3f> intersect(const Ray &r) const {
-		const Vec3f s{r.s - pos};
-		const Vec3f d{r.d};
+	std::tuple<float, Vec3f> intersect(const Ray &ray) const {
+		const Vec3f s{ray.s - pos};
+		const Vec3f d{ray.d};
 		const float a = d.x * d.x + d.z * d.z + d.y * d.y;
 		const float m1 = d.x * s.y - d.y * s.x;
 		const float m2 = d.x * s.z - d.z * s.x;
@@ -39,7 +39,7 @@ public:
 
 		t0 /= a;
 
-		const Vec3f mp = r.s + r.d * t0;
+		const Vec3f mp = ray.s + ray.d * t0;
 		Vec3f N = (mp - this->pos) * 2.0f;
 		N.x /= r2;
 		N.y /= r2;
