@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Color.h"
+#include "Sphere.h"
 #include "Spheroid.h"
 #include "Light.h"
 #include "Plane.h"
@@ -29,6 +30,7 @@ class Scene {
 
 	Vector<Light, 8> lights;
 	Vector<Material, 4> materials;
+	Vector<Sphere, 1> spheres;
 	Vector<Spheroid, 8> spheroids;
 	Vector<Plane, 2> planes;
 

@@ -41,6 +41,7 @@ add_library(libray
 	src/Light.cc
 	src/Plane.cc
 	src/Scene.cc
+	src/Sphere.cc
 	src/Spheroid.cc
 	src/Tracer.cc
 	src/Vector.cc

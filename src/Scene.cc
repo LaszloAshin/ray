@@ -23,7 +23,7 @@ Scene::Scene(int frame)
 		Color::gray08, 128.0f,
 		0.2f, 0.0f, 1.0f
 	});
-	spheroids.emplace_back(Vec3f(0.0f, 4.0f, -25.0f), glass, 5.0f, 5.0f);
+	spheres.emplace_back(Vec3f(0.0f, 4.0f, -25.0f), glass, 5.0f);
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina = sinf(angle);
@@ -56,6 +56,7 @@ Scene::Intersection
 Scene::intersect(const Ray &ray) const
 {
 	Intersection result;
+	result.addObjects(ray, spheres);
 	result.addObjects(ray, spheroids);
 	result.addObjects(ray, planes);
 	return result;
