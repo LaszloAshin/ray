@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642691511471,
+  "lastUpdate": 1642693728309,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -842,6 +842,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 481889848,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "32d642671713ea7289d2f829d9a893b128d8f4ae",
+          "message": "Handle sphere as a sphere instead of a spheroid",
+          "timestamp": "2022-01-20T16:47:26+01:00",
+          "tree_id": "a6607e67c5a4a94d8fd26e9dcc27960fd3eb9e7f",
+          "url": "https://github.com/LaszloAshin/ray/commit/32d642671713ea7289d2f829d9a893b128d8f4ae"
+        },
+        "date": 1642693727596,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30848,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 16164,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 848,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 16,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 495680320,
             "unit": "Cycles"
           }
         ]
