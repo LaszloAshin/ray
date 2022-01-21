@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(ray VERSION 0.0.1)
+project(ray VERSION 0.0.1 LANGUAGES CXX ASM)
 enable_testing()
 
 set(CMAKE_CXX_STANDARD 17)
@@ -22,6 +22,7 @@ else()
 	else()
 		add_link_options(-Wl,--gc-sections -Wl,--as-needed)
 		add_link_options(-Wl,--build-id=none)
+		add_link_options(-nostartfiles)
 	endif()
 endif()
 
@@ -33,7 +34,7 @@ set(DEFAULT_HEIGHT "800" CACHE STRING "Height of the image the raytracer generat
 configure_file(src/config.h.in config.h @ONLY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(libray
+set(SOURCES
 	src/BaseObject.cc
 	src/Color.cc
 	src/Geometry.cc
@@ -46,6 +47,14 @@ add_library(libray
 	src/Tracer.cc
 	src/Vector.cc
 )
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+	list(APPEND SOURCES
+		src/start-x86-64-linux.s
+	)
+endif()
+
+add_library(libray ${SOURCES})
 
 add_executable(ray-single src/MainSingle.cc)
 target_link_libraries(ray-single libray)
