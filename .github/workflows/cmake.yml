@@ -31,3 +31,8 @@ jobs:
     - name: Test
       working-directory: ${{github.workspace}}/build
       run: ctest -C ${{env.BUILD_TYPE}}
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: artifact-${{matrix.os}}
+        path: ${{github.workspace}}/build/ray*
