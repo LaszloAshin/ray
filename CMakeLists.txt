@@ -26,6 +26,8 @@ else()
 	endif()
 endif()
 
+set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "") # disable -rdynamic - https://stackoverflow.com/q/35155835
+
 add_definitions(-D_USE_MATH_DEFINES)
 
 set(DEFAULT_WIDTH "1280" CACHE STRING "Width of the image the raytracer generates")
