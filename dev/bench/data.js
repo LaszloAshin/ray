@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642783381128,
+  "lastUpdate": 1642797885656,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -1185,6 +1185,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 495051690,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "65210d71bf35342f391d15113e664fa8a2c90d21",
+          "message": "Disable -rdynamic\n\nThis flag is unneeded but cmake keeps adding it by default for some reason.",
+          "timestamp": "2022-01-21T21:43:21+01:00",
+          "tree_id": "1c0a188a214ffcd563ee9bfe5476999b7a352380",
+          "url": "https://github.com/LaszloAshin/ray/commit/65210d71bf35342f391d15113e664fa8a2c90d21"
+        },
+        "date": 1642797884856,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 21896,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 12430,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 680,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 8,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 495047892,
             "unit": "Cycles"
           }
         ]
