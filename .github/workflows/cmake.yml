@@ -35,4 +35,4 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: artifact-${{matrix.os}}
-        path: ${{github.workspace}}/build/ray*
+        path: ${{github.workspace}}/build/
