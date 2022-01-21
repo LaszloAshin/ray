@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642762655783,
+  "lastUpdate": 1642763334309,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -989,6 +989,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 495680302,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "813954a31b336988c143ab79040488a4b2d05b27",
+          "message": "Upload all buildir to facilitate finding exe files",
+          "timestamp": "2022-01-21T12:07:16+01:00",
+          "tree_id": "636540448a72b8dbdbc44b220108fdcf1ea3df47",
+          "url": "https://github.com/LaszloAshin/ray/commit/813954a31b336988c143ab79040488a4b2d05b27"
+        },
+        "date": 1642763333871,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 30848,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 16164,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 848,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 16,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 495680320,
             "unit": "Cycles"
           }
         ]
