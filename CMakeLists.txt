@@ -23,6 +23,7 @@ else()
 		add_link_options(-Wl,--gc-sections -Wl,--as-needed)
 		add_link_options(-Wl,--build-id=none)
 		add_link_options(-nostartfiles)
+		add_link_options(-Wl,-znoseparate-code)
 	endif()
 endif()
 
