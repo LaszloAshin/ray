@@ -14,7 +14,7 @@ Image::write(const char *fname) const
 	}
 
 	fprintf(fp, "P6\n%d %d\n255\n", getWidth(), getHeight());
-	fwrite(data.data(), data.size(), 1, fp);
+	fwrite(data, width * height * 3, 1, fp);
 
 	fprintf(stderr, "Output has been written to \"%s\"\n", fname);
 	fclose(fp);
