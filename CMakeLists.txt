@@ -6,6 +6,20 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(libray_SOURCES
+	src/BaseObject.cc
+	src/Color.cc
+	src/Geometry.cc
+	src/Image.cc
+	src/Light.cc
+	src/Plane.cc
+	src/Scene.cc
+	src/Sphere.cc
+	src/Spheroid.cc
+	src/Tracer.cc
+	src/Vector.cc
+)
+
 if(MSVC)
 	add_compile_options(/W4 /WX)
 	add_compile_options(/EHs-c- /GR-)
@@ -22,7 +36,12 @@ else()
 	else()
 		add_link_options(-Wl,--gc-sections -Wl,--as-needed)
 		add_link_options(-Wl,--build-id=none)
+
 		add_link_options(-nostartfiles)
+		list(APPEND libray_SOURCES
+			src/start-x86-64-linux.s
+		)
+
 		add_link_options(-Wl,-znoseparate-code)
 	endif()
 endif()
@@ -37,27 +56,7 @@ set(DEFAULT_HEIGHT "800" CACHE STRING "Height of the image the raytracer generat
 configure_file(src/config.h.in config.h @ONLY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-set(SOURCES
-	src/BaseObject.cc
-	src/Color.cc
-	src/Geometry.cc
-	src/Image.cc
-	src/Light.cc
-	src/Plane.cc
-	src/Scene.cc
-	src/Sphere.cc
-	src/Spheroid.cc
-	src/Tracer.cc
-	src/Vector.cc
-)
-
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-	list(APPEND SOURCES
-		src/start-x86-64-linux.s
-	)
-endif()
-
-add_library(libray ${SOURCES})
+add_library(libray ${libray_SOURCES})
 
 add_executable(ray-single src/MainSingle.cc)
 target_link_libraries(ray-single libray)
