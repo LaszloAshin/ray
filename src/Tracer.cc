@@ -28,7 +28,7 @@ Vec3f Tracer::viewVec(int x0, int y0, float dx, float dy) const {
 
 int Tracer::getNextBlock() {
 	next_block = std::min(blocks.all_blocks, next_block + 1);
-	fprintf(stderr, "\r%5.2f%% ", float(next_block) * 100.0f / blocks.all_blocks);
+	printf("\r%5.2f%% ", float(next_block) * 100.0f / blocks.all_blocks);
 	return next_block;
 }
 

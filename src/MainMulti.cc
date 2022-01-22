@@ -24,7 +24,7 @@ private:
 		const int nthreads = std::thread::hardware_concurrency();
 		Vector<std::thread, 32> threads;
 
-		fprintf(stderr, "Spawning %d threads...\n", nthreads);
+		printf("Spawning %d threads...\n", nthreads);
 		for (int i = 0; i < nthreads; ++i) {
 			threads.emplace_back([this, turbo]{ Tracer::consumeBlocks(turbo); });
 		}
@@ -44,7 +44,7 @@ main(int argc, char *argv[])
 
 	if (argc > 1) {
 		frame = atoi(argv[1]);
-		fprintf(stderr, "frame: %d\n", frame);
+		printf("frame: %d\n", frame);
 	}
 	Scene scene(frame);
 	int width = WIDTH;

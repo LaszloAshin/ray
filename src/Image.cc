@@ -9,14 +9,14 @@ Image::write(const char *fname) const
 {
 	FILE* fp = fopen(fname, "wb");
 	if (fp == NULL) {
-		fprintf(stderr, "Image::write(): unable to open output file \"%s\"\n", fname);
+		printf("Image::write(): unable to open output file \"%s\"\n", fname);
 		return;
 	}
 
 	fprintf(fp, "P6\n%d %d\n255\n", getWidth(), getHeight());
 	fwrite(data, width * height * 3, 1, fp);
 
-	fprintf(stderr, "Output has been written to \"%s\"\n", fname);
+	printf("Output has been written to \"%s\"\n", fname);
 	fclose(fp);
 }
 
