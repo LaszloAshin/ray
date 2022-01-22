@@ -23,6 +23,7 @@ set(libray_SOURCES
 if(MSVC)
 	add_compile_options(/W4 /WX)
 	add_compile_options(/EHs-c- /GR-)
+	add_link_options(/MANIFEST:NO)
 else()
 	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 	add_compile_options(-fno-exceptions -fno-rtti)
