@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642801737507,
+  "lastUpdate": 1642849997184,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -1381,6 +1381,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 488085283,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "2e9b691cfe98ac9789097c5cc9ea50d87150cc88",
+          "message": "Get rid of stderr\n\nThis seems to mean zero bss usage.",
+          "timestamp": "2022-01-22T12:11:47+01:00",
+          "tree_id": "6a2c1688bf85af8137aa0156a1273bf2334e3087",
+          "url": "https://github.com/LaszloAshin/ray/commit/2e9b691cfe98ac9789097c5cc9ea50d87150cc88"
+        },
+        "date": 1642849996232,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 17736,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 11685,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 648,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 488064233,
             "unit": "Cycles"
           }
         ]
