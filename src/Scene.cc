@@ -125,7 +125,7 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 		const Vec3f B = (N * cosVN - V) * v;
 		const float sq = 1 - (B * B);
 		if (sq >= 0.0f) { // if there is no full reflection
-			R = B + (N * sqrt(sq) * s);
+			R = B + (N * sqrtf(sq) * s);
 			rR = Ray(mp + (R * EPSILON), R);
 		}
 	
