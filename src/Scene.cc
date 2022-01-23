@@ -26,16 +26,15 @@ Scene::Scene(int frame)
 	spheres.emplace_back(Vec3f(0.0f, 4.0f, -25.0f), glass, 5.0f);
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
-		float sina = sinf(angle);
-		float cosa = cosf(angle);
+		float sina, cosa;
+		sincosf(angle, &sina, &cosa);
 		float x = 10.0f * sina;
 		float z = -10.0f * cosa;
 		Color c(sina, 0.5f, cosa);
 		lights.emplace_back(Vec3f(x, 10.0f, z - 25.0f), c);
 		angle += 2.0f * (float)M_PI * frame / (25.0f * 10.0f);
 		// 10 sec alatt fordul korbe 25 fps-nel
-		sina = sinf(angle);
-		cosa = cosf(angle);
+		sincosf(angle, &sina, &cosa);
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
 		spheroids.emplace_back(Vec3f(x, -4.0f, z - 25.0f), iron, 5.0f, 2.0f);
