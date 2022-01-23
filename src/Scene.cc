@@ -5,7 +5,12 @@
 
 #ifdef __APPLE__
 #define sincosf __sincosf
-#endif // __APPLE__
+#elif _WIN32
+static void sincosf(float a, float* s, float* c) {
+	*s = sinf(a);
+	*c = cosf(a);
+}
+#endif
 
 Scene::Scene(int frame)
 {
