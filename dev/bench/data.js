@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642940642721,
+  "lastUpdate": 1642950609802,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -1601,6 +1601,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/bbd2ac1328560c0030ffe6fbb8d01e896da88dc4"
         },
         "date": 1642940641874,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 17736,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 11237,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 648,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 488064588,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "908a63e47a55057bfb601136e433077fc559fb53",
+          "message": "Windows doesn't have sincosf",
+          "timestamp": "2022-01-23T16:07:42+01:00",
+          "tree_id": "a20c30e52fd20c0fb1a8c7a31314bd6714bfdf2e",
+          "url": "https://github.com/LaszloAshin/ray/commit/908a63e47a55057bfb601136e433077fc559fb53"
+        },
+        "date": 1642950609320,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
