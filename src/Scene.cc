@@ -3,6 +3,10 @@
 
 #include "config.h"
 
+#ifdef __APPLE__
+#define sincosf __sincosf
+#endif // __APPLE__
+
 Scene::Scene(int frame)
 {
 	const int glass = addMaterial({
