@@ -4,6 +4,7 @@
 #include "MappedWritableFile.h"
 
 #include <cstdint>
+#include <optional>
 
 struct Image {
 	Image(const char* fname, int width, int height);
@@ -14,18 +15,7 @@ struct Image {
 	int getHeight() const { return height; }
 
 private:
-	struct NetpbmHeader {
-		NetpbmHeader(int width, int height);
-
-		int size() const;
-		const char* data() const { return buf; }
-
-	private:
-		char buf[64];
-	};
-
-	NetpbmHeader header;
-	MappedWritableFile map;
+	std::optional<MappedWritableFile> map;
 	uint8_t* data;
 	int width;
 	int height;
