@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643030668427,
+  "lastUpdate": 1643031517418,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -1822,6 +1822,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 486116402,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "66ac348be29bbe8af391baa8a1742a09ee3593f2",
+          "message": "Implement acosf in terms of atan2f\n\nWith this step ray became independent of libm on linux.",
+          "timestamp": "2022-01-24T14:37:14+01:00",
+          "tree_id": "1e13b3302811bf86b3a9a70e19b5f1df700d7617",
+          "url": "https://github.com/LaszloAshin/ray/commit/66ac348be29bbe8af391baa8a1742a09ee3593f2"
+        },
+        "date": 1643031516655,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 17736,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 11136,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 608,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 485468283,
             "unit": "Cycles"
           }
         ]
