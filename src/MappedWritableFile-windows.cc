@@ -15,7 +15,7 @@ MappedWritableFile::MappedWritableFile(const char* fname, int length)
 	if (mh == NULL) {
 		ExitProcess(1);
 	}
-	address_ = static_cast<uint8_t*>(MapViewOfFile(mh, FILE_MAP_WRITE, 0, 0, 0));
+	address_ = MapViewOfFile(mh, FILE_MAP_WRITE, 0, 0, 0);
 	CloseHandle(mh);
 	if (address_ == NULL) {
 		ExitProcess(1);
