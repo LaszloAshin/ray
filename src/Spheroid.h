@@ -5,6 +5,7 @@
 #include "MyMath.h"
 
 #include <cassert>
+#include <tuple>
 
 class Spheroid final : public BaseObject {
 	float rxz;

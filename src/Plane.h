@@ -2,6 +2,8 @@
 
 #include "BaseObject.h"
 
+#include <tuple>
+
 class Plane final : public BaseObject {
 	float d;
 

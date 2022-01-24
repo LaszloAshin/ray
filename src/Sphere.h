@@ -5,6 +5,7 @@
 #include "MyMath.h"
 
 #include <cassert>
+#include <tuple>
 
 class Sphere final : public BaseObject {
 	float r;
