@@ -9,7 +9,7 @@
 _start:
 	pop    %rdi # argc
 	mov    %rsp, %rsi # argv
-	and    $0xfffffffffffffff0, %rsp # align stack
+	and    $-16, %rsp # align stack
 	callq  main # x86_64 ABI function params: %rdi %rsi %rdx %rcx %r8 %r9
 	mov    %rax, %rdi # exit status
 	xor    %rax, %rax
