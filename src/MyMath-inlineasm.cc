@@ -26,3 +26,14 @@ void mysincosf(float x, float* sinx, float* cosx) {
 	*sinx = sinr;
 	*cosx = cosr;
 }
+
+float myatan2f(float y, float x) {
+	long double result;
+	__asm __volatile__(
+		"fpatan"
+		: "=t" (result)
+		: "0" (x), "u" (y)
+		: "st(1)"
+	);
+	return result;
+}
