@@ -12,6 +12,7 @@ set(libray_SOURCES
 	src/Geometry.cc
 	src/Image.cc
 	src/Light.cc
+	src/MyLib.cc
 	src/Plane.cc
 	src/Scene.cc
 	src/Sphere.cc

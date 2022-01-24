@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Image.h"
+#include "MyLib.h"
 #include "Scene.h"
 #include "Tracer.h"
 #include "Vector.h"
@@ -7,7 +8,6 @@
 #include "config.h"
 
 #include <cstdio>
-#include <cstdlib> // atoi()
 #include <mutex>
 #include <thread>
 
@@ -43,17 +43,17 @@ main(int argc, char *argv[])
 	int frame = 0;
 
 	if (argc > 1) {
-		frame = atoi(argv[1]);
+		frame = myatoi(argv[1]);
 		printf("frame: %d\n", frame);
 	}
 	Scene scene(frame);
 	int width = WIDTH;
 	if (const char* p = std::getenv("WIDTH")) {
-		width = atoi(p);
+		width = myatoi(p);
 	}
 	int height = HEIGHT;
 	if (const char* p = std::getenv("HEIGHT")) {
-		height = atoi(p);
+		height = myatoi(p);
 	}
 	Image img("tracement.ppm", width, height);
 	MultithreadedTracer{scene, &img}.exec();
