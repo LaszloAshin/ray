@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643054407482,
+  "lastUpdate": 1643056469354,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -2116,6 +2116,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 485466063,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "375f18d513fdc15d3461052b2db993519122ebfd",
+          "message": "Get rid of puts\n\ngcc is smart enough to replace all instances of printf where\nthere is no format argument and the format string ends in a newline.\nThis is not good for us because puts means another imported symbol\nfrom libc. We are on our way to get rid all of the imports.",
+          "timestamp": "2022-01-24T21:31:40+01:00",
+          "tree_id": "6cd9fdad8f0addd4fe1f861975797f121355f782",
+          "url": "https://github.com/LaszloAshin/ray/commit/375f18d513fdc15d3461052b2db993519122ebfd"
+        },
+        "date": 1643056468429,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 17736,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 11497,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 616,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 485466013,
             "unit": "Cycles"
           }
         ]
