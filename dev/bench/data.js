@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643044410224,
+  "lastUpdate": 1643054407482,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -2067,6 +2067,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 485467213,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "e704ae51acb5da5e85f0820b12b87055a5bd6dc0",
+          "message": "Use std::optional to not store NetpbmHeader",
+          "timestamp": "2022-01-24T20:59:00+01:00",
+          "tree_id": "cef8c78ee01843ce0f787a3c285fc3bc247129ea",
+          "url": "https://github.com/LaszloAshin/ray/commit/e704ae51acb5da5e85f0820b12b87055a5bd6dc0"
+        },
+        "date": 1643054404780,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 17736,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 11481,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 616,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 485466063,
             "unit": "Cycles"
           }
         ]
