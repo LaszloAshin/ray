@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(ray VERSION 0.0.1 LANGUAGES CXX ASM)
+project(ray VERSION 0.0.1 LANGUAGES CXX)
 enable_testing()
 
 set(CMAKE_CXX_STANDARD 17)
@@ -21,9 +21,11 @@ set(libray_SOURCES
 )
 
 if(MSVC)
+	enable_language(ASM_MASM)
 	add_compile_options(/W4 /WX)
 	add_compile_options(/EHs-c- /GR-)
 	add_link_options(/MANIFEST:NO)
+	list(APPEND libray_SOURCES src/MyMath-masm.asm)
 else()
 	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 	add_compile_options(-fno-exceptions -fno-rtti)
@@ -32,16 +34,17 @@ else()
 	add_compile_options(-ffast-math)
 
 	add_compile_options(-ffunction-sections -fdata-sections)
+
+	list(APPEND libray_SOURCES src/MyMath-inlineasm.cc)
 	if(APPLE)
 		add_link_options(-Wl,-dead_strip)
 	else()
+		enable_language(ASM)
 		add_link_options(-Wl,--gc-sections -Wl,--as-needed)
 		add_link_options(-Wl,--build-id=none)
 
 		add_link_options(-nostartfiles)
-		list(APPEND libray_SOURCES
-			src/start-x86-64-linux.s
-		)
+		list(APPEND libray_SOURCES src/start-x86-64-linux.s)
 
 		add_link_options(-Wl,-znoseparate-code)
 	endif()

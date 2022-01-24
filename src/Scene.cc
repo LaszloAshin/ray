@@ -1,16 +1,9 @@
 #include <cmath>
 #include "Scene.h"
 
-#include "config.h"
+#include "MyMath.h"
 
-#ifdef __APPLE__
-#define sincosf __sincosf
-#elif _WIN32
-static void sincosf(float a, float* s, float* c) {
-	*s = sinf(a);
-	*c = cosf(a);
-}
-#endif
+#include "config.h"
 
 Scene::Scene(int frame)
 {
@@ -36,14 +29,14 @@ Scene::Scene(int frame)
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina, cosa;
-		sincosf(angle, &sina, &cosa);
+		mysincosf(angle, &sina, &cosa);
 		float x = 10.0f * sina;
 		float z = -10.0f * cosa;
 		Color c(sina, 0.5f, cosa);
 		lights.emplace_back(Vec3f(x, 10.0f, z - 25.0f), c);
 		angle += 2.0f * (float)M_PI * frame / (25.0f * 10.0f);
 		// 10 sec alatt fordul korbe 25 fps-nel
-		sincosf(angle, &sina, &cosa);
+		mysincosf(angle, &sina, &cosa);
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
 		spheroids.emplace_back(Vec3f(x, -4.0f, z - 25.0f), iron, 5.0f, 2.0f);
