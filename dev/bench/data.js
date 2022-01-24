@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643031943752,
+  "lastUpdate": 1643043129341,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -1920,6 +1920,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 485468283,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "5962652ab575de9c28868344268c541925c5f39e",
+          "message": "Implement memory mapped file writing",
+          "timestamp": "2022-01-24T17:50:57+01:00",
+          "tree_id": "7fd50ec43966f006625c954af0d6c2e1ff92e790",
+          "url": "https://github.com/LaszloAshin/ray/commit/5962652ab575de9c28868344268c541925c5f39e"
+        },
+        "date": 1643043128812,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 17736,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 11474,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 624,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 485467216,
             "unit": "Cycles"
           }
         ]
