@@ -9,7 +9,7 @@ Image::NetpbmHeader::NetpbmHeader(int width, int height) {
 }
 
 int Image::NetpbmHeader::size() const {
-	return strlen(buf);
+	return static_cast<int>(strlen(buf));
 }
 
 Image::Image(const char* fname, int width, int height)
@@ -18,10 +18,10 @@ Image::Image(const char* fname, int width, int height)
 , width{width}
 , height{height}
 {
+	data = static_cast<uint8_t*>(map.address());
 	for (int i = 0; i < header.size(); ++i) {
-		static_cast<uint8_t*>(map.address())[i] = header.data()[i];
+		*data++ = header.data()[i];
 	}
-	data = static_cast<uint8_t*>(map.address()) + header.size();
 }
 
 void
