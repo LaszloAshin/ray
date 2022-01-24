@@ -104,11 +104,9 @@ Tracer::consumeBlocks(bool turbo)
 }
 
 void
-Tracer::exec(const char *fname, bool turbo)
+Tracer::exec(bool turbo)
 {
 	next_block = 0;
 
 	consumeBlocks(turbo);
-
-	if (fname) img->write(fname);
 }

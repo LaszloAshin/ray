@@ -37,7 +37,7 @@ struct Tracer {
 	, hhalf{i->getHeight() / 2.0f}
 	{}
 
-	void exec(const char *fname, bool turbo=false);
+	void exec(bool turbo=false);
 
 protected:
 	virtual int getNextBlock();

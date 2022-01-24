@@ -55,6 +55,6 @@ main(int argc, char *argv[])
 	if (const char* p = std::getenv("HEIGHT")) {
 		height = atoi(p);
 	}
-	Image img(width, height);
-	MultithreadedTracer{scene, &img}.exec("tracement.ppm");
+	Image img("tracement.ppm", width, height);
+	MultithreadedTracer{scene, &img}.exec();
 }

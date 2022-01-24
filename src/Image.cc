@@ -1,23 +1,27 @@
-#define _CRT_SECURE_NO_WARNINGS // silence msvc about fopen
 #include "Image.h"
 
 #include <cassert>
 #include <cstdio>
+#include <cstring>
 
-void
-Image::write(const char *fname) const
+Image::NetpbmHeader::NetpbmHeader(int width, int height) {
+	snprintf(buf, sizeof(buf), "P6\n%5d %5d\n255\n", width, height);
+}
+
+int Image::NetpbmHeader::size() const {
+	return strlen(buf);
+}
+
+Image::Image(const char* fname, int width, int height)
+: header{width, height}
+, map{fname, header.size() + width * height * 3}
+, width{width}
+, height{height}
 {
-	FILE* fp = fopen(fname, "wb");
-	if (fp == NULL) {
-		printf("Image::write(): unable to open output file \"%s\"\n", fname);
-		return;
+	for (int i = 0; i < header.size(); ++i) {
+		static_cast<uint8_t*>(map.address())[i] = header.data()[i];
 	}
-
-	fprintf(fp, "P6\n%d %d\n255\n", getWidth(), getHeight());
-	fwrite(data, width * height * 3, 1, fp);
-
-	printf("Output has been written to \"%s\"\n", fname);
-	fclose(fp);
+	data = static_cast<uint8_t*>(map.address()) + header.size();
 }
 
 void
