@@ -2,8 +2,6 @@
 
 #include "BaseObject.h"
 
-#include <cmath>
-
 class Plane final : public BaseObject {
 	float d;
 

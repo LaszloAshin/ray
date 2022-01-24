@@ -5,7 +5,6 @@
 #include "MyMath.h"
 
 #include <cassert>
-#include <cmath>
 
 class Sphere final : public BaseObject {
 	float r;
@@ -51,7 +50,7 @@ public:
 
 	Color texelAt(const Vec3f &mp) const override {
 		Vec3f p = mp - pos;
-		float v = (float)M_1_PI * acosf(p.z / r);
+		float v = (float)M_1_PI * myacosf(p.z / r);
 		float u = 0.5f * (float)M_1_PI * (myatan2f(p.y / r, p.x / r) + (float)M_PI);
 		int x = (int)(u * 16.0f);
 		int y = (int)(v * 16.0f);

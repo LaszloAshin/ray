@@ -5,9 +5,6 @@
 
 #include "config.h"
 
-#include <cmath>
-#include <tuple>
-
 class Material {
 public:
 	Color ka; // ambient

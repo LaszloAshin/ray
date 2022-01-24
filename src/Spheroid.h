@@ -5,7 +5,6 @@
 #include "MyMath.h"
 
 #include <cassert>
-#include <cmath>
 
 class Spheroid final : public BaseObject {
 	float rxz;
@@ -56,7 +55,7 @@ public:
 
 	Color texelAt(const Vec3f &mp) const override {
 		Vec3f p = mp - pos;
-		float v = (float)M_1_PI * acosf(p.z / rxz);
+		float v = (float)M_1_PI * myacosf(p.z / rxz);
 		float u = 0.5f * (float)M_1_PI * (myatan2f(p.y / ry, p.x / rxz) + (float)M_PI);
 		int x = (int)(u * 16.0f);
 		int y = (int)(v * 16.0f);
