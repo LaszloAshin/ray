@@ -23,8 +23,11 @@ set(libray_SOURCES
 
 if(MSVC)
 	enable_language(ASM_MASM)
-	add_compile_options(/W4 /WX)
-	add_compile_options(/EHs-c- /GR-)
+	add_compile_options(/W4 /WX) # highest warning level
+	add_compile_options(/EHs-c- /GR-) # disable exceptions and rtti
+	add_definitions(-D_HAS_EXCEPTIONS=0)
+	add_definitions(-D_USE_MATH_DEFINES) # enable macros like M_PI
+	add_compile_options(/GS-) # disable guardstack
 	add_link_options(/MANIFEST:NO)
 	list(APPEND libray_SOURCES src/MyMath-masm.asm)
 	list(APPEND libray_SOURCES src/MappedWritableFile-windows.cc)
@@ -54,8 +57,6 @@ else()
 endif()
 
 set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "") # disable -rdynamic - https://stackoverflow.com/q/35155835
-
-add_definitions(-D_USE_MATH_DEFINES)
 
 set(DEFAULT_WIDTH "1280" CACHE STRING "Width of the image the raytracer generates")
 set(DEFAULT_HEIGHT "800" CACHE STRING "Height of the image the raytracer generates")
