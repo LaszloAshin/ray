@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643057220622,
+  "lastUpdate": 1643099232006,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -2214,6 +2214,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 485465207,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "2ea6328337cd8d304201c03f3f01bc916920603d",
+          "message": "Disable GuardStack on windows\n\nAlso do some cleanup in CMakeLists.txt and format strings",
+          "timestamp": "2022-01-25T09:25:26+01:00",
+          "tree_id": "13463ede04d42cd2bfc4614a65b04632bde487ac",
+          "url": "https://github.com/LaszloAshin/ray/commit/2ea6328337cd8d304201c03f3f01bc916920603d"
+        },
+        "date": 1643099230527,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 17736,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 11400,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 608,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 485479724,
             "unit": "Cycles"
           }
         ]
