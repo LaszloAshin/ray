@@ -7,3 +7,65 @@ inline int myatoi(const char* nptr) {
 	}
 	return result;
 }
+
+#ifdef __linux__
+
+#include <sys/syscall.h>
+
+inline int mywrite(const void* p, long size) {
+	long result;
+	long fd = 1;
+	__asm __volatile__(
+		"syscall;"
+		: "=a"(result)
+		: "0"((long)SYS_write), "D"(fd), "S"(p), "d"(size)
+		: "%rcx", "%r11", "memory"
+	);
+	return result;
+}
+
+#elif __APPLE__
+
+#include <unistd.h>
+
+inline int mywrite(const void* p, long size) {
+	write(1, p, size);
+}
+
+#elif _WIN32
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+inline int mywrite(const void* p, long size) {
+	WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), p, size, NULL, NULL);
+}
+
+#endif
+
+
+template <int S>
+inline int mysnprintOne(char* buf, int size, const char (&s)[S]) {
+	if (S < size) size = S;
+	for (int i = 0; i < size; ++i) {
+		buf[i] = s[i];
+	}
+	return size - 1;
+}
+
+int mysnprintOne(char* buf, int size, int value);
+
+inline int mysnprint(char*, int) { return 0; }
+
+template <typename T, typename... Args>
+int mysnprint(char* buf, int size, const T& value, const Args&... args) {
+	const auto n = mysnprintOne(buf, size, value);
+	return n + mysnprint(buf + n, size - n, args...);
+}
+
+template <typename... Args>
+int myprint(const Args&... args) {
+	char buf[256];
+	const int n = mysnprint(buf, sizeof(buf), args...);
+	return mywrite(buf, n);
+}

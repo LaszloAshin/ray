@@ -1,15 +1,15 @@
 #include "Image.h"
 
+#include "MyLib.h"
+
 #include <cassert>
-#include <cstdio>
-#include <cstring>
 
 Image::Image(const char* fname, int width, int height)
 : width{width}
 , height{height}
 {
 	char buf[64];
-	const int headerlen = snprintf(buf, sizeof(buf), "P6\n%d %d\n255\n", width, height);
+	const int headerlen = mysnprint(buf, sizeof(buf), "P6\n", width, " ", height, "\n255\n");
 	map.emplace(fname, headerlen + width * height * 3);
 	data = static_cast<uint8_t*>(map->address());
 	for (int i = 0; i < headerlen; ++i) {

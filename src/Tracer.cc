@@ -1,10 +1,9 @@
 #include "Tracer.h"
 
+#include "MyLib.h"
 #include "Vector.h"
 
 #include "config.h"
-
-#include <cstdio>
 
 using namespace std;
 
@@ -27,9 +26,10 @@ Vec3f Tracer::viewVec(int x0, int y0, float dx, float dy) const {
 }
 
 int Tracer::getNextBlock() {
+	int result = next_block;
 	next_block = std::min(blocks.all_blocks, next_block + 1);
-	printf("\r%d%% ", next_block * 100 / blocks.all_blocks);
-	return next_block;
+	myprint("\r", next_block * 100 / blocks.all_blocks, "% ");
+	return result;
 }
 
 void
