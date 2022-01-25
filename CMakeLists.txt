@@ -35,7 +35,7 @@ else()
 	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 	add_compile_options(-fno-exceptions -fno-rtti)
 	add_compile_options(-fno-asynchronous-unwind-tables)
-	add_compile_options(-fno-align-functions)
+	add_compile_options(-fno-align-functions -fno-align-loops)
 	add_compile_options(-ffast-math)
 
 	add_compile_options(-ffunction-sections -fdata-sections)
@@ -52,7 +52,7 @@ else()
 		add_link_options(-nostartfiles)
 		list(APPEND libray_SOURCES src/start-x86-64-linux.s)
 
-		add_link_options(-Wl,-znoseparate-code)
+		add_link_options(-Wl,-znoseparate-code) # merge rodata into text
 	endif()
 endif()
 
