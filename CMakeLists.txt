@@ -27,6 +27,7 @@ if(MSVC)
 	add_compile_options(/EHs-c- /GR-) # disable exceptions and rtti
 	add_definitions(-D_HAS_EXCEPTIONS=0)
 	add_definitions(-D_USE_MATH_DEFINES) # enable macros like M_PI
+	add_definitions(-DNOMINMAX) # prevent windows.h from defining min/max macros
 	add_compile_options(/GS-) # disable guardstack
 	add_link_options(/MANIFEST:NO)
 	list(APPEND libray_SOURCES src/MyMath-masm.asm)

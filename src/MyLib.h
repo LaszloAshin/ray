@@ -29,7 +29,7 @@ inline int mywrite(const void* p, long size) {
 #include <unistd.h>
 
 inline int mywrite(const void* p, long size) {
-	write(1, p, size);
+	return write(1, p, size);
 }
 
 #elif _WIN32
@@ -38,7 +38,8 @@ inline int mywrite(const void* p, long size) {
 #include <windows.h>
 
 inline int mywrite(const void* p, long size) {
-	WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), p, size, NULL, NULL);
+	DWORD wr;
+	return WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), p, size, &wr, NULL) ? wr : 0;
 }
 
 #endif
