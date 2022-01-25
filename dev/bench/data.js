@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643131221759,
+  "lastUpdate": 1643131491166,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -2287,6 +2287,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/23c24c5b838e5569b5e6308a3256220cc38c9ad2"
         },
         "date": 1643131220856,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 17736,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 11352,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 608,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 484012801,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "7ba06b0124c0112f3a067cdb5e64d9538e809f78",
+          "message": "Don't disable loop alignment on clang\n\n...because it is not supported there.",
+          "timestamp": "2022-01-25T18:23:38+01:00",
+          "tree_id": "73757afd958172fbfbf7f3d945a64bedbadc93cd",
+          "url": "https://github.com/LaszloAshin/ray/commit/7ba06b0124c0112f3a067cdb5e64d9538e809f78"
+        },
+        "date": 1643131490436,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
