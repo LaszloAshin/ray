@@ -74,7 +74,7 @@ add_executable(ray-single src/MainSingle.cc)
 target_link_libraries(ray-single libray)
 
 if(UNIX AND NOT APPLE)
-	target_link_options(ray-single PUBLIC -static)
+	target_link_options(ray-single PUBLIC -nodefaultlibs -nolibc -nostdlib -static)
 endif()
 
 find_package(Threads)
