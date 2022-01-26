@@ -8,6 +8,8 @@ inline int myatoi(const char* nptr) {
 	return result;
 }
 
+char* mygetenv(char* envp[], const char* name);
+
 #ifdef __linux__
 
 #include <sys/syscall.h>

@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include "Image.h"
 #include "MyLib.h"
 #include "Scene.h"
@@ -7,7 +6,6 @@
 
 #include "config.h"
 
-#include <cstdio>
 #include <mutex>
 #include <thread>
 
@@ -38,7 +36,7 @@ private:
 };
 
 int
-main(int argc, char *argv[])
+main(int argc, char *argv[], char *envp[])
 {
 	int frame = 0;
 
@@ -48,11 +46,11 @@ main(int argc, char *argv[])
 	}
 	Scene scene(frame);
 	int width = WIDTH;
-	if (const char* p = std::getenv("WIDTH")) {
+	if (const char* p = mygetenv(envp, "WIDTH")) {
 		width = myatoi(p);
 	}
 	int height = HEIGHT;
-	if (const char* p = std::getenv("HEIGHT")) {
+	if (const char* p = mygetenv(envp, "HEIGHT")) {
 		height = myatoi(p);
 	}
 	Image img("tracement.ppm", width, height);
