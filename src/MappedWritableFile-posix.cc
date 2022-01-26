@@ -42,6 +42,17 @@ inline int myftruncate(int fd, long length) {
 	return result;
 }
 
+inline int myopen(const char* fname, int flags, unsigned mode) {
+	int result;
+	__asm __volatile__(
+		"syscall;"
+		: "=a"(result)
+		: "0"((long)SYS_open), "D"(fname), "S"(flags), "d"(mode)
+		: "%rcx", "%r11", "memory"
+	);
+	return result;
+}
+
 #else
 
 #include <unistd.h>
@@ -49,14 +60,15 @@ inline int myftruncate(int fd, long length) {
 #define myexit _exit
 #define myclose close
 #define myftruncate ftruncate
+#define myopen open
 
 #endif
 
 MappedWritableFile::MappedWritableFile(const char* fname, int length)
 : length_{length}
 {
-	const int fd = open(fname, O_CREAT | O_RDWR, 0644);
-	if (fd == -1) {
+	const int fd = myopen(fname, O_CREAT | O_RDWR, 0644);
+	if (fd < 0) {
 		myprint("Fail: open\n");
 		myexit(1);
 	}
