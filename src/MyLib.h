@@ -64,9 +64,8 @@ int mysnprint(char* buf, int size, const T& value, const Args&... args) {
 	return n + mysnprint(buf + n, size - n, args...);
 }
 
-template <typename... Args>
-int myprint(const Args&... args) {
-	char buf[256];
-	const int n = mysnprint(buf, sizeof(buf), args...);
-	return mywrite(buf, n);
-}
+#define myprint(...) do { \
+		char buf[256]; \
+		const int n = mysnprint(buf, sizeof(buf), __VA_ARGS__); \
+		mywrite(buf, n); \
+	} while (0);
