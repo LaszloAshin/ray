@@ -70,4 +70,4 @@ int mysnprint(char* buf, int size, const T& value, const Args&... args) {
 		char buf[256]; \
 		const int n = mysnprint(buf, sizeof(buf), __VA_ARGS__); \
 		mywrite(buf, n); \
-	} while (0);
+	} while (0)

@@ -73,6 +73,10 @@ add_library(libray ${libray_SOURCES})
 add_executable(ray-single src/MainSingle.cc)
 target_link_libraries(ray-single libray)
 
+if(UNIX AND NOT APPLE)
+	target_link_options(ray-single PUBLIC -static)
+endif()
+
 find_package(Threads)
 
 add_executable(ray src/MainMulti.cc)
