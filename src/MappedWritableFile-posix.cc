@@ -7,22 +7,43 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+#ifdef __linux__
+
+#include <sys/syscall.h>
+
+inline void myexit(int status) {
+	__asm __volatile__(
+		"syscall;"
+		:
+		: "a"((long)SYS_exit), "D"(status)
+		: "%rcx", "%r11", "memory"
+	);
+}
+
+#else
+
+#include <unistd.h>
+
+#define myexit _exit
+
+#endif
+
 MappedWritableFile::MappedWritableFile(const char* fname, int length)
 : length_{length}
 {
 	const int fd = open(fname, O_CREAT | O_RDWR, 0644);
 	if (fd == -1) {
 		myprint("Fail: open\n");
-		_exit(1);
+		myexit(1);
 	}
 	if (ftruncate(fd, length)) {
 		myprint("Fail: ftruncate\n");
-		_exit(1);
+		myexit(1);
 	}
 	address_ = static_cast<uint8_t*>(mmap(NULL, length, PROT_WRITE, MAP_SHARED, fd, 0));
 	if (address_ == MAP_FAILED) {
 		myprint("Fail: mmap\n");
-		_exit(1);
+		myexit(1);
 	}
 	close(fd);
 }
