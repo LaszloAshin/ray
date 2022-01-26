@@ -31,12 +31,24 @@ inline int myclose(int fd) {
 	return result;
 }
 
+inline int myftruncate(int fd, long length) {
+	int result;
+	__asm __volatile__(
+		"syscall;"
+		: "=a"(result)
+		: "0"((long)SYS_ftruncate), "D"(fd), "S"(length)
+		: "%rcx", "%r11", "memory"
+	);
+	return result;
+}
+
 #else
 
 #include <unistd.h>
 
 #define myexit _exit
 #define myclose close
+#define myftruncate ftruncate
 
 #endif
 
@@ -48,7 +60,7 @@ MappedWritableFile::MappedWritableFile(const char* fname, int length)
 		myprint("Fail: open\n");
 		myexit(1);
 	}
-	if (ftruncate(fd, length)) {
+	if (myftruncate(fd, length)) {
 		myprint("Fail: ftruncate\n");
 		myexit(1);
 	}
