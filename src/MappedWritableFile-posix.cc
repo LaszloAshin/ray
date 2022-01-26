@@ -53,14 +53,24 @@ inline int myopen(const char* fname, int flags, unsigned mode) {
 	return result;
 }
 
-#else
+inline int mymunmap(void* addr, long length) {
+	int result;
+	__asm __volatile__(
+		"syscall;"
+		: "=a"(result)
+		: "0"((long)SYS_munmap), "D"(addr), "S"(length)
+		: "%rcx", "%r11", "memory"
+	);
+	return result;
+}
 
-#include <unistd.h>
+#else
 
 #define myexit _exit
 #define myclose close
 #define myftruncate ftruncate
 #define myopen open
+#define mymunmap munmap
 
 #endif
 
@@ -85,7 +95,7 @@ MappedWritableFile::MappedWritableFile(const char* fname, int length)
 }
 
 MappedWritableFile::~MappedWritableFile() {
-	if (munmap(address_, length_)) {
+	if (mymunmap(address_, length_)) {
 		myprint("Fail: munmap\n");
 	}
 }
