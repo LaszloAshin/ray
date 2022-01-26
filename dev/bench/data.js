@@ -2868,55 +2868,6 @@ window.BENCHMARK_DATA = {
             "username": "LaszloAshin"
           },
           "distinct": true,
-          "id": "290fda2f61dc3e96aa0af68891419721890c280a",
-          "message": "Link ray-single statically on linux",
-          "timestamp": "2022-01-26T17:08:30+01:00",
-          "tree_id": "6c2b2cff76fdab5e2432cd0695e75a4e72261681",
-          "url": "https://github.com/LaszloAshin/ray/commit/290fda2f61dc3e96aa0af68891419721890c280a"
-        },
-        "date": 1643213404906,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Benchmark - Executable Size",
-            "value": 17736,
-            "unit": "Bytes"
-          },
-          {
-            "name": "Benchmark - text Size",
-            "value": 695190,
-            "unit": "Bytes"
-          },
-          {
-            "name": "Benchmark - data Size",
-            "value": 20128,
-            "unit": "Bytes"
-          },
-          {
-            "name": "Benchmark - bss Size",
-            "value": 3528,
-            "unit": "Bytes"
-          },
-          {
-            "name": "Benchmark - CPU Cycles",
-            "value": 11,
-            "unit": "Cycles"
-          }
-        ]
-      },
-      {
-        "commit": {
-          "author": {
-            "email": "laszlo@ashin.hu",
-            "name": "Laszlo Ashin",
-            "username": "LaszloAshin"
-          },
-          "committer": {
-            "email": "laszlo@ashin.hu",
-            "name": "Laszlo Ashin",
-            "username": "LaszloAshin"
-          },
-          "distinct": true,
           "id": "4c5752fb9e013ba860a63688a5b9afacf0f84f5e",
           "message": "Disable stack protector",
           "timestamp": "2022-01-26T17:25:50+01:00",
