@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643206643205,
+  "lastUpdate": 1643209385133,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -2753,6 +2753,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 628781648,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "0f6a811f66ea63ab5a15434bb91169646f2bfc5c",
+          "message": "Implement syscall mmap on linux and clean up asm",
+          "timestamp": "2022-01-26T16:01:03+01:00",
+          "tree_id": "a991222c10d4a3cb6eb82e38b677dbb406b012bd",
+          "url": "https://github.com/LaszloAshin/ray/commit/0f6a811f66ea63ab5a15434bb91169646f2bfc5c"
+        },
+        "date": 1643209384212,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 17736,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 11209,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 544,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 628781222,
             "unit": "Cycles"
           }
         ]
