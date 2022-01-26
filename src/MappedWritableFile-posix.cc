@@ -20,11 +20,23 @@ inline void myexit(int status) {
 	);
 }
 
+inline int myclose(int fd) {
+	int result;
+	__asm __volatile__(
+		"syscall;"
+		: "=a"(result)
+		: "0"((long)SYS_close), "D"(fd)
+		: "%rcx", "%r11", "memory"
+	);
+	return result;
+}
+
 #else
 
 #include <unistd.h>
 
 #define myexit _exit
+#define myclose close
 
 #endif
 
@@ -45,7 +57,7 @@ MappedWritableFile::MappedWritableFile(const char* fname, int length)
 		myprint("Fail: mmap\n");
 		myexit(1);
 	}
-	close(fd);
+	myclose(fd);
 }
 
 MappedWritableFile::~MappedWritableFile() {
