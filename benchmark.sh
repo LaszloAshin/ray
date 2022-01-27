@@ -1,7 +1,5 @@
 #!/bin/sh -uex
 
-strip --strip-all ray
-strip -s -R .comment -R .eh_frame -R .eh_frame_hdr -R '.note.*' -R '.comment.*' ray-single
 eval $(size ray-single | awk '/ray-single/ { print "export TEXT=" $1 " DATA=" $2 " BSS=" $3 }')
 
 export WIDTH=64 HEIGHT=64
