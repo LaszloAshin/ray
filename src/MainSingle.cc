@@ -16,7 +16,6 @@ main(int, char*[], char* envp[])
 	if (const char* p = mygetenv(envp, "HEIGHT")) {
 		height = myatoi(p);
 	}
-	myprint("w=", width, " h=", height, "\n");
 	Image img("tracement.ppm", width, height);
 	Tracer{Scene{0}, &img}.exec();
 }
