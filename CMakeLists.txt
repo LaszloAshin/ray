@@ -57,7 +57,8 @@ else()
 		add_link_options(-nostartfiles)
 		list(APPEND libray_SOURCES src/start-x86-64-linux.s)
 
-		add_link_options(-Wl,-znoseparate-code) # merge rodata into text
+		add_link_options(-Wl,-z,noseparate-code) # merge rodata into text
+		add_link_options(-Wl,-z,norelro)
 	endif()
 endif()
 
