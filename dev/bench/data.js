@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643271825288,
+  "lastUpdate": 1643271866122,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -2929,6 +2929,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Executable Size",
             "value": 17736,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 10451,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 104,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 627446631,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "0e3fa7ac6ddf5e267d182b63f1057201ad355c95",
+          "message": "Disable separate relro load\n\nThis one saves a block of zeros in the final ELF binary",
+          "timestamp": "2022-01-27T09:22:31+01:00",
+          "tree_id": "6b66b259e280dc3eeff98d7dc4f44b9ff541af23",
+          "url": "https://github.com/LaszloAshin/ray/commit/0e3fa7ac6ddf5e267d182b63f1057201ad355c95"
+        },
+        "date": 1643271865660,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 15472,
             "unit": "Bytes"
           },
           {
