@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643271866122,
+  "lastUpdate": 1643273808719,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -2973,6 +2973,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/0e3fa7ac6ddf5e267d182b63f1057201ad355c95"
         },
         "date": 1643271865660,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 15472,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 10451,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 104,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 627446631,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "ba828ef094d88a216432e2469c3a78682ce69561",
+          "message": "Strip ray-single on linux after linking",
+          "timestamp": "2022-01-27T09:55:14+01:00",
+          "tree_id": "c15c61b38c8443284ba16c55f9276a02e3588130",
+          "url": "https://github.com/LaszloAshin/ray/commit/ba828ef094d88a216432e2469c3a78682ce69561"
+        },
+        "date": 1643273807811,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
