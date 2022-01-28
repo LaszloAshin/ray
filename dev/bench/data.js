@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643385016561,
+  "lastUpdate": 1643399550050,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -3468,6 +3468,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Executable Size",
             "value": 14216,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 9891,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 72,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 627446543,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "896f0e8b3a1d6d26e3c8d1257783a1dfb52e1511",
+          "message": "Implement hardware_concurrency() on linux",
+          "timestamp": "2022-01-28T20:51:22+01:00",
+          "tree_id": "ddea2695f2565173004244c6f5c356c9639adc53",
+          "url": "https://github.com/LaszloAshin/ray/commit/896f0e8b3a1d6d26e3c8d1257783a1dfb52e1511"
+        },
+        "date": 1643399549134,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 14208,
             "unit": "Bytes"
           },
           {
