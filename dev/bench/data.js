@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643372406214,
+  "lastUpdate": 1643374888812,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -3292,6 +3292,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 627446552,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "e24df6c63138a958843f684f601fb7cae66f36e1",
+          "message": "Devirtualize Tracer and eliminate some dead code\n\nDead code: trace(); only traceAntialiased() is used at this point.",
+          "timestamp": "2022-01-28T13:59:02+01:00",
+          "tree_id": "285489a1f0e9428a3ac58056c7d5dae3114c68f5",
+          "url": "https://github.com/LaszloAshin/ray/commit/e24df6c63138a958843f684f601fb7cae66f36e1"
+        },
+        "date": 1643374887933,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 14216,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 9891,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 72,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 627446543,
             "unit": "Cycles"
           }
         ]
