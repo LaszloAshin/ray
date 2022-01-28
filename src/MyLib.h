@@ -51,7 +51,7 @@ template <int S>
 inline int mysnprintOne(char* buf, int size, const char (&s)[S]) {
 	if (S < size) size = S;
 	for (int i = 0; i < size; ++i) {
-		buf[i] = s[i];
+		*buf++ = s[i];
 	}
 	return size - 1;
 }
