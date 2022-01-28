@@ -6,18 +6,12 @@
 
 #include "config.h"
 
-#include <mutex>
 #include <thread>
 
 struct MultithreadedTracer : public Tracer {
 	using Tracer::Tracer;
 
 private:
-	int getNextBlock() override {
-		std::unique_lock<std::mutex> lk{mutex_block};
-		return Tracer::getNextBlock();
-	}
-
 	void consumeBlocks(bool turbo) override {
 		const int nthreads = std::thread::hardware_concurrency();
 		Vector<std::thread, 32> threads;
@@ -31,8 +25,6 @@ private:
 			threads[i].join();
 		}
 	}
-
-	std::mutex mutex_block;
 };
 
 int

@@ -3,6 +3,8 @@
 #include "Image.h"
 #include "Scene.h"
 
+#include <atomic>
+
 template <int BlockSize>
 struct Blocks {
 	int x_blocks, all_blocks;
@@ -37,10 +39,14 @@ struct Tracer {
 	, hhalf{i->getHeight() / 2.0f}
 	{}
 
-	void exec(bool turbo=false);
+	void exec(bool turbo = false) {
+		next_block = 0;
+
+		consumeBlocks(turbo);
+	}
 
 protected:
-	virtual int getNextBlock();
+	int getNextBlock();
 	virtual void consumeBlocks(bool turbo);
 
 private:
@@ -55,5 +61,5 @@ private:
 	MyBlocks blocks;
 	float invwhalf;
 	float hhalf;
-	volatile int next_block{};
+	std::atomic<int> next_block{};
 };
