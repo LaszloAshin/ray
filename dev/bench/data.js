@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643371612624,
+  "lastUpdate": 1643371964331,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -3169,6 +3169,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/07b49a760781f34e759b09c4dc325e60dcaf646d"
         },
         "date": 1643371611848,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 15224,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 10371,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 96,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 627446552,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "86bb94051140d796e52d102ac03e42988e9a26a8",
+          "message": "Implement sqrtf for windows",
+          "timestamp": "2022-01-28T13:11:34+01:00",
+          "tree_id": "66adce26bb517b704897bd7a8028a1dffe1833f3",
+          "url": "https://github.com/LaszloAshin/ray/commit/86bb94051140d796e52d102ac03e42988e9a26a8"
+        },
+        "date": 1643371963865,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
