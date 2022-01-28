@@ -1,4 +1,3 @@
-#include <cmath>
 #include "Scene.h"
 
 #include "MyMath.h"
@@ -93,7 +92,7 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 		const Vec3f V = Vec3f(ray.s - mp).norm();
 		float dsq = d * d; // light distance square
 		if (dsq > EPSILON) {
-			dsq = 200.0f / dsq + 5.0f / sqrtf(dsq);
+			dsq = 200.0f / dsq + 5.0f / mysqrtf(dsq);
 			ret += light.c * mater.brdf(L, N, V) * dsq;
 		}
 	}
@@ -118,7 +117,7 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 		const Vec3f B = (N * cosVN - V) * v;
 		const float sq = 1 - (B * B);
 		if (sq >= 0.0f) { // if there is no full reflection
-			R = B + (N * sqrtf(sq) * s);
+			R = B + (N * mysqrtf(sq) * s);
 			rR = Ray(mp + (R * EPSILON), R);
 		}
 	

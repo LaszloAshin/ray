@@ -1,8 +1,8 @@
 #pragma once
 
-#include "config.h"
+#include "MyMath.h"
 
-#include <cmath>
+#include "config.h"
 
 struct Vec3f {
 	float x, y, z;
@@ -42,10 +42,9 @@ struct Vec3f {
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 	}
 
-	float length() const { return sqrtf(x * x + y * y + z * z); }
+	float length() const { return mysqrtf(x * x + y * y + z * z); }
 
 	Vec3f norm() const {
-		// maybe http://rrrola.wz.cz/inv_sqrt.html ?
 		const float len = length();
 		return (len > EPSILON) ? (*this * (1.0f / len)) : Vec3f{};
 	}

@@ -36,7 +36,7 @@ public:
 		const float Drhs = ry2 * m2 * m2 + rxz2 * (m1 * m1 + m3 * m3);
 		if (Dlhs < Drhs) return std::make_tuple(-1.0f, Vec3f{});
 
-		const float Dsqrt = sqrtf(ry2 * (Dlhs - Drhs));
+		const float Dsqrt = mysqrtf(ry2 * (Dlhs - Drhs));
 		const float minusb = -((s.x * d.x + s.z * d.z) * ry2 + s.y * d.y * rxz2);
 		float t1 = minusb + Dsqrt;
 		if (t1 < 0.0f) return std::make_tuple(-1.0f, Vec3f{});

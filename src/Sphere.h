@@ -31,7 +31,7 @@ public:
 		const float Drhs = m1 * m1 + m2 * m2 + m3 * m3;
 		if (Dlhs < Drhs) return std::make_tuple(-1.0f, Vec3f{});
 
-		const float Dsqrt = sqrtf(Dlhs - Drhs);
+		const float Dsqrt = mysqrtf(Dlhs - Drhs);
 		const float minusb = -(s.x * d.x + s.y * d.y + s.z * d.z);
 		float t1 = minusb + Dsqrt;
 		if (t1 < 0.0f) return std::make_tuple(-1.0f, Vec3f{});
