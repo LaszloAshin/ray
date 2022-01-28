@@ -33,7 +33,7 @@ int Tracer::getNextBlock() {
 }
 
 void
-Tracer::turboTracer()
+Tracer::trace()
 {
 	int block;
 
@@ -50,7 +50,7 @@ Tracer::turboTracer()
 }
 
 void
-Tracer::blockTracer()
+Tracer::traceAntialiased()
 {
 	int block;
 
@@ -90,15 +90,5 @@ Tracer::blockTracer()
 			up[i] = left;
 		}
 
-	}
-}
-
-void
-Tracer::consumeBlocks(bool turbo)
-{
-	if (turbo) {
-		turboTracer();
-	} else {
-		blockTracer();
 	}
 }

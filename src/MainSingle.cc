@@ -17,5 +17,5 @@ main(int, char*[], char* envp[])
 		height = myatoi(p);
 	}
 	Image img("tracement.ppm", width, height);
-	Tracer{Scene{0}, &img}.exec();
+	Tracer{Scene{0}, &img}.traceAntialiased();
 }

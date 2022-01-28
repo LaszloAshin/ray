@@ -39,22 +39,14 @@ struct Tracer {
 	, hhalf{i->getHeight() / 2.0f}
 	{}
 
-	void exec(bool turbo = false) {
-		next_block = 0;
-
-		consumeBlocks(turbo);
-	}
-
-protected:
-	int getNextBlock();
-	virtual void consumeBlocks(bool turbo);
+	void trace();
+	void traceAntialiased();
 
 private:
 	using MyBlocks = Blocks<32>;
 
 	Vec3f viewVec(int x0, int y0, float dx, float dy) const;
-	void turboTracer();
-	void blockTracer();
+	int getNextBlock();
 
 	const Scene &scene;
 	Image *img;

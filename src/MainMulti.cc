@@ -8,25 +8,6 @@
 
 #include <thread>
 
-struct MultithreadedTracer : public Tracer {
-	using Tracer::Tracer;
-
-private:
-	void consumeBlocks(bool turbo) override {
-		const int nthreads = std::thread::hardware_concurrency();
-		Vector<std::thread, 32> threads;
-
-		myprint("Spawning ", nthreads, " threads...\n");
-		for (int i = 0; i < nthreads; ++i) {
-			threads.emplace_back([this, turbo]{ Tracer::consumeBlocks(turbo); });
-		}
-
-		for (int i = 0; i < nthreads; ++i) {
-			threads[i].join();
-		}
-	}
-};
-
 int
 main(int argc, char *argv[], char *envp[])
 {
@@ -46,5 +27,16 @@ main(int argc, char *argv[], char *envp[])
 		height = myatoi(p);
 	}
 	Image img("tracement.ppm", width, height);
-	MultithreadedTracer{scene, &img}.exec();
+	Tracer tracer{scene, &img};
+	const int nthreads = std::thread::hardware_concurrency();
+	Vector<std::thread, 32> threads;
+
+	myprint("Spawning ", nthreads, " threads...\n");
+	for (int i = 0; i < nthreads; ++i) {
+		threads.emplace_back([&]{ tracer.traceAntialiased(); });
+	}
+
+	for (int i = 0; i < nthreads; ++i) {
+		threads[i].join();
+	}
 }
