@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(ray VERSION 0.0.1 LANGUAGES CXX)
+project(ray VERSION 0.0.1 LANGUAGES C CXX)
 enable_testing()
 
 set(CMAKE_CXX_STANDARD 17)
