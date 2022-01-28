@@ -11,9 +11,9 @@ float myatan2f(float y, float x);
 #include <immintrin.h>
 
 inline float mysqrtf(float f) {
-       float result;
-       _mm_store_ss(&result, _mm_sqrt_ss(_mm_load_ss(&f)));
-       return result;
+	float result;
+	_mm_store_ss(&result, _mm_sqrt_ss(_mm_load_ss(&f)));
+	return result;
 }
 #else
 #define mysqrtf sqrtf
