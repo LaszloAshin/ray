@@ -21,6 +21,8 @@ set(libray_SOURCES
 	src/Vector.cc
 )
 
+set(ray_single_SOURCES src/MainSingle.cc)
+
 if(MSVC)
 	enable_language(ASM_MASM)
 	add_compile_options(/W4 /WX) # highest warning level
@@ -35,6 +37,7 @@ if(MSVC)
 	list(APPEND libray_SOURCES src/MyMath-masm.asm)
 	list(APPEND libray_SOURCES src/MappedWritableFile-windows.cc)
 	list(APPEND libray_SOURCES src/MyLib-windows.cc)
+	list(APPEND ray_single_SOURCES src/start-windows.c)
 else()
 	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 	add_compile_options(-fno-exceptions -fno-rtti)
@@ -74,7 +77,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(libray ${libray_SOURCES})
 
-add_executable(ray-single src/MainSingle.cc)
+add_executable(ray-single ${ray_single_SOURCES})
 target_link_libraries(ray-single libray)
 
 find_package(Threads)
