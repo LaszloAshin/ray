@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643375480382,
+  "lastUpdate": 1643376080466,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -3365,6 +3365,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/59c923c90fdca8b0e9ee424c5c87f0312f6a02a4"
         },
         "date": 1643375479447,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 14216,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 9891,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 72,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 627446543,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "cc8b783197aba89f1219e25119276992d2baacf3",
+          "message": "Enable language C\n\nThis one makes the previous commit effective.",
+          "timestamp": "2022-01-28T14:20:15+01:00",
+          "tree_id": "1bd844958f3c4a70506164978d2b889b46bc7d97",
+          "url": "https://github.com/LaszloAshin/ray/commit/cc8b783197aba89f1219e25119276992d2baacf3"
+        },
+        "date": 1643376079715,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
