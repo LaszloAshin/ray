@@ -6,6 +6,38 @@
 
 #include "config.h"
 
+#ifdef __linux__
+
+#include <thread>
+
+struct MyThread {
+	template <class F>
+	MyThread(F&& f) : th{f} {}
+
+	MyThread(const MyThread&) = delete;
+	MyThread& operator=(const MyThread&) = delete;
+
+	~MyThread() { th.join(); }
+
+	static int hardware_concurrency() {
+		int result;
+		uint64_t set;
+		__asm __volatile__("\n\t"
+			"syscall\n\t"
+			"popcnt (%%rdx), %%rax"
+			: "=a"(result)
+			: "0"((long)SYS_sched_getaffinity), "D"(0), "S"(sizeof(set)), "d"(&set)
+			: "%rcx", "%r11", "memory"
+		);
+		return result;
+	}
+
+private:
+	std::thread th;
+};
+
+#else // !__linux__
+
 #include <thread>
 
 struct MyThread {
@@ -22,6 +54,8 @@ struct MyThread {
 private:
 	std::thread th;
 };
+
+#endif
 
 int
 main(int argc, char *argv[], char *envp[])
@@ -44,7 +78,7 @@ main(int argc, char *argv[], char *envp[])
 	Image img("tracement.ppm", width, height);
 	Tracer tracer{scene, &img};
 	const int nthreads = MyThread::hardware_concurrency();
-	Vector<MyThread, 32> threads;
+	Vector<MyThread, 64> threads;
 
 	myprint("Spawning ", nthreads, " threads...\n");
 	for (int i = 0; i < nthreads; ++i) {
