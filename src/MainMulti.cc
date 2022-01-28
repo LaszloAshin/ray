@@ -8,6 +8,21 @@
 
 #include <thread>
 
+struct MyThread {
+	template <class F>
+	MyThread(F&& f) : th{std::forward<F>(f)} {}
+
+	MyThread(const MyThread&) = delete;
+	MyThread& operator=(const MyThread&) = delete;
+
+	~MyThread() { th.join(); }
+
+	static int hardware_concurrency() { return std::thread::hardware_concurrency(); }
+
+private:
+	std::thread th;
+};
+
 int
 main(int argc, char *argv[], char *envp[])
 {
@@ -28,15 +43,11 @@ main(int argc, char *argv[], char *envp[])
 	}
 	Image img("tracement.ppm", width, height);
 	Tracer tracer{scene, &img};
-	const int nthreads = std::thread::hardware_concurrency();
-	Vector<std::thread, 32> threads;
+	const int nthreads = MyThread::hardware_concurrency();
+	Vector<MyThread, 32> threads;
 
 	myprint("Spawning ", nthreads, " threads...\n");
 	for (int i = 0; i < nthreads; ++i) {
 		threads.emplace_back([&]{ tracer.traceAntialiased(); });
-	}
-
-	for (int i = 0; i < nthreads; ++i) {
-		threads[i].join();
 	}
 }
