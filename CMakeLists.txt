@@ -30,6 +30,8 @@ if(MSVC)
 	add_definitions(-DNOMINMAX) # prevent windows.h from defining min/max macros
 	add_compile_options(/GS-) # disable guardstack
 	add_link_options(/MANIFEST:NO)
+	add_link_options(/MERGE:.rdata=.text)
+	add_link_options(/MERGE:.pdata=.text)
 	list(APPEND libray_SOURCES src/MyMath-masm.asm)
 	list(APPEND libray_SOURCES src/MappedWritableFile-windows.cc)
 	list(APPEND libray_SOURCES src/MyLib-windows.cc)
