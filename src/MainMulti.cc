@@ -8,16 +8,25 @@
 
 #ifdef __linux__
 
-#include <thread>
+extern "C" int create_thread(void (*func)(void*), void* arg);
 
 struct MyThread {
-	template <class F>
-	MyThread(F&& f) : th{f} {}
+	MyThread(void (*func)(void*), void* arg) : id{create_thread(func, arg)} {}
 
 	MyThread(const MyThread&) = delete;
 	MyThread& operator=(const MyThread&) = delete;
 
-	~MyThread() { th.join(); }
+	~MyThread() {
+		int result;
+		const unsigned my__WCHILD = 0x80000000;
+		__asm __volatile__("\n\t"
+			"mov %5, %%r10d\n\t"
+			"syscall\n\t"
+			: "=a"(result)
+			: "0"(SYS_wait4), "D"(id), "S"(0), "d"(my__WCHILD), "r"(0)
+			: "%rcx", "%r11", "memory", "%r10"
+		);
+	}
 
 	static int hardware_concurrency() {
 		int result;
@@ -33,7 +42,7 @@ struct MyThread {
 	}
 
 private:
-	std::thread th;
+	int id;
 };
 
 #else // !__linux__
@@ -41,8 +50,8 @@ private:
 #include <thread>
 
 struct MyThread {
-	template <class F>
-	MyThread(F&& f) : th{std::forward<F>(f)} {}
+	template <typename... Args>
+	MyThread(Args&&... args) : th{std::forward<Args>(args)...} {}
 
 	MyThread(const MyThread&) = delete;
 	MyThread& operator=(const MyThread&) = delete;
@@ -56,6 +65,8 @@ private:
 };
 
 #endif
+
+static void traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiased(); }
 
 int
 main(int argc, char *argv[], char *envp[])
@@ -82,6 +93,6 @@ main(int argc, char *argv[], char *envp[])
 
 	myprint("Spawning ", nthreads, " threads...\n");
 	for (int i = 0; i < nthreads; ++i) {
-		threads.emplace_back([&]{ tracer.traceAntialiased(); });
+		threads.emplace_back(traceAntialiased, &tracer);
 	}
 }

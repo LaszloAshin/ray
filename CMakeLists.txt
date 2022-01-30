@@ -22,6 +22,7 @@ set(libray_SOURCES
 )
 
 set(ray_single_SOURCES src/MainSingle.cc)
+set(ray_multi_SOURCES src/MainMulti.cc)
 
 if(MSVC)
 	enable_language(ASM_MASM)
@@ -59,8 +60,9 @@ else()
 		add_link_options(-Wl,--gc-sections -Wl,--as-needed)
 		add_link_options(-Wl,--build-id=none)
 
-		add_link_options(-nostartfiles)
+		add_link_options(-nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
 		list(APPEND libray_SOURCES src/start-x86-64-linux.s)
+		list(APPEND ray_multi_SOURCES src/thread-linux.s)
 
 		add_link_options(-Wl,-z,noseparate-code) # merge rodata into text
 		add_link_options(-Wl,-z,norelro)
@@ -82,11 +84,10 @@ target_link_libraries(ray-single libray)
 
 find_package(Threads)
 
-add_executable(ray src/MainMulti.cc)
+add_executable(ray ${ray_multi_SOURCES})
 target_link_libraries(ray libray ${CMAKE_THREAD_LIBS_INIT})
 
 if(UNIX AND NOT APPLE)
-	target_link_options(ray-single PUBLIC -nodefaultlibs -nolibc -nostdlib -static)
 	add_custom_command(TARGET ray POST_BUILD
 		COMMAND $<IF:$<CONFIG:Release>,${CMAKE_STRIP},true> -s -R .comment ray
 		COMMENT "Stripping executable ray"
