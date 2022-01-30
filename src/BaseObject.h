@@ -62,5 +62,5 @@ struct BaseObject {
 	BaseObject() {}
 	BaseObject(const Vec3f &p, int m) : pos(p), mater(m) {}
 
-	virtual Color texelAt(const Vec3f &) const { return Color::white; }
+	virtual Color texelAt(const Vec3f &) const { return Color::white(); }
 };

@@ -42,7 +42,7 @@ Scene::Scene(int frame)
 	}
 	planes.emplace_back(Vec3f(0.0f, 1.0f, 0.0f), -4.5f, mirror);
 	planes.emplace_back(Vec3f(0.0f, -1.0f, 0.0f), -15.0f, mirror);
-	lights.emplace_back(Vec3f(0.0f, 10.0f, -25.0f), Color::white);
+	lights.emplace_back(Vec3f(0.0f, 10.0f, -25.0f), Color::white());
 }
 
 int
