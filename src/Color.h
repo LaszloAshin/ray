@@ -11,8 +11,9 @@ struct Color {
 	static const Color gray05;
 	static const Color gray08;
 	static const Color gray09;
-	static const Color black;
 	static const Color white;
+
+	constexpr static Color black() { return {}; }
 
 	constexpr Color() {}
 	constexpr Color(float r, float g, float b) : r{r}, g{g}, b{b} {}

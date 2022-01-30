@@ -7,7 +7,7 @@
 Scene::Scene(int frame)
 {
 	const int glass = addMaterial({
-		Color::black,
+		Color::black(),
 		Color::gray01,
 		Color::gray04, 128,
 		0.1f, 0.9f, 2.0f
@@ -19,7 +19,7 @@ Scene::Scene(int frame)
 		0.4f, 0.0f, 1.0f
 	});
 	const int mirror = addMaterial({
-		Color::black,
+		Color::black(),
 		Color::gray01,
 		Color::gray08, 128,
 		0.2f, 0.0f, 1.0f

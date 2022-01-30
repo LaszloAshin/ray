@@ -29,7 +29,7 @@ public:
 	Color brdf(const Vec3f &L, const Vec3f &N, const Vec3f &V) const {
 		const float cosLN = L * N;
 		if (cosLN < 0.0f)
-			return Color::black; // watching from the back
+			return {}; // watching from the back
 
 		// specular reflection (Phong)
 		const Vec3f R = N * (cosLN * 2.0f) - L;
