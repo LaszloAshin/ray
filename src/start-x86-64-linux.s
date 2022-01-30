@@ -12,7 +12,7 @@ _start:
 	lea    8(%rsi, %rdi, 8), %rdx # envp
 	and    $-16, %rsp # align stack
 	callq  main # x86_64 ABI function params: %rdi %rsi %rdx %rcx %r8 %r9
-	mov    %rax, %rdi # exit status
-	xor    %rax, %rax
+	mov    %eax, %edi # exit status
+	xor    %eax, %eax
 	mov    $60, %al # syscall number
 	syscall
