@@ -72,7 +72,7 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 	if (weight < RAY_ERROR)
 		return ret; // don't go further if our result doesn't matter
 
-	const auto [O, t, N] = intersect(ray);
+	const auto [O, t] = intersect(ray);
 	if (O == nullptr) {
 		return ret;
 	}
@@ -81,10 +81,12 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 	const Vec3f mp = ray.s + (ray.d * t);
 	ret = mater.ka;
 
+	const auto [N, texel] = O->computeIntersectionDetails(mp);
+
 	for (const auto& light : lights) {
 		const Vec3f d = mp - light.pos;
 		// light source doesn't take effect if we are in shadow
-		const auto [o, sh, _] = intersect(Ray(light.pos, d));
+		const auto [o, sh] = intersect(Ray(light.pos, d));
 		if (o != nullptr && o != O && sh < 1.0f)
 			continue;
 
@@ -124,7 +126,7 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 		ret += trace(rR, depth, weight * mater.kt) * mater.kt;
 	}
 
-	ret = ret * O->texelAt(mp) + ret;
+	ret = ret * texel + ret;
 	ret = ret * Color::gray(0.5f);
 
 	return ret;

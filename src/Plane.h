@@ -25,8 +25,12 @@ public:
 
 	~Plane() {}
 
-	std::tuple<float, Vec3f> intersect(const Ray &ray) const {
+	float intersect(const Ray &ray) const {
 		const float f = ray.d * pos;
-		return std::make_tuple((f > -EPSILON) ? -1.0f : (pos * d - ray.s) * pos / f, pos);
+		return (f > -EPSILON) ? -1.0f : (pos * d - ray.s) * pos / f;
+	}
+
+	std::tuple<Vec3f, Color> computeIntersectionDetails(const Vec3f&) const override {
+		return std::make_tuple(pos, Color::white());
 	}
 };

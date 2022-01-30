@@ -5,6 +5,8 @@
 
 #include "config.h"
 
+#include <tuple>
+
 class Material {
 public:
 	Color ka; // ambient
@@ -62,5 +64,5 @@ struct BaseObject {
 	BaseObject() {}
 	BaseObject(const Vec3f &p, int m) : pos(p), mater(m) {}
 
-	virtual Color texelAt(const Vec3f &) const { return Color::white(); }
+	virtual std::tuple<Vec3f, Color> computeIntersectionDetails(const Vec3f&) const = 0;
 };
