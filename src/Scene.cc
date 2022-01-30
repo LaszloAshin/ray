@@ -8,20 +8,20 @@ Scene::Scene(int frame)
 {
 	const int glass = addMaterial({
 		Color::black(),
-		Color::gray01,
-		Color::gray04, 128,
+		Color::gray(0.1f),
+		Color::gray(0.4f), 128,
 		0.1f, 0.9f, 2.0f
 	});
 	const int iron = addMaterial({
-		Color::gray02,
-		Color::gray04,
-		Color::gray01, 128,
+		Color::gray(0.2f),
+		Color::gray(0.4f),
+		Color::gray(0.1f), 128,
 		0.4f, 0.0f, 1.0f
 	});
 	const int mirror = addMaterial({
 		Color::black(),
-		Color::gray01,
-		Color::gray08, 128,
+		Color::gray(0.1f),
+		Color::gray(0.8f), 128,
 		0.2f, 0.0f, 1.0f
 	});
 	spheres.emplace_back(Vec3f(0.0f, 4.0f, -25.0f), glass, 5.0f);
@@ -125,7 +125,7 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 	}
 
 	ret = ret * O->texelAt(mp) + ret;
-	ret = ret * Color::gray05;
+	ret = ret * Color::gray(0.5f);
 
 	return ret;
 }
