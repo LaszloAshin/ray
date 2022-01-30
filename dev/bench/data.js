@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643553678718,
+  "lastUpdate": 1643554459032,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -3855,6 +3855,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/865889c71079f19060274ffae141be618ca15c20"
         },
         "date": 1643553678258,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 10888,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 9557,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 72,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 627446506,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "fdabf445fcfaa0c466c3fb894ef518677a74d954",
+          "message": "Remove unused static colors",
+          "timestamp": "2022-01-30T15:53:28+01:00",
+          "tree_id": "db7fc364ee183a0c1740e40736fabbedc938ee1f",
+          "url": "https://github.com/LaszloAshin/ray/commit/fdabf445fcfaa0c466c3fb894ef518677a74d954"
+        },
+        "date": 1643554458577,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
