@@ -12,3 +12,7 @@
 // depth limit of tracer recursion
 #define DEPTH_LIMIT	16
 #define RAY_ERROR	0.002f
+
+/* Save some code bytes and let the OS take care of some resources
+   which we don't free explicitly */
+#define LEAK_RESOURCES_ATEXIT

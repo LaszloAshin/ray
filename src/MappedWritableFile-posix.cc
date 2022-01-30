@@ -90,7 +90,9 @@ inline void* mymmap(void* addr, long length, int prot, int flags, int fd, long o
 #endif
 
 MappedWritableFile::MappedWritableFile(const char* fname, int length)
+#ifndef LEAK_RESOURCES_ATEXIT
 : length_{length}
+#endif
 {
 	const int fd = myopen(fname, O_CREAT | O_RDWR, 0644);
 	if (fd < 0) {
@@ -106,11 +108,15 @@ MappedWritableFile::MappedWritableFile(const char* fname, int length)
 		myprint("Fail: mmap\n");
 		myexit(1);
 	}
+#ifndef LEAK_RESOURCES_ATEXIT
 	myclose(fd);
+#endif
 }
 
+#ifndef LEAK_RESOURCES_ATEXIT
 MappedWritableFile::~MappedWritableFile() {
 	if (mymunmap(address_, length_)) {
 		myprint("Fail: munmap\n");
 	}
 }
+#endif

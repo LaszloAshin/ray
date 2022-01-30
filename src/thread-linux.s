@@ -32,7 +32,7 @@ create_thread:
 	xor    %r8d, %r8d
 	xor    %r9d, %r9d
 	mov    $SYS_mmap, %al
-	syscall
+	syscall # XXX: %rax points to a stack that we don't munmap -> resource leak!
 	lea    -24(%rax,%rsi), %rsi
 	lea    exit(%rip), %rax
 	mov    %rax, 16(%rsi)
