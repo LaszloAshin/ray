@@ -5,9 +5,14 @@
 struct Color {
 	float r{}, g{}, b{};
 
-	static const Color gray01, gray02, gray03, gray04;
-	static const Color gray05, gray06, gray07, gray08, gray09;
-	static const Color black, white, red, green, blue;
+	static const Color gray01;
+	static const Color gray02;
+	static const Color gray04;
+	static const Color gray05;
+	static const Color gray08;
+	static const Color gray09;
+	static const Color black;
+	static const Color white;
 
 	constexpr Color() {}
 	constexpr Color(float r, float g, float b) : r{r}, g{g}, b{b} {}
