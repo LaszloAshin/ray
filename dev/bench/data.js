@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643551601611,
+  "lastUpdate": 1643551965499,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -3713,6 +3713,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Executable Size",
             "value": 14208,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 9702,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 72,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 627446533,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "0c5453e883f61ded038d4e74808e9b6303214d06",
+          "message": "Implement linux threading\n\nThis makes the multithreaded ray independent of libc on linux.",
+          "timestamp": "2022-01-30T15:11:06+01:00",
+          "tree_id": "f493e267c645d5bb78242cf37a57af877c70e71f",
+          "url": "https://github.com/LaszloAshin/ray/commit/0c5453e883f61ded038d4e74808e9b6303214d06"
+        },
+        "date": 1643551964940,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 11048,
             "unit": "Bytes"
           },
           {
