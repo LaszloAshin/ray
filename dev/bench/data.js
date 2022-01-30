@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643554681503,
+  "lastUpdate": 1643554908091,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -3978,6 +3978,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 629105761,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "86a8e566df3c686faf19b84e1eb8efa6f3c92183",
+          "message": "Turn Color::white into a constexpr function",
+          "timestamp": "2022-01-30T16:00:47+01:00",
+          "tree_id": "c1657d5508b252e5842d92b6eaadff7569afa71f",
+          "url": "https://github.com/LaszloAshin/ray/commit/86a8e566df3c686faf19b84e1eb8efa6f3c92183"
+        },
+        "date": 1643554907362,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 10824,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 9489,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 72,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 628971164,
             "unit": "Cycles"
           }
         ]
