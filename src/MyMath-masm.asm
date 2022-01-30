@@ -9,14 +9,14 @@ mysincosf PROC
         fld     DWORD PTR [rsp+8]
         fsincos
         fnstsw  ax
-        test    eax, 0400h
+        test    ax, 0400h
         jz      a
         fldpi
         fadd    st, st(0)
         fxch    st(1)
 b:      fprem1
         fnstsw  ax
-        test    eax, 0400h
+        test    ax, 0400h
         jnz     b
         fstp    st(1)
         fsincos
