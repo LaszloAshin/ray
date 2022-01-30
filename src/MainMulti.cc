@@ -35,7 +35,7 @@ struct MyThread {
 			"syscall\n\t"
 			"popcnt (%%rdx), %%rax"
 			: "=a"(result)
-			: "0"((long)SYS_sched_getaffinity), "D"(0), "S"(sizeof(set)), "d"(&set)
+			: "0"(SYS_sched_getaffinity), "D"(0), "S"(sizeof(set)), "d"(&set)
 			: "%rcx", "%r11", "memory"
 		);
 		return result;

@@ -15,7 +15,7 @@ inline void myexit(int status) {
 	__asm __volatile__("\n\t"
 		"syscall\n\t"
 		:
-		: "a"((long)SYS_exit), "D"(status)
+		: "a"(SYS_exit), "D"(status)
 		: "%rcx", "%r11", "memory"
 	);
 }
@@ -25,7 +25,7 @@ inline int myclose(int fd) {
 	__asm __volatile__("\n\t"
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"((long)SYS_close), "D"(fd)
+		: "0"(SYS_close), "D"(fd)
 		: "%rcx", "%r11", "memory"
 	);
 	return result;
@@ -36,7 +36,7 @@ inline int myftruncate(int fd, long length) {
 	__asm __volatile__("\n\t"
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"((long)SYS_ftruncate), "D"(fd), "S"(length)
+		: "0"(SYS_ftruncate), "D"(fd), "S"(length)
 		: "%rcx", "%r11", "memory"
 	);
 	return result;
@@ -47,7 +47,7 @@ inline int myopen(const char* fname, int flags, unsigned mode) {
 	__asm __volatile__("\n\t"
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"((long)SYS_open), "D"(fname), "S"(flags), "d"(mode)
+		: "0"(SYS_open), "D"(fname), "S"(flags), "d"(mode)
 		: "%rcx", "%r11", "memory"
 	);
 	return result;
@@ -58,7 +58,7 @@ inline int mymunmap(void* addr, long length) {
 	__asm __volatile__("\n\t"
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"((long)SYS_munmap), "D"(addr), "S"(length)
+		: "0"(SYS_munmap), "D"(addr), "S"(length)
 		: "%rcx", "%r11", "memory"
 	);
 	return result;
@@ -72,7 +72,7 @@ inline void* mymmap(void* addr, long length, int prot, int flags, int fd, long o
 		"movq %7, %%r9\n\t"
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"((long)SYS_mmap), "D"(addr), "S"(length), "d"(prot), "r"(flags), "r"(fd), "r"(offset)
+		: "0"(SYS_mmap), "D"(addr), "S"(length), "d"(prot), "r"(flags), "r"(fd), "r"(offset)
 		: "%rcx", "%r11", "memory", "%r10", "%r8", "%r9"
 	);
 	return result;

@@ -14,13 +14,13 @@ char* mygetenv(char* envp[], const char* name);
 
 #include <sys/syscall.h>
 
-inline int mywrite(const void* p, long size) {
-	long result;
-	long fd = 1;
+inline int mywrite(const void* p, int size) {
+	int result;
+	int fd = 1;
 	__asm __volatile__(
 		"syscall;"
 		: "=a"(result)
-		: "0"((long)SYS_write), "D"(fd), "S"(p), "d"(size)
+		: "0"(SYS_write), "D"(fd), "S"(p), "d"(size)
 		: "%rcx", "%r11", "memory"
 	);
 	return result;
