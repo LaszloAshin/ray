@@ -69,4 +69,9 @@ struct BaseObject {
 	, mater{m}
 	, computeIntersectionDetails{cid}
 	{}
+
+	template <class T>
+	static std::tuple<Vec3f, Color> cid(const BaseObject* o, const Vec3f& mp) {
+		return static_cast<const T*>(o)->computeIntersectionDetails(mp);
+	}
 };

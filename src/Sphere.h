@@ -11,13 +11,9 @@ class Sphere final : public BaseObject {
 	float r;
 	float r2;
 
-	static std::tuple<Vec3f, Color> cid(const BaseObject* o, const Vec3f& mp) {
-		return static_cast<const Sphere*>(o)->computeIntersectionDetails(mp);
-	}
-
 public:
 	Sphere(const Vec3f &p, int material, float r)
-	: BaseObject(p, material, cid)
+	: BaseObject(p, material, cid<Sphere>)
 	, r{r}
 	, r2{r * r}
 	{

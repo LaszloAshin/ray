@@ -13,13 +13,9 @@ class Spheroid final : public BaseObject {
 	float rxz2;
 	float ry2;
 
-	static std::tuple<Vec3f, Color> cid(const BaseObject* o, const Vec3f& mp) {
-		return static_cast<const Spheroid*>(o)->computeIntersectionDetails(mp);
-	}
-
 public:
 	Spheroid(const Vec3f &p, int material, float rxz, float ry)
-	: BaseObject(p, material, cid)
+	: BaseObject(p, material, cid<Spheroid>)
 	, rxz{rxz}
 	, ry{ry}
 	, rxz2{rxz * rxz}

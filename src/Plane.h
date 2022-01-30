@@ -7,18 +7,14 @@
 class Plane final : public BaseObject {
 	float d;
 
-	static std::tuple<Vec3f, Color> cid(const BaseObject* o, const Vec3f& mp) {
-		return static_cast<const Plane*>(o)->computeIntersectionDetails(mp);
-	}
-
 public:
 	Plane(const Vec3f &n, float d0, int material) :
-		BaseObject(n.norm(), material, cid), d(d0)
+		BaseObject(n.norm(), material, cid<Plane>), d(d0)
 	{
 	}
 
 	Plane(const Vec3f &r1, const Vec3f &r2, const Vec3f &r3, int material)
-	: BaseObject(r1, material, cid)
+	: BaseObject(r1, material, cid<Plane>)
 	{
 		Vec3f diff1 = r2 - r1;
 		Vec3f diff2 = r3 - r1;
