@@ -11,9 +11,13 @@ class Sphere final : public BaseObject {
 	float r;
 	float r2;
 
+	static std::tuple<Vec3f, Color> cid(const BaseObject* o, const Vec3f& mp) {
+		return static_cast<const Sphere*>(o)->computeIntersectionDetails(mp);
+	}
+
 public:
 	Sphere(const Vec3f &p, int material, float r)
-	: BaseObject(p, material)
+	: BaseObject(p, material, cid)
 	, r{r}
 	, r2{r * r}
 	{
@@ -40,7 +44,7 @@ public:
 		return t0 / a;
 	}
 
-	std::tuple<Vec3f, Color> computeIntersectionDetails(const Vec3f &mp) const override {
+	std::tuple<Vec3f, Color> computeIntersectionDetails(const Vec3f &mp) const {
 		Vec3f N = (mp - this->pos) * 2.0f;
 		N.x /= r2;
 		N.y /= r2;

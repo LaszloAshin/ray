@@ -58,11 +58,15 @@ private:
 };
 
 struct BaseObject {
+	using ComputeIntersectionDetails = std::tuple<Vec3f, Color> (*)(const BaseObject* o, const Vec3f&);
+
 	Vec3f pos;
 	int mater;
+	ComputeIntersectionDetails computeIntersectionDetails;
 
-	BaseObject() {}
-	BaseObject(const Vec3f &p, int m) : pos(p), mater(m) {}
-
-	virtual std::tuple<Vec3f, Color> computeIntersectionDetails(const Vec3f&) const = 0;
+	BaseObject(const Vec3f &p, int m, ComputeIntersectionDetails cid)
+	: pos{p}
+	, mater{m}
+	, computeIntersectionDetails{cid}
+	{}
 };

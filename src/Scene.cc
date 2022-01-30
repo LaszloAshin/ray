@@ -81,7 +81,7 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 	const Vec3f mp = ray.s + (ray.d * t);
 	ret = mater.ka;
 
-	const auto [N, texel] = O->computeIntersectionDetails(mp);
+	const auto [N, texel] = O->computeIntersectionDetails(O, mp);
 
 	for (const auto& light : lights) {
 		const Vec3f d = mp - light.pos;
