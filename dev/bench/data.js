@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643551481816,
+  "lastUpdate": 1643551601611,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -3659,6 +3659,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/475b8952a0f730dd7756275abbe77bdc8dd6661a"
         },
         "date": 1643551480806,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 14208,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 9702,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 72,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 627446533,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "772403fda642611989085d4ab3eaf9f38d8d149c",
+          "message": "Fix unsupported optimization flags for clang",
+          "timestamp": "2022-01-30T15:05:27+01:00",
+          "tree_id": "a6a68e7221a85537b0565c7a3b83b782f07917ce",
+          "url": "https://github.com/LaszloAshin/ray/commit/772403fda642611989085d4ab3eaf9f38d8d149c"
+        },
+        "date": 1643551600851,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
