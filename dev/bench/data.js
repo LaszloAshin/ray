@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643625624241,
+  "lastUpdate": 1643628693777,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -4394,6 +4394,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/a21b1af2940e2757e6bc386cc34fcc6c2cba7ca8"
         },
         "date": 1643625623356,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 10280,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 9143,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 607605211,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "5cf4f1e10e549952cf660933c9360ed11fc913b7",
+          "message": "Remove trivial ctor implementation",
+          "timestamp": "2022-01-31T12:29:57+01:00",
+          "tree_id": "12a01ee85dffe11c4fe740eaf9b7013e3d29cbed",
+          "url": "https://github.com/LaszloAshin/ray/commit/5cf4f1e10e549952cf660933c9360ed11fc913b7"
+        },
+        "date": 1643628693157,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
