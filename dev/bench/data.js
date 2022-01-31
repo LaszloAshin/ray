@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643624258825,
+  "lastUpdate": 1643625462833,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -4296,6 +4296,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/8de60761d0fc8c2ca5a09a4a8950b2ea44557d4e"
         },
         "date": 1643624257984,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 10280,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 9143,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 607605211,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "01b6285e7b5a2cbf4fda3706b597476966d36261",
+          "message": "More compatibility",
+          "timestamp": "2022-01-31T11:36:22+01:00",
+          "tree_id": "4906534989e552438970d646adef46afb7198722",
+          "url": "https://github.com/LaszloAshin/ray/commit/01b6285e7b5a2cbf4fda3706b597476966d36261"
+        },
+        "date": 1643625462335,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
