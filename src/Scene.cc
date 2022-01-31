@@ -25,9 +25,12 @@ enum MaterialIds {
 	MATERIAL_MIRROR,
 };
 
+static const Sphere spheres[] = {
+	{Vec3f{0.0f, 4.0f, -25.0f}, MATERIAL_GLASS, 5.0f},
+};
+
 Scene::Scene(int frame)
 {
-	spheres.emplace_back(Vec3f(0.0f, 4.0f, -25.0f), MATERIAL_GLASS, 5.0f);
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina, cosa;

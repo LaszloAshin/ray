@@ -27,7 +27,6 @@ class Scene {
 	};
 
 	Vector<Light, 8> lights;
-	Vector<Sphere, 1> spheres;
 	Vector<Spheroid, 8> spheroids;
 	Vector<Plane, 2> planes;
 
