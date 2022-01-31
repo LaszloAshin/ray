@@ -17,16 +17,24 @@ struct Material {
 	float v; // refraction index
 
 	Color brdf(const Vec3f &L, const Vec3f &N, const Vec3f &V) const {
-		const float cosLN = L * N;
+		const float cosLN = L.x * N.x + L.y * N.y + L.z * N.z;
 		if (cosLN < 0.0f)
 			return {}; // watching from the back
 
 		// specular reflection (Phong)
-		const Vec3f R = N * (cosLN * 2.0f) - L;
-		const float cosRV = std::max(R * V, 0.0f);
-
-		return kd * cosLN                // diffuse
-			+ ks * powi(cosRV, this->n); // specular
+		const float cosLN2 = cosLN * 2.0f;
+		const Vec3f R{
+			N.x * cosLN2 - L.x,
+			N.y * cosLN2 - L.y,
+			N.z * cosLN2 - L.z,
+		};
+		const float cosRV = std::max(R.x * V.x + R.y * V.y + R.z * V.z, 0.0f);
+		const float spec = powi(cosRV, n);
+		return {
+			kd.r * cosLN + ks.r * spec,
+			kd.g * cosLN + ks.g * spec,
+			kd.b * cosLN + ks.b * spec,
+		};
 	}
 
 	bool isReflective() const { return kr > EPSILON; }

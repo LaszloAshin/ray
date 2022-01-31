@@ -67,48 +67,54 @@ Scene::intersect(const Ray &ray) const
 Color
 Scene::trace(const Ray &ray, int depth, float weight) const
 {
-	Color ret(0.0f, 0.0f, 0.0f);
 	if (!depth--)
-		return ret;
+		return {};
 
 	if (weight < RAY_ERROR)
-		return ret; // don't go further if our result doesn't matter
+		return {}; // don't go further if our result doesn't matter
 
 	const auto [O, t] = intersect(ray);
 	if (O == nullptr) {
-		return ret;
+		return {};
 	}
 
 	const Material& mater = materials[O->mater];
-	const Vec3f mp = ray.s + (ray.d * t);
-	ret = mater.ka;
+	const Vec3f mp{ray.s.x + t * ray.d.x, ray.s.y + t * ray.d.y, ray.s.z + t * ray.d.z};
+	auto [r, g, b] = mater.ka;
 
 	const auto [N, texel] = O->computeIntersectionDetails(O, mp);
+	const Vec3f V = Vec3f{ray.s.x - mp.x, ray.s.y - mp.y, ray.s.z - mp.z}.norm();
 
 	for (const auto& light : lights) {
-		const Vec3f d = mp - light.pos;
+		const Vec3f d{mp.x - light.pos.x, mp.y - light.pos.y, mp.z - light.pos.z};
 		// light source doesn't take effect if we are in shadow
 		const auto [o, sh] = intersect(Ray(light.pos, d));
 		if (o != nullptr && o != O && sh < 1.0f)
 			continue;
 
-		const Vec3f L = Vec3f(light.pos - mp).norm();
-		const Vec3f V = Vec3f(ray.s - mp).norm();
-		float dsq = d * d; // light distance square
+		float dsq = d.x * d.x + d.y * d.y + d.z * d.z;
 		if (dsq > EPSILON) {
 			dsq = 200.0f / dsq + 5.0f / mysqrtf(dsq);
-			ret += light.c * mater.brdf(L, N, V) * dsq;
+			const Vec3f L = Vec3f{-d.x, -d.y, -d.z}.norm();
+			const Color brdf = mater.brdf(L, N, V);
+			r += light.c.r * brdf.r * dsq;
+			g += light.c.g * brdf.g * dsq;
+			b += light.c.b * brdf.b * dsq;
 		}
 	}
 
-	const Vec3f V = Vec3f(ray.s - mp).norm();
-	const float cosVN = V * N;
+	const float cosVN = V.x * N.x + V.y * N.y + V.z * N.z;
+	const float cosVN2 = cosVN * 2.0f;
 
-	// tukor
-	Vec3f R = N * (cosVN * 2.0f) - V;
-	Ray rR(mp + (R * EPSILON), R);
-	if (mater.isReflective())
-		ret += trace(rR, depth, weight * mater.kr) * mater.kr;
+	// reflection
+	const Vec3f R{N.x * cosVN2 - V.x, N.y * cosVN2 - V.y, N.z * cosVN2 - V.z};
+	Ray rR({mp.x + EPSILON * R.x, mp.y + EPSILON * R.y, mp.z + EPSILON * R.z}, R);
+	if (mater.isReflective()) {
+		const Color c = trace(rR, depth, weight * mater.kr);
+		r += c.r * mater.kr;
+		g += c.g * mater.kr;
+		b += c.b * mater.kr;
+	}
 
 	if (mater.isRefractive()) {
 		// refraction
@@ -118,18 +124,23 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 			v = 1.0f / v;
 			s = -1.0f;
 		}
-		const Vec3f B = (N * cosVN - V) * v;
-		const float sq = 1 - (B * B);
+		const Vec3f B{(N.x * cosVN - V.x) * v, (N.y * cosVN - V.y) * v, (N.z * cosVN - V.z) * v};
+		const float sq = 1.0f - (B.x * B.x + B.y * B.y + B.z * B.z);
 		if (sq >= 0.0f) { // if there is no full reflection
-			R = B + (N * mysqrtf(sq) * s);
-			rR = Ray(mp + (R * EPSILON), R);
+			const float m = mysqrtf(sq) * s;
+			const Vec3f R{B.x + m * N.x, B.y + m * N.y, B.z + m * N.z};
+			rR = Ray({mp.x + EPSILON * R.x, mp.y + EPSILON * R.y, mp.z + EPSILON * R.z}, R);
 		}
 	
-		ret += trace(rR, depth, weight * mater.kt) * mater.kt;
+		const Color c = trace(rR, depth, weight * mater.kt);
+		r += c.r * mater.kt;
+		g += c.g * mater.kt;
+		b += c.b * mater.kt;
 	}
 
-	ret = ret * texel + ret;
-	ret = ret * Color::gray(0.5f);
-
-	return ret;
+	return {
+		(r * texel.r + r) * 0.5f,
+		(g * texel.g + g) * 0.5f,
+		(b * texel.b + b) * 0.5f
+	};
 }

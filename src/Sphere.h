@@ -21,7 +21,7 @@ public:
 	}
 
 	float intersect(const Ray &ray) const {
-		const Vec3f s{ray.s - pos};
+		const Vec3f s{ray.s.x - pos.x, ray.s.y - pos.y, ray.s.z - pos.z};
 		const Vec3f d{ray.d};
 		const float a = d.x * d.x + d.z * d.z + d.y * d.y;
 		const float m1 = d.x * s.y - d.y * s.x;
@@ -41,17 +41,15 @@ public:
 	}
 
 	std::tuple<Vec3f, Color> computeIntersectionDetails(const Vec3f &mp) const {
-		Vec3f N = (mp - this->pos) * 2.0f;
-		N.x /= r2;
-		N.y /= r2;
-		N.z /= r2;
+		const Vec3f p{mp.x - pos.x, mp.y - pos.y, mp.z - pos.z};
+		const float ir2 = 2.0f / r2;
+		Vec3f N{p.x * ir2, p.y * ir2, p.z * ir2};
 		N = N.norm();
 
-		Vec3f p = mp - pos;
 		float v = (float)M_1_PI * myacosf(p.z / r);
 		float u = 0.5f * (float)M_1_PI * (myatan2f(p.y / r, p.x / r) + (float)M_PI);
 		int x = (int)(u * 16.0f);
 		int y = (int)(v * 16.0f);
-		return std::make_tuple(N, ((x ^ y) & 1) ? Color(0.0f, 0.0f, 0.0f) : Color(1.0f, 1.0f, 1.0f));
+		return std::make_tuple(N, ((x ^ y) & 1) ? Color::black() : Color::white());
 	}
 };

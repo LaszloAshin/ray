@@ -23,9 +23,13 @@ public:
 		d = (l > EPSILON) ? ((pos * r1) / l) : 0.0f;
 	}
 
-	float intersect(const Ray &ray) const {
-		const float f = ray.d * pos;
-		return (f > -EPSILON) ? -1.0f : (pos * d - ray.s) * pos / f;
+	float intersect(const Ray &r) const {
+		const float f = r.d.x * pos.x + r.d.y * pos.y + r.d.z * pos.z;
+		if (f > -EPSILON) return -1.0f;
+		const float x = pos.x * d - r.s.x;
+		const float y = pos.y * d - r.s.y;
+		const float z = pos.z * d - r.s.z;
+		return (x * pos.x + y * pos.y + z * pos.z) / f;
 	}
 
 	std::tuple<Vec3f, Color> computeIntersectionDetails(const Vec3f&) const {

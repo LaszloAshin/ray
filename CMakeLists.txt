@@ -42,8 +42,9 @@ if(MSVC)
 	list(APPEND ray_single_SOURCES src/start-windows.c)
 else()
 	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+	add_compile_options(-g)
 	add_compile_options(-fno-exceptions -fno-rtti)
-	add_compile_options(-fno-asynchronous-unwind-tables)
+	add_compile_options(-fno-asynchronous-unwind-tables) # comment this line while profiling
 	add_compile_options(-fno-align-functions)
 	add_compile_options(-ffast-math)
 	add_compile_options(-fno-stack-protector)
@@ -91,11 +92,11 @@ target_link_libraries(ray libray ${CMAKE_THREAD_LIBS_INIT})
 if(UNIX)
 	if(NOT APPLE)
 		add_custom_command(TARGET ray POST_BUILD
-			COMMAND $<IF:$<CONFIG:Release>,${CMAKE_STRIP},true> -s -R .comment ray
+			COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray
 			COMMENT "Stripping executable ray"
 		)
 		add_custom_command(TARGET ray-single POST_BUILD
-			COMMAND $<IF:$<CONFIG:Release>,${CMAKE_STRIP},true> -s -R .comment ray-single
+			COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray-single
 			COMMENT "Stripping executable ray-single"
 		)
 	endif()
