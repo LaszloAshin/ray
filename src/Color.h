@@ -9,7 +9,7 @@ struct Color {
 	constexpr static Color gray(float g) { return {g, g, g}; }
 	constexpr static Color white() { return gray(1.0f); }
 
-	constexpr Color() {}
+	constexpr Color() = default;
 	constexpr Color(float r, float g, float b) : r{r}, g{g}, b{b} {}
 
 	void clamp() {

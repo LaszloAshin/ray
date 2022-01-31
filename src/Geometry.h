@@ -5,13 +5,12 @@
 #include "config.h"
 
 struct Vec3f {
-	float x, y, z;
+	float x{}, y{}, z{};
 
-	Vec3f() : x{}, y{}, z{} {}
+	constexpr Vec3f() = default;
+	constexpr Vec3f(float x, float y, float z) : x{x}, y{y}, z{z} {}
 
-	Vec3f(float x0, float y0, float z0) : x{x0}, y{y0}, z{z0} {}
-
-	Vec3f&	operator+=(const Vec3f &rhs) {
+	Vec3f& operator+=(const Vec3f &rhs) {
 		x += rhs.x, y += rhs.y, z += rhs.z;
 		return *this;
 	}
