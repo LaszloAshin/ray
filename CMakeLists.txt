@@ -35,6 +35,7 @@ if(MSVC)
 	add_link_options(/MANIFEST:NO)
 	add_link_options(/MERGE:.rdata=.text)
 	add_link_options(/MERGE:.pdata=.text)
+	add_link_options(/MAP)
 	list(APPEND libray_SOURCES src/MyMath-masm.asm)
 	list(APPEND libray_SOURCES src/MappedWritableFile-windows.cc)
 	list(APPEND libray_SOURCES src/MyLib-windows.cc)
@@ -48,6 +49,8 @@ else()
 	add_compile_options(-fno-stack-protector)
 
 	add_compile_options(-ffunction-sections -fdata-sections)
+
+	add_link_options(-Wl,-Map=.)
 
 	list(APPEND libray_SOURCES src/MyMath-inlineasm.cc)
 	list(APPEND libray_SOURCES src/MappedWritableFile-posix.cc)
