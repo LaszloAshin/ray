@@ -7,15 +7,15 @@
 static const Material materials[] = {
 	{
 		Color::black(), Color::gray(0.1f), Color::gray(0.4f),
-		128, 0.1f, 0.9f, 2.0f
+		7, 0.1f, 0.9f, 2.0f
 	},
 	{
 		Color::gray(0.2f), Color::gray(0.4f), Color::gray(0.1f),
-		128, 0.4f, 0.0f, 1.0f
+		7, 0.4f, 0.0f, 1.0f
 	},
 	{
 		Color::black(), Color::gray(0.1f), Color::gray(0.8f),
-		128, 0.2f, 0.0f, 1.0f
+		7, 0.2f, 0.0f, 1.0f
 	},
 };
 

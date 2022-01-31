@@ -41,15 +41,11 @@ struct Material {
 	bool isRefractive() const { return kt > EPSILON; }
 
 private:
-	static float powi(float x, int y) {
-		float result = 1.0f;
-		for (; y > 0; y >>= 1) {
-			if (y & 1) {
-				result *= x;
-			}
+	static float powi(float x, int n) {
+		for (; n > 0; --n) {
 			x *= x;
 		}
-		return result;
+		return x;
 	}
 };
 
