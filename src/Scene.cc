@@ -4,27 +4,30 @@
 
 #include "config.h"
 
+static const Material materials[] = {
+	{
+		Color::black(), Color::gray(0.1f), Color::gray(0.4f),
+		128, 0.1f, 0.9f, 2.0f
+	},
+	{
+		Color::gray(0.2f), Color::gray(0.4f), Color::gray(0.1f),
+		128, 0.4f, 0.0f, 1.0f
+	},
+	{
+		Color::black(), Color::gray(0.1f), Color::gray(0.8f),
+		128, 0.2f, 0.0f, 1.0f
+	},
+};
+
+enum MaterialIds {
+	MATERIAL_GLASS,
+	MATERIAL_IRON,
+	MATERIAL_MIRROR,
+};
+
 Scene::Scene(int frame)
 {
-	const int glass = addMaterial({
-		Color::black(),
-		Color::gray(0.1f),
-		Color::gray(0.4f), 128,
-		0.1f, 0.9f, 2.0f
-	});
-	const int iron = addMaterial({
-		Color::gray(0.2f),
-		Color::gray(0.4f),
-		Color::gray(0.1f), 128,
-		0.4f, 0.0f, 1.0f
-	});
-	const int mirror = addMaterial({
-		Color::black(),
-		Color::gray(0.1f),
-		Color::gray(0.8f), 128,
-		0.2f, 0.0f, 1.0f
-	});
-	spheres.emplace_back(Vec3f(0.0f, 4.0f, -25.0f), glass, 5.0f);
+	spheres.emplace_back(Vec3f(0.0f, 4.0f, -25.0f), MATERIAL_GLASS, 5.0f);
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina, cosa;
@@ -38,18 +41,11 @@ Scene::Scene(int frame)
 		mysincosf(angle, &sina, &cosa);
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
-		spheroids.emplace_back(Vec3f(x, -4.0f, z - 25.0f), iron, 5.0f, 2.0f);
+		spheroids.emplace_back(Vec3f(x, -4.0f, z - 25.0f), MATERIAL_IRON, 5.0f, 2.0f);
 	}
-	planes.emplace_back(Vec3f(0.0f, 1.0f, 0.0f), -4.5f, mirror);
-	planes.emplace_back(Vec3f(0.0f, -1.0f, 0.0f), -15.0f, mirror);
+	planes.emplace_back(Vec3f(0.0f, 1.0f, 0.0f), -4.5f, MATERIAL_MIRROR);
+	planes.emplace_back(Vec3f(0.0f, -1.0f, 0.0f), -15.0f, MATERIAL_MIRROR);
 	lights.emplace_back(Vec3f(0.0f, 10.0f, -25.0f), Color::white());
-}
-
-int
-Scene::addMaterial(Material material)
-{
-	materials.push_back(std::move(material));
-	return static_cast<int>(materials.size() - 1);
 }
 
 Scene::Intersection

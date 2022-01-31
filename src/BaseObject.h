@@ -7,26 +7,14 @@
 
 #include <tuple>
 
-class Material {
-public:
+struct Material {
 	Color ka; // ambient
-protected:
 	Color kd; // diffuse
 	Color ks; // specular
 	int n; // shinyness
-public:
-	float v; // refraction index
-
 	const float kr; // reflection
 	const float kt; // refraction
-
-	Material(
-		Color ka0, Color kd0, Color ks0, int n0,
-		float kr0, float kt0, float v0
-	) : ka(ka0), kd(kd0), ks(ks0), kr(kr0), kt(kt0)
-	{
-		n = n0, v = v0;
-	}
+	float v; // refraction index
 
 	Color brdf(const Vec3f &L, const Vec3f &N, const Vec3f &V) const {
 		const float cosLN = L * N;
