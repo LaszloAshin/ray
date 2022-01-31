@@ -50,8 +50,6 @@ else()
 
 	add_compile_options(-ffunction-sections -fdata-sections)
 
-	add_link_options(-Wl,-Map=.)
-
 	list(APPEND libray_SOURCES src/MyMath-inlineasm.cc)
 	list(APPEND libray_SOURCES src/MappedWritableFile-posix.cc)
 	list(APPEND libray_SOURCES src/MyLib-posix.cc)
@@ -90,13 +88,17 @@ find_package(Threads)
 add_executable(ray ${ray_multi_SOURCES})
 target_link_libraries(ray libray ${CMAKE_THREAD_LIBS_INIT})
 
-if(UNIX AND NOT APPLE)
-	add_custom_command(TARGET ray POST_BUILD
-		COMMAND $<IF:$<CONFIG:Release>,${CMAKE_STRIP},true> -s -R .comment ray
-		COMMENT "Stripping executable ray"
-	)
-	add_custom_command(TARGET ray-single POST_BUILD
-		COMMAND $<IF:$<CONFIG:Release>,${CMAKE_STRIP},true> -s -R .comment ray-single
-		COMMENT "Stripping executable ray-single"
-	)
+if(UNIX)
+	if(NOT APPLE)
+		add_custom_command(TARGET ray POST_BUILD
+			COMMAND $<IF:$<CONFIG:Release>,${CMAKE_STRIP},true> -s -R .comment ray
+			COMMENT "Stripping executable ray"
+		)
+		add_custom_command(TARGET ray-single POST_BUILD
+			COMMAND $<IF:$<CONFIG:Release>,${CMAKE_STRIP},true> -s -R .comment ray-single
+			COMMENT "Stripping executable ray-single"
+		)
+	endif()
+	target_link_options(ray PUBLIC -Wl,-Map=ray.map)
+	target_link_options(ray-single PUBLIC -Wl,-Map=ray-single.map)
 endif()
