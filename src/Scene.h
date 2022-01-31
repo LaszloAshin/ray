@@ -28,7 +28,6 @@ class Scene {
 
 	Vector<Light, 8> lights;
 	Vector<Spheroid, 8> spheroids;
-	Vector<Plane, 2> planes;
 
 	Intersection intersect(const Ray &r) const;
 

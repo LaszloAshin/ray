@@ -29,6 +29,11 @@ static const Sphere spheres[] = {
 	{Vec3f{0.0f, 4.0f, -25.0f}, MATERIAL_GLASS, 5.0f},
 };
 
+static const Plane planes[] = {
+	{Vec3f{0.0f, 1.0f, 0.0f}, -4.5f, MATERIAL_MIRROR},
+	{Vec3f{0.0f, -1.0f, 0.0f}, -15.0f, MATERIAL_MIRROR},
+};
+
 Scene::Scene(int frame)
 {
 	for (int i = 0; i < 5; ++i) {
@@ -46,8 +51,6 @@ Scene::Scene(int frame)
 		z = -15.0f * cosa;
 		spheroids.emplace_back(Vec3f(x, -4.0f, z - 25.0f), MATERIAL_IRON, 5.0f, 2.0f);
 	}
-	planes.emplace_back(Vec3f(0.0f, 1.0f, 0.0f), -4.5f, MATERIAL_MIRROR);
-	planes.emplace_back(Vec3f(0.0f, -1.0f, 0.0f), -15.0f, MATERIAL_MIRROR);
 	lights.emplace_back(Vec3f(0.0f, 10.0f, -25.0f), Color::white());
 }
 

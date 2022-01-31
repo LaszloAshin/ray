@@ -23,8 +23,6 @@ public:
 		d = (l > EPSILON) ? ((pos * r1) / l) : 0.0f;
 	}
 
-	~Plane() {}
-
 	float intersect(const Ray &ray) const {
 		const float f = ray.d * pos;
 		return (f > -EPSILON) ? -1.0f : (pos * d - ray.s) * pos / f;
