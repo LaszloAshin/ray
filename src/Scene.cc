@@ -128,8 +128,8 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 		const float sq = 1.0f - (B.x * B.x + B.y * B.y + B.z * B.z);
 		if (sq >= 0.0f) { // if there is no full reflection
 			const float m = mysqrtf(sq) * s;
-			const Vec3f R{B.x + m * N.x, B.y + m * N.y, B.z + m * N.z};
-			rR = Ray({mp.x + EPSILON * R.x, mp.y + EPSILON * R.y, mp.z + EPSILON * R.z}, R);
+			const Vec3f R2{B.x + m * N.x, B.y + m * N.y, B.z + m * N.z};
+			rR = Ray({mp.x + EPSILON * R2.x, mp.y + EPSILON * R2.y, mp.z + EPSILON * R2.z}, R2);
 		}
 	
 		const Color c = trace(rR, depth, weight * mater.kt);
