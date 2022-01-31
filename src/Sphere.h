@@ -13,7 +13,7 @@ class Sphere final : public BaseObject {
 
 public:
 	Sphere(const Vec3f &p, int material, float r)
-	: BaseObject(p, material, cid<Sphere>)
+	: BaseObject{p, material, cid<Sphere>}
 	, r{r}
 	, r2{r * r}
 	{

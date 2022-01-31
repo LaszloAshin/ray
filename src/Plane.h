@@ -9,12 +9,12 @@ class Plane final : public BaseObject {
 
 public:
 	Plane(const Vec3f &n, float d0, int material) :
-		BaseObject(n.norm(), material, cid<Plane>), d(d0)
+		BaseObject{n.norm(), material, cid<Plane>}, d(d0)
 	{
 	}
 
 	Plane(const Vec3f &r1, const Vec3f &r2, const Vec3f &r3, int material)
-	: BaseObject(r1, material, cid<Plane>)
+	: BaseObject{r1, material, cid<Plane>}
 	{
 		Vec3f diff1 = r2 - r1;
 		Vec3f diff2 = r3 - r1;

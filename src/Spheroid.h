@@ -15,7 +15,7 @@ class Spheroid final : public BaseObject {
 
 public:
 	Spheroid(const Vec3f &p, int material, float rxz, float ry)
-	: BaseObject(p, material, cid<Spheroid>)
+	: BaseObject{p, material, cid<Spheroid>}
 	, rxz{rxz}
 	, ry{ry}
 	, rxz2{rxz * rxz}
