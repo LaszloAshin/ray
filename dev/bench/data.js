@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643715555329,
+  "lastUpdate": 1643716086506,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -4786,6 +4786,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/890af253a6ed237ecc7d387531770d00b582be3f"
         },
         "date": 1643715554339,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 9000,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 7789,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 96,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 790489019,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "432a92c445c3fdba7766ba406566e11ff7d46f56",
+          "message": "Make the windows build not need memset",
+          "timestamp": "2022-02-01T12:46:35+01:00",
+          "tree_id": "c3c93df6c32a6f6d69d1b044f2c70b9535f44ac0",
+          "url": "https://github.com/LaszloAshin/ray/commit/432a92c445c3fdba7766ba406566e11ff7d46f56"
+        },
+        "date": 1643716085998,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
