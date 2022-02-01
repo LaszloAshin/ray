@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 env:
-  BUILD_TYPE: Release
+  BUILD_TYPE: MinSizeRel
 
 jobs:
   build:

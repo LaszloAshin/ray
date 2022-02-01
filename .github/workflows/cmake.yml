@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 env:
-  BUILD_TYPE: Release
+  BUILD_TYPE: MinSizeRel
 
 jobs:
   build:
@@ -40,7 +40,7 @@ jobs:
           ${{github.workspace}}/build/ray.map
           ${{github.workspace}}/build/ray-single
           ${{github.workspace}}/build/ray-single.map
-          ${{github.workspace}}/build/Release/ray.exe
-          ${{github.workspace}}/build/Release/ray.map
-          ${{github.workspace}}/build/Release/ray-single.exe
-          ${{github.workspace}}/build/Release/ray-single.map
+          ${{github.workspace}}/build/MinSizeRel/ray.exe
+          ${{github.workspace}}/build/MinSizeRel/ray.map
+          ${{github.workspace}}/build/MinSizeRel/ray-single.exe
+          ${{github.workspace}}/build/MinSizeRel/ray-single.map
