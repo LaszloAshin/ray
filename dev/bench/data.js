@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643925827594,
+  "lastUpdate": 1643926062879,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -5178,6 +5178,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/3b3713b9f4da276b610d6ea35145619cb0033ae0"
         },
         "date": 1643925827058,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7700,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6889,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 971380678,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "7dca5f3e3c458f4861e4c2a88201ffb025572993",
+          "message": "Set .exe alignment to 64\n\nThis seems to be the smallest working value.",
+          "timestamp": "2022-02-03T23:05:40+01:00",
+          "tree_id": "7dc35b785c985d78a7b19466d8048c59d813f53b",
+          "url": "https://github.com/LaszloAshin/ray/commit/7dca5f3e3c458f4861e4c2a88201ffb025572993"
+        },
+        "date": 1643926061830,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
