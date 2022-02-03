@@ -23,7 +23,13 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      shell: bash
+      run: |
+        if [ "$RUNNER_OS" == "Windows" ]; then
+          cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -A Win32
+        else
+          cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        fi
 
     - name: Build
       shell: bash
