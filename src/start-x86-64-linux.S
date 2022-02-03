@@ -3,6 +3,8 @@
 	.type _start,@function
 	.section .text.exit
 
+#include <sys/syscall.h>
+
 # _start stack:
 # argc  %rsp + 0
 # argv  %rsp + 8
@@ -15,5 +17,5 @@ _start:
 	call   main # x86_64 ABI function params: %rdi %rsi %rdx %rcx %r8 %r9
 	mov    %eax, %edi # exit status
 	xor    %eax, %eax
-	mov    $60, %al # syscall number
+	mov    $SYS_exit, %al # syscall number
 	syscall

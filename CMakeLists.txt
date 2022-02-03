@@ -63,8 +63,8 @@ else()
 		add_link_options(-Wl,--build-id=none)
 
 		add_link_options(-nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
-		list(APPEND libray_SOURCES src/start-x86-64-linux.s)
-		list(APPEND ray_multi_SOURCES src/thread-linux.s)
+		list(APPEND libray_SOURCES src/start-x86-64-linux.S)
+		list(APPEND ray_multi_SOURCES src/thread-x86-64-linux.S)
 
 		add_link_options(-Wl,-z,noseparate-code) # merge rodata into text
 		add_link_options(-Wl,-z,norelro)

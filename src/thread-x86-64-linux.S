@@ -13,9 +13,7 @@
 .set CLONE_FILES,   0x00000400
 .set CLONE_SIGHAND, 0x00000800
 .set CLONE_IO,      0x80000000
-.set SYS_mmap,      9
-.set SYS_clone,     56
-.set SYS_exit,      60
+#include <sys/syscall.h>
 
 	.type exit,@function
 
