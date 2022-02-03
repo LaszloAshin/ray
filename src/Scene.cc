@@ -19,7 +19,7 @@ static const Material materials[] = {
 	},
 };
 
-enum MaterialIds {
+enum MaterialIds : short {
 	MATERIAL_GLASS,
 	MATERIAL_IRON,
 	MATERIAL_MIRROR,
