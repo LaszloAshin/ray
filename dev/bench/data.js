@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643716086506,
+  "lastUpdate": 1643899520788,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -4835,6 +4835,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/432a92c445c3fdba7766ba406566e11ff7d46f56"
         },
         "date": 1643716085998,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 9000,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 7789,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 96,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 790489019,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "1c95d3b39c563a7014fd849959e2e4f368d68898",
+          "message": "Use sys/syscall.h in asm code",
+          "timestamp": "2022-02-03T15:44:13+01:00",
+          "tree_id": "94d165b8a3b147902a42875baf5b95c555452f3b",
+          "url": "https://github.com/LaszloAshin/ray/commit/1c95d3b39c563a7014fd849959e2e4f368d68898"
+        },
+        "date": 1643899520126,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
