@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643926440601,
+  "lastUpdate": 1643926569184,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -5276,6 +5276,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/f968ce4ea2eb80ecf1ace1cdddb32312ede9d741"
         },
         "date": 1643926439717,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7700,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6889,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 971380678,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "db061df2890352c780c7246ef0448be74a1ce81d",
+          "message": "Rename masm code to masm-x64",
+          "timestamp": "2022-02-03T23:13:40+01:00",
+          "tree_id": "c8248e6030a931796b981537ee868168ee767f39",
+          "url": "https://github.com/LaszloAshin/ray/commit/db061df2890352c780c7246ef0448be74a1ce81d"
+        },
+        "date": 1643926568193,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
