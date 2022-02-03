@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643926569184,
+  "lastUpdate": 1643926719104,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -5325,6 +5325,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/db061df2890352c780c7246ef0448be74a1ce81d"
         },
         "date": 1643926568193,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7700,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6889,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 971380678,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "3a11fd894b65e55568d4e2a8ca3967de37202b30",
+          "message": "Add MyMath-masm-x86.asm",
+          "timestamp": "2022-02-03T23:16:51+01:00",
+          "tree_id": "52f388df416d594b4631a1f3503eb8e0e045ef38",
+          "url": "https://github.com/LaszloAshin/ray/commit/3a11fd894b65e55568d4e2a8ca3967de37202b30"
+        },
+        "date": 1643926718137,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
