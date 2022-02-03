@@ -26,6 +26,7 @@ jobs:
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
+      shell: bash
       run: |
         if [ "$RUNNER_OS" == "Linux" ]; then
           sudo apt update
