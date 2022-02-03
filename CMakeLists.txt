@@ -59,12 +59,15 @@ else()
 	else()
 		enable_language(ASM)
 		add_compile_options(-fno-align-loops -fno-align-labels -fno-align-jumps)
+		add_compile_options(-m32 -march=x86-64)
+		add_compile_options(-fno-pie)
+		add_link_options(-m32 -march=x86-64)
 		add_link_options(-Wl,--gc-sections -Wl,--as-needed)
 		add_link_options(-Wl,--build-id=none)
 
 		add_link_options(-nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
-		list(APPEND libray_SOURCES src/start-x86-64-linux.S)
-		list(APPEND ray_multi_SOURCES src/thread-x86-64-linux.S)
+		list(APPEND libray_SOURCES src/start-i386-linux.S)
+		list(APPEND ray_multi_SOURCES src/thread-i386-linux.S)
 
 		add_link_options(-Wl,-z,noseparate-code) # merge rodata into text
 		add_link_options(-Wl,-z,norelro)

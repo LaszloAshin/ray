@@ -20,16 +20,24 @@ struct MyThread {
 		int result;
 		const unsigned my__WCHILD = 0x80000000;
 		__asm __volatile__("\n\t"
+#ifdef __amd64__
 			"mov %5, %%r10d\n\t"
 			"syscall\n\t"
 			: "=a"(result)
 			: "0"(SYS_wait4), "D"(id), "S"(0), "d"(my__WCHILD), "r"(0)
 			: "%rcx", "%r11", "memory", "%r10"
+#else
+			"int $0x80\n\t"
+			: "=a"(result)
+			: "0"(SYS_wait4), "b"(id), "c"(0), "d"(my__WCHILD), "S"(0)
+			: "memory"
+#endif
 		);
 	}
 
 	static int hardware_concurrency() {
 		int result;
+#ifdef __amd64__
 		uint64_t set;
 		__asm __volatile__("\n\t"
 			"syscall\n\t"
@@ -38,6 +46,16 @@ struct MyThread {
 			: "0"(SYS_sched_getaffinity), "D"(0), "S"(sizeof(set)), "d"(&set)
 			: "%rcx", "%r11", "memory"
 		);
+#else
+		uint32_t set;
+		__asm __volatile__("\n\t"
+			"int $0x80\n\t"
+			"popcnt (%%edx), %%eax"
+			: "=a"(result)
+			: "0"(SYS_sched_getaffinity), "b"(0), "c"(sizeof(set)), "d"(&set)
+			: "memory"
+		);
+#endif
 		return result;
 	}
 
@@ -68,6 +86,8 @@ private:
 
 static void traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiased(); }
 
+//static void traceAntialiased(void* p) { myprint(reinterpret_cast<int>(p), "\n"); }
+
 int
 main(int argc, char *argv[], char *envp[])
 {
@@ -94,5 +114,6 @@ main(int argc, char *argv[], char *envp[])
 	myprint("Spawning ", nthreads, " threads...\n");
 	for (int i = 0; i < nthreads; ++i) {
 		threads.emplace_back(traceAntialiased, &tracer);
+//		threads.emplace_back(traceAntialiased, reinterpret_cast<void*>(0x12345678));
 	}
 }

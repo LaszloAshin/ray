@@ -17,11 +17,18 @@ char* mygetenv(char* envp[], const char* name);
 inline int mywrite(const void* p, int size) {
 	int result;
 	int fd = 1;
-	__asm __volatile__(
-		"syscall;"
+	__asm __volatile__("\n\t"
+#ifdef __amd64__
+		"syscall\n\t"
 		: "=a"(result)
 		: "0"(SYS_write), "D"(fd), "S"(p), "d"(size)
 		: "%rcx", "%r11", "memory"
+#else
+		"int $0x80\n\t"
+		: "=a"(result)
+		: "0"(SYS_write), "b"(fd), "c"(p), "d"(size)
+		: "memory"
+#endif
 	);
 	return result;
 }
