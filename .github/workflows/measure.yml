@@ -32,6 +32,7 @@ jobs:
     - name: Test
       working-directory: ${{github.workspace}}/build
       run: |
+        sudo dpkg --add-architecture i386
         sudo apt update
         sudo apt install --yes valgrind:i386
         ../benchmark.sh > output.txt
