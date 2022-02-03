@@ -14,8 +14,8 @@ class Spheroid final : public BaseObject {
 	float ry2;
 
 public:
-	constexpr Spheroid(const Vec3f &p, int material, float rxz, float ry)
-	: BaseObject{p, material, cid<Spheroid>}
+	constexpr Spheroid(const Vec3f &p, short material, float rxz, float ry)
+	: BaseObject{OT_SPHEROID, material, p}
 	, rxz{rxz}
 	, ry{ry}
 	, rxz2{rxz * rxz}

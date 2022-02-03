@@ -8,13 +8,13 @@ class Plane final : public BaseObject {
 	float d;
 
 public:
-	constexpr Plane(const Vec3f &n, float d0, int material)
-	: BaseObject{n, material, cid<Plane>}
+	constexpr Plane(const Vec3f &n, float d0, short material)
+	: BaseObject{OT_PLANE, material, n}
 	, d{d0}
 	{}
 
-	Plane(const Vec3f &r1, const Vec3f &r2, const Vec3f &r3, int material)
-	: BaseObject{r1, material, cid<Plane>}
+	Plane(const Vec3f &r1, const Vec3f &r2, const Vec3f &r3, short material)
+	: BaseObject{OT_PLANE, material, r1}
 	{
 		Vec3f diff1 = r2 - r1;
 		Vec3f diff2 = r3 - r1;

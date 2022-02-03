@@ -12,8 +12,8 @@ class Sphere final : public BaseObject {
 	float r2;
 
 public:
-	constexpr Sphere(const Vec3f &p, int material, float r)
-	: BaseObject{p, material, cid<Sphere>}
+	constexpr Sphere(const Vec3f &p, short material, float r)
+	: BaseObject{OT_SPHERE, material, p}
 	, r{r}
 	, r2{r * r}
 	{

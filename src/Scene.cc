@@ -64,6 +64,12 @@ Scene::intersect(const Ray &ray) const
 	return result;
 }
 
+static const BaseObject::ComputeIntersectionDetails cid[] = {
+	BaseObject::cid<Plane>,
+	BaseObject::cid<Sphere>,
+	BaseObject::cid<Spheroid>,
+};
+
 Color
 Scene::trace(const Ray &ray, int depth, float weight) const
 {
@@ -82,7 +88,7 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 	const Vec3f mp{ray.s.x + t * ray.d.x, ray.s.y + t * ray.d.y, ray.s.z + t * ray.d.z};
 	auto [r, g, b] = mater.ka;
 
-	const auto [N, texel] = O->computeIntersectionDetails(O, mp);
+	const auto [N, texel] = cid[O->type](O, mp);
 	const Vec3f V = Vec3f{ray.s.x - mp.x, ray.s.y - mp.y, ray.s.z - mp.z}.norm();
 
 	for (const auto& light : lights) {

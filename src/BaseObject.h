@@ -49,12 +49,18 @@ private:
 	}
 };
 
+enum ObjectType : short {
+	OT_PLANE,
+	OT_SPHERE,
+	OT_SPHEROID,
+};
+
 struct BaseObject {
 	using ComputeIntersectionDetails = std::tuple<Vec3f, Color> (*)(const BaseObject* o, const Vec3f&);
 
+	ObjectType type;
+	short mater;
 	Vec3f pos;
-	int mater;
-	ComputeIntersectionDetails computeIntersectionDetails;
 
 	template <class T>
 	static std::tuple<Vec3f, Color> cid(const BaseObject* o, const Vec3f& mp) {
