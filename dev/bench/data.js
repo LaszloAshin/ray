@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643980136690,
+  "lastUpdate": 1643980179878,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -5717,6 +5717,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/6c32249785ef2cbe65a5861905fb7cd2960808ea"
         },
         "date": 1643980136115,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7700,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6889,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 971380678,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "82e3f1d5d4c81fa50e6bca2771f6f9edb4d5a150",
+          "message": "Remove _fltused from the exe files",
+          "timestamp": "2022-02-04T14:07:44+01:00",
+          "tree_id": "96857bf664432d0cc31d8a6b30443ef189145d43",
+          "url": "https://github.com/LaszloAshin/ray/commit/82e3f1d5d4c81fa50e6bca2771f6f9edb4d5a150"
+        },
+        "date": 1643980179401,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
