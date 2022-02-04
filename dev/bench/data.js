@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643973664736,
+  "lastUpdate": 1643980081019,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -5619,6 +5619,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/252cf08812b379c15f30e886465abf6c3dec1c50"
         },
         "date": 1643973663808,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7700,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6889,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 971380678,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "766b081c6f28e349360deaab2a23f57d511fa9bf",
+          "message": "Disable PGO debug info in exe files",
+          "timestamp": "2022-02-04T14:06:10+01:00",
+          "tree_id": "d5241d7eb284576c9dda5c8da52b7e42cba83d6f",
+          "url": "https://github.com/LaszloAshin/ray/commit/766b081c6f28e349360deaab2a23f57d511fa9bf"
+        },
+        "date": 1643980080433,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
