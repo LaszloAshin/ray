@@ -68,16 +68,31 @@ private:
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include <thread>
+struct MyThreadData {
+	void (*func)(void*);
+	void *arg;
+};
+
+DWORD WINAPI MyThreadThunk( LPVOID lpParam ) {
+	MyThreadData* d = static_cast<MyThreadData*>(lpParam);
+	(*d->func)(d->arg);
+	return 0;
+}
 
 struct MyThread {
-	template <typename... Args>
-	MyThread(Args&&... args) : th{std::forward<Args>(args)...} {}
+	MyThread(void (*func)(void*), void* arg) {
+		MyThreadData d{ func, arg };
+		th = CreateThread(NULL, 0, MyThreadThunk, &d, 0, NULL);
+	}
 
 	MyThread(const MyThread&) = delete;
 	MyThread& operator=(const MyThread&) = delete;
 
-	~MyThread() { th.join(); }
+	~MyThread() {
+		myprint(""); // why does this prevent segfault?!
+		WaitForSingleObject(th, INFINITE);
+		CloseHandle(th);
+	}
 
 	static int hardware_concurrency() {
 		SYSTEM_INFO sysinfo;
@@ -86,7 +101,7 @@ struct MyThread {
 	}
 
 private:
-	std::thread th;
+	HANDLE th;
 };
 
 #else
