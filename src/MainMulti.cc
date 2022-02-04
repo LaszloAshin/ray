@@ -63,7 +63,33 @@ private:
 	int id;
 };
 
-#else // !__linux__
+#elif _WIN32
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+#include <thread>
+
+struct MyThread {
+	template <typename... Args>
+	MyThread(Args&&... args) : th{std::forward<Args>(args)...} {}
+
+	MyThread(const MyThread&) = delete;
+	MyThread& operator=(const MyThread&) = delete;
+
+	~MyThread() { th.join(); }
+
+	static int hardware_concurrency() {
+		SYSINFO sysinfo;
+		GetSystemInfo(&sysinfo);
+		return sysinfo.dwNumberOfProcessors;
+	}
+
+private:
+	std::thread th;
+};
+
+#else
 
 #include <thread>
 
@@ -85,8 +111,6 @@ private:
 #endif
 
 static void traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiased(); }
-
-//static void traceAntialiased(void* p) { myprint(reinterpret_cast<int>(p), "\n"); }
 
 int
 main(int argc, char *argv[], char *envp[])
@@ -114,6 +138,5 @@ main(int argc, char *argv[], char *envp[])
 	myprint("Spawning ", nthreads, " threads...\n");
 	for (int i = 0; i < nthreads; ++i) {
 		threads.emplace_back(traceAntialiased, &tracer);
-//		threads.emplace_back(traceAntialiased, reinterpret_cast<void*>(0x12345678));
 	}
 }
