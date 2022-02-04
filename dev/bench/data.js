@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643973151687,
+  "lastUpdate": 1643973664736,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -5570,6 +5570,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/900b23548b089687be3c4df2a6e4a1128842a276"
         },
         "date": 1643973150817,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7700,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6889,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 971380678,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "252cf08812b379c15f30e886465abf6c3dec1c50",
+          "message": "Remove dependencies of ray.exe",
+          "timestamp": "2022-02-04T12:19:18+01:00",
+          "tree_id": "07ea3374a9a731cc50ddb63d9cc9e9a63f4255f8",
+          "url": "https://github.com/LaszloAshin/ray/commit/252cf08812b379c15f30e886465abf6c3dec1c50"
+        },
+        "date": 1643973663808,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
