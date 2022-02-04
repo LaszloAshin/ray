@@ -9,3 +9,5 @@ char* mygetenv(char*[], const char* name) {
 }
 
 void operator delete(void*) {}
+
+extern "C" const int _fltused = 0;
