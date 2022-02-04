@@ -40,6 +40,7 @@ if(MSVC)
 	add_link_options(/FILEALIGN:16)
 	add_link_options(/ALIGN:16)
 	add_link_options(/EMITPOGOPHASEINFO) # disable PGO debug info https://stackoverflow.com/a/45546715
+	add_link_options(/FIXED /DYNAMICBASE:NO) # disable relocations
 	list(APPEND libray_SOURCES src/MyMath-masm-x86.asm)
 	list(APPEND libray_SOURCES src/MappedWritableFile-windows.cc)
 	list(APPEND libray_SOURCES src/MyLib-windows.cc)
