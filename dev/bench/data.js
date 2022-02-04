@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643970800336,
+  "lastUpdate": 1643973151687,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -5521,6 +5521,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/a46e1f49bc5cd5cb5d19bd436d876c0a87d19378"
         },
         "date": 1643970799423,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7700,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6889,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 971380678,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "900b23548b089687be3c4df2a6e4a1128842a276",
+          "message": "Implement threading on windows",
+          "timestamp": "2022-02-04T12:11:02+01:00",
+          "tree_id": "4fb4da313cbc3e1a5e2f451f886fe1f446b654f9",
+          "url": "https://github.com/LaszloAshin/ray/commit/900b23548b089687be3c4df2a6e4a1128842a276"
+        },
+        "date": 1643973150817,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
