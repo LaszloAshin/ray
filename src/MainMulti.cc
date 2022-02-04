@@ -80,7 +80,7 @@ struct MyThread {
 	~MyThread() { th.join(); }
 
 	static int hardware_concurrency() {
-		SYSINFO sysinfo;
+		SYSTEM_INFO sysinfo;
 		GetSystemInfo(&sysinfo);
 		return sysinfo.dwNumberOfProcessors;
 	}
