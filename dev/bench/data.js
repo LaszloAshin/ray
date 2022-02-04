@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1643927205409,
+  "lastUpdate": 1643970621577,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -5423,6 +5423,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/1da209b467eb819598b2ce37bf350c6e718ce946"
         },
         "date": 1643927204550,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7700,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6889,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 971380678,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "59a679ffdba4d634a40239d1d4abd2eb2be2bff9",
+          "message": "Implement hardware_concurrency for windows",
+          "timestamp": "2022-02-04T11:28:25+01:00",
+          "tree_id": "55efff6176a8ec4c84482818258367bfd2a982be",
+          "url": "https://github.com/LaszloAshin/ray/commit/59a679ffdba4d634a40239d1d4abd2eb2be2bff9"
+        },
+        "date": 1643970620805,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
