@@ -20,6 +20,6 @@ _start:
 	push   %esi
 	call   main
 	mov    %eax, %edi # exit status
-	xor    %eax, %eax
-	mov    $SYS_exit, %al
+	push   $SYS_exit
+	pop    %eax
 	int    $0x80

@@ -1,6 +1,5 @@
 	.text
 	.globl create_thread
-	.type create_thread,@function
 
 .set STACK_SIZE,    4096 * 1024
 .set PROT_READ,     1
@@ -15,8 +14,6 @@
 .set CLONE_IO,      0x80000000
 #include <sys/syscall.h>
 
-	.type exit,@function
-
 # x86_32 ABI syscall params: %ebx %ecx %edx %esi %edi %ebp
 create_thread: # arg1: thread_func; arg2: user data arg to thread_func
 	push   %ebp
@@ -26,14 +23,14 @@ create_thread: # arg1: thread_func; arg2: user data arg to thread_func
 	push   %esi
 	push   %edi
 	xor    %ebx, %ebx
-	xor    %edx, %edx
-	xor    %eax, %eax
 	mov    $STACK_SIZE, %ecx
+	xor    %edx, %edx
 	mov    $(PROT_READ + PROT_WRITE), %dl
 	mov    $(MAP_ANONYMOUS + MAP_PRIVATE + MAP_GROWSDOWN), %esi
 	xor    %edi, %edi
 	push   %ebp
 	xor    %ebp, %ebp
+	xor    %eax, %eax
 	mov    $SYS_mmap2, %al
 	int    $0x80 # XXX: %eax points to a stack that we don't munmap -> resource leak!
 	pop    %ebp
@@ -47,8 +44,8 @@ create_thread: # arg1: thread_func; arg2: user data arg to thread_func
 	mov    $callit, %eax
 	mov    %eax, 12(%ecx)
 	mov    $(CLONE_VM + CLONE_FS + CLONE_FILES + CLONE_SIGHAND + CLONE_IO), %ebx
-	xor    %eax, %eax
-	mov    $SYS_clone, %al
+	push   $SYS_clone
+	pop    %eax
 	int    $0x80
 	pop    %ecx
 	pop    %ebx
@@ -58,7 +55,7 @@ create_thread: # arg1: thread_func; arg2: user data arg to thread_func
 callit:
 	pop    %eax
 	call   *%eax
-	xor    %eax, %eax
-	mov    $SYS_exit, %al
+	push   $SYS_exit
+	pop    %eax
 	int    $0x80
 

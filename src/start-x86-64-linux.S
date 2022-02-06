@@ -1,7 +1,5 @@
 	.text
 	.globl _start
-	.type _start,@function
-	.section .text.exit
 
 #include <sys/syscall.h>
 
@@ -16,6 +14,6 @@ _start:
 	and    $-16, %rsp # align stack
 	call   main # x86_64 ABI function params: %rdi %rsi %rdx %rcx %r8 %r9
 	mov    %eax, %edi # exit status
-	xor    %eax, %eax
-	mov    $SYS_exit, %al # syscall number
+	push   $SYS_exit
+	pop    %rax
 	syscall

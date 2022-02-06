@@ -22,14 +22,14 @@ create_thread:
 	push   %rsi # user data arg to thread_func
 	push   %rdi # thread_func
 	xor    %edi, %edi
-	xor    %edx, %edx
-	xor    %eax, %eax
 	mov    $STACK_SIZE, %esi
+	xor    %edx, %edx
 	mov    $(PROT_READ + PROT_WRITE), %dl
 	mov    $(MAP_ANONYMOUS + MAP_PRIVATE + MAP_GROWSDOWN), %r10d
 	xor    %r8d, %r8d
 	xor    %r9d, %r9d
-	mov    $SYS_mmap, %al
+	push   $SYS_mmap
+	pop    %rax
 	syscall # XXX: %rax points to a stack that we don't munmap -> resource leak!
 	lea    -24(%rax,%rsi), %rsi
 	lea    exit(%rip), %rax
@@ -38,14 +38,14 @@ create_thread:
 	pop    (%rsi)
 	push   %rax
 	mov    $(CLONE_VM + CLONE_FS + CLONE_FILES + CLONE_SIGHAND + CLONE_IO), %edi
-	xor    %eax, %eax
-	mov    $SYS_clone, %al
+	push   $SYS_clone
+	pop    %rax
 	syscall
 	pop    %rdi
 	ret
 
 exit:
-	xor    %eax, %eax
-	mov    $SYS_exit, %al
+	push   $SYS_exit
+	pop    %rax
 	syscall
 
