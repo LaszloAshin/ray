@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644251155783,
+  "lastUpdate": 1644266881191,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -6085,6 +6085,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 971380674,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "7e2ceccaf8987d0a8e76a3f56ea9aa5676a4955c",
+          "message": "Relax checking zero length in Vec3f::norm()",
+          "timestamp": "2022-02-07T21:45:15+01:00",
+          "tree_id": "cde693cb5454f61acdc35de748f82a7f9b1a8a1b",
+          "url": "https://github.com/LaszloAshin/ray/commit/7e2ceccaf8987d0a8e76a3f56ea9aa5676a4955c"
+        },
+        "date": 1644266880385,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7632,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6817,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 965209062,
             "unit": "Cycles"
           }
         ]
