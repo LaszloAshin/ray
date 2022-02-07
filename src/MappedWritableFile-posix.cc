@@ -7,16 +7,20 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-#ifdef __linux__
-
 #include <sys/syscall.h>
+
+#ifdef __APPLE__
+#define MY_SYSCALL_NR(N) (0x2000000 | (N))
+#else
+#define MY_SYSCALL_NR(N) (N)
+#endif
 
 inline void myexit(int status) {
 	__asm __volatile__("\n\t"
 #ifdef __amd64__
 		"syscall\n\t"
 		:
-		: "a"(SYS_exit), "D"(status)
+		: "a"(MY_SYSCALL_NR(SYS_exit)), "D"(status)
 		: "%rcx", "%r11", "memory"
 #else
 		"int $0x80\n\t"
@@ -33,7 +37,7 @@ inline int myclose(int fd) {
 #ifdef __amd64__
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"(SYS_close), "D"(fd)
+		: "0"(MY_SYSCALL_NR(SYS_close)), "D"(fd)
 		: "%rcx", "%r11", "memory"
 #else
 		"int $0x80\n\t"
@@ -51,7 +55,7 @@ inline int myftruncate(int fd, long length) {
 #ifdef __amd64__
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"(SYS_ftruncate), "D"(fd), "S"(length)
+		: "0"(MY_SYSCALL_NR(SYS_ftruncate)), "D"(fd), "S"(length)
 		: "%rcx", "%r11", "memory"
 #else
 		"int $0x80\n\t"
@@ -69,7 +73,7 @@ inline int myopen(const char* fname, int flags, unsigned mode) {
 #ifdef __amd64__
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"(SYS_open), "D"(fname), "S"(flags), "d"(mode)
+		: "0"(MY_SYSCALL_NR(SYS_open)), "D"(fname), "S"(flags), "d"(mode)
 		: "%rcx", "%r11", "memory"
 #else
 		"int $0x80\n\t"
@@ -87,7 +91,7 @@ inline int mymunmap(void* addr, long length) {
 #ifdef __amd64__
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"(SYS_munmap), "D"(addr), "S"(length)
+		: "0"(MY_SYSCALL_NR(SYS_munmap)), "D"(addr), "S"(length)
 		: "%rcx", "%r11", "memory"
 #else
 		"int $0x80\n\t"
@@ -108,7 +112,7 @@ inline void* mymmap(void* addr, long length, int prot, int flags, int fd, long o
 		"movq %7, %%r9\n\t"
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"(SYS_mmap), "D"(addr), "S"(length), "d"(prot), "r"(flags), "r"(fd), "r"(offset)
+		: "0"(MY_SYSCALL_NR(SYS_mmap)), "D"(addr), "S"(length), "d"(prot), "r"(flags), "r"(fd), "r"(offset)
 		: "%rcx", "%r11", "memory", "%r10", "%r8", "%r9"
 #else
 		"push %%ebp\n\t"
@@ -122,17 +126,6 @@ inline void* mymmap(void* addr, long length, int prot, int flags, int fd, long o
 	);
 	return result;
 }
-
-#else
-
-#define myexit _exit
-#define myclose close
-#define myftruncate ftruncate
-#define myopen open
-#define mymunmap munmap
-#define mymmap mmap
-
-#endif
 
 MappedWritableFile::MappedWritableFile(const char* fname, int length)
 #ifndef LEAK_RESOURCES_ATEXIT
