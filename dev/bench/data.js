@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644188937130,
+  "lastUpdate": 1644245891802,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -5864,6 +5864,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/1a70bafb16477315d6a66e52d094a9bff122ff4a"
         },
         "date": 1644188936254,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7700,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6889,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 971380678,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "104cef443d0bfbce770979877c12da0ccd93e7af",
+          "message": "Implement MappedWritableFile syscalls for macos",
+          "timestamp": "2022-02-07T15:56:09+01:00",
+          "tree_id": "22f9f145e75b24ddc6b49369ee4d84e249975d48",
+          "url": "https://github.com/LaszloAshin/ray/commit/104cef443d0bfbce770979877c12da0ccd93e7af"
+        },
+        "date": 1644245890610,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
