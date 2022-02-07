@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644246074285,
+  "lastUpdate": 1644246205311,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -5962,6 +5962,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/8a74cba4e7053b5207efb0878add1f26272f4705"
         },
         "date": 1644246072779,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7700,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6889,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 971380678,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "a2ad48185f2dae38904acd04c3c646a2b41db5e1",
+          "message": "Implement bzero for macos",
+          "timestamp": "2022-02-07T15:59:43+01:00",
+          "tree_id": "51586dc681aac75f5670afca87e10c53a609015c",
+          "url": "https://github.com/LaszloAshin/ray/commit/a2ad48185f2dae38904acd04c3c646a2b41db5e1"
+        },
+        "date": 1644246204772,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
