@@ -10,16 +10,12 @@
 # argv  %esp + 8
 # envp  %esp + 8 + argc * 8
 _start:
-	xor    %ebp, %ebp
-	pop    %esi # argc
-	mov    %esp, %ecx # argv
-	lea    4(%ecx, %esi, 4), %edx # envp
-	and    $-16, %esp # align stack
-	push   %edx
-	push   %ecx
-	push   %esi
+	pop    %edi # argc
+	mov    %esp, %esi # argv
+	lea    4(%esp, %edi, 4), %ebp # envp
+	pusha
 	call   main
-	mov    %eax, %edi # exit status
+	xchg   %eax, %edi # exit status
 	push   $SYS_exit
 	pop    %eax
 	int    $0x80
