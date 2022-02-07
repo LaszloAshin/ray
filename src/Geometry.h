@@ -44,8 +44,7 @@ struct Vec3f {
 	float length() const { return mysqrtf(x * x + y * y + z * z); }
 
 	Vec3f norm() const {
-		const float len = length();
-		return (len > EPSILON) ? (*this * (1.0f / len)) : Vec3f{};
+		return *this * (1.0f / length());
 	}
 
 	friend Vec3f operator%(const Vec3f &lhs, const Vec3f &rhs) {
