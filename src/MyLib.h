@@ -10,9 +10,25 @@ inline int myatoi(const char* nptr) {
 
 char* mygetenv(char* envp[], const char* name);
 
-#ifdef __linux__
+#ifdef _WIN32
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+inline int mywrite(const void* p, long size) {
+	DWORD wr;
+	return WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), p, size, &wr, NULL) ? wr : 0;
+}
+
+#else
 
 #include <sys/syscall.h>
+
+#ifdef __APPLE__
+#define MY_SYSCALL_NR(N) (0x2000000 | (N))
+#else
+#define MY_SYSCALL_NR(N) (N)
+#endif
 
 inline int mywrite(const void* p, int size) {
 	int result;
@@ -21,7 +37,7 @@ inline int mywrite(const void* p, int size) {
 #ifdef __amd64__
 		"syscall\n\t"
 		: "=a"(result)
-		: "0"(SYS_write), "D"(fd), "S"(p), "d"(size)
+		: "0"(MY_SYSCALL_NR(SYS_write)), "D"(fd), "S"(p), "d"(size)
 		: "%rcx", "%r11", "memory"
 #else
 		"int $0x80\n\t"
@@ -33,26 +49,7 @@ inline int mywrite(const void* p, int size) {
 	return result;
 }
 
-#elif __APPLE__
-
-#include <unistd.h>
-
-inline int mywrite(const void* p, long size) {
-	return write(1, p, size);
-}
-
-#elif _WIN32
-
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-inline int mywrite(const void* p, long size) {
-	DWORD wr;
-	return WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), p, size, &wr, NULL) ? wr : 0;
-}
-
 #endif
-
 
 template <int S>
 inline int mysnprintOne(char* buf, int size, const char (&s)[S]) {
