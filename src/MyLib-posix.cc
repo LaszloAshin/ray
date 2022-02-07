@@ -1,5 +1,7 @@
 #include "MyLib.h"
 
+#include <cstddef>
+
 char* mygetenv(char* envp[], const char* name) {
 	for (; *envp; ++envp) {
 		char* line = *envp;
@@ -10,4 +12,8 @@ char* mygetenv(char* envp[], const char* name) {
 		}
 	}
 	return nullptr;
+}
+
+extern "C" void __bzero(void* p, size_t len) {
+	__asm __volatile__("rep stosb" :: "a"(0), "D"(p), "c"(len) : "memory");
 }
