@@ -85,6 +85,8 @@ set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "") # disable -rdynamic - https://stacko
 set(DEFAULT_WIDTH "1280" CACHE STRING "Width of the image the raytracer generates")
 set(DEFAULT_HEIGHT "800" CACHE STRING "Height of the image the raytracer generates")
 
+option(DO_STRIP "Strip binaries to shave off bytes" ON)
+
 configure_file(src/config.h.in config.h @ONLY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
@@ -99,7 +101,7 @@ add_executable(ray ${ray_multi_SOURCES})
 target_link_libraries(ray libray ${CMAKE_THREAD_LIBS_INIT})
 
 if(UNIX)
-	if(NOT APPLE)
+	if(NOT APPLE AND DO_STRIP)
 		add_custom_command(TARGET ray POST_BUILD
 			COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray
 			COMMENT "Stripping executable ray"
