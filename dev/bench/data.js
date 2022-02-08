@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644266881191,
+  "lastUpdate": 1644315668282,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -6109,6 +6109,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/7e2ceccaf8987d0a8e76a3f56ea9aa5676a4955c"
         },
         "date": 1644266880385,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7632,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6817,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 965209062,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "76e35d5c4952e58081d71d2bfba504489ae43169",
+          "message": "Enable catch2 and implement the first test case",
+          "timestamp": "2022-02-08T11:18:16+01:00",
+          "tree_id": "7fc5a9aeba51b986704e3f5a81ecd5cab865e139",
+          "url": "https://github.com/LaszloAshin/ray/commit/76e35d5c4952e58081d71d2bfba504489ae43169"
+        },
+        "date": 1644315667227,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
