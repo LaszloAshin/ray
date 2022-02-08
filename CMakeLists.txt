@@ -107,13 +107,16 @@ else()
 		target_link_options(ray PRIVATE -nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
 		target_link_options(ray-single PRIVATE -nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
 		if(DO_STRIP)
+			set(VENDOR_DIR "${CMAKE_SOURCE_DIR}/vendor")
 			add_custom_command(TARGET ray POST_BUILD
 				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray
-				COMMENT "Stripping executable ray"
+				COMMAND ${VENDOR_DIR}/autovndh.py --gzip --xz --lzma --zstd --zopfli --vndh ${VENDOR_DIR} -- ray ray.vndh
+				COMMENT "Minifying executable ray"
 			)
 			add_custom_command(TARGET ray-single POST_BUILD
 				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray-single
-				COMMENT "Stripping executable ray-single"
+				COMMAND ${VENDOR_DIR}/autovndh.py --gzip --xz --lzma --zstd --zopfli --vndh ${VENDOR_DIR} -- ray-single ray-single.vndh
+				COMMENT "Minifying executable ray-single"
 			)
 		endif()
 	endif()
