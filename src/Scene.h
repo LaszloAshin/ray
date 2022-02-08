@@ -5,11 +5,13 @@
 #include "Spheroid.h"
 #include "Light.h"
 #include "Plane.h"
-#include "Vector.h"
 
-#include <memory>
+struct Scene {
+	Scene(int frame);
 
-class Scene {
+	Color trace(const Ray &r, int depth, float weight) const;
+
+private:
 	struct Intersection {
 		const BaseObject* nearestObject = nullptr;
 		float t = 0.0f;
@@ -26,13 +28,8 @@ class Scene {
 		}
 	};
 
-	Vector<Light, 8> lights;
-	Vector<Spheroid, 8> spheroids;
-
 	Intersection intersect(const Ray &r) const;
 
-public:
-	Scene(int frame);
-
-	Color trace(const Ray &r, int depth, float weight) const;
+	Spheroid spheroids[5];
+	Light lights[6];
 };

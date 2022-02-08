@@ -42,15 +42,15 @@ Scene::Scene(int frame)
 		mysincosf(angle, &sina, &cosa);
 		float x = 10.0f * sina;
 		float z = -10.0f * cosa;
-		lights.emplace_back(Vec3f{x, 10.0f, z - 25.0f}, Color{sina, 0.5f, cosa});
+		lights[i] = Light{Vec3f{x, 10.0f, z - 25.0f}, Color{sina, 0.5f, cosa}};
 		angle += 2.0f * (float)M_PI * frame / (25.0f * 10.0f);
 		// 10 sec alatt fordul korbe 25 fps-nel
 		mysincosf(angle, &sina, &cosa);
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
-		spheroids.emplace_back(Vec3f{x, -4.0f, z - 25.0f}, MATERIAL_IRON, 5.0f, 2.0f);
+		spheroids[i] = Spheroid{Vec3f{x, -4.0f, z - 25.0f}, MATERIAL_IRON, 5.0f, 2.0f};
 	}
-	lights.emplace_back(Vec3f{0.0f, 10.0f, -25.0f}, Color::white());
+	lights[5] = Light{Vec3f{0.0f, 10.0f, -25.0f}, Color::white()};
 }
 
 Scene::Intersection
