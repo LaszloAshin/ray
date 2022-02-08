@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.11)
 project(ray VERSION 0.0.1 LANGUAGES C CXX)
 enable_testing()
 
@@ -71,8 +71,8 @@ else()
 		add_link_options(-Wl,--gc-sections -Wl,--as-needed)
 		add_link_options(-Wl,--build-id=none)
 
-		add_link_options(-nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
-		list(APPEND libray_SOURCES src/start-i386-linux.S)
+		list(APPEND ray_single_SOURCES src/start-i386-linux.S)
+		list(APPEND ray_multi_SOURCES src/start-i386-linux.S)
 		list(APPEND ray_multi_SOURCES src/thread-i386-linux.S)
 
 		add_link_options(-Wl,-z,noseparate-code) # merge rodata into text
@@ -101,17 +101,33 @@ add_executable(ray ${ray_multi_SOURCES})
 target_link_libraries(ray libray ${CMAKE_THREAD_LIBS_INIT})
 
 if(UNIX)
-	if(NOT APPLE AND DO_STRIP)
-		add_custom_command(TARGET ray POST_BUILD
-			COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray
-			COMMENT "Stripping executable ray"
-		)
-		add_custom_command(TARGET ray-single POST_BUILD
-			COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray-single
-			COMMENT "Stripping executable ray-single"
-		)
+	if(NOT APPLE)
+		target_link_options(ray PRIVATE -nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
+		target_link_options(ray-single PRIVATE -nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
+		if(DO_STRIP)
+			add_custom_command(TARGET ray POST_BUILD
+				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray
+				COMMENT "Stripping executable ray"
+			)
+			add_custom_command(TARGET ray-single POST_BUILD
+				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray-single
+				COMMENT "Stripping executable ray-single"
+			)
+		endif()
 	endif()
 	set(MAP_FLAG $<IF:$<PLATFORM_ID:Darwin>,-map,-Map>)
 	target_link_options(ray PUBLIC -Wl,${MAP_FLAG},ray.map)
 	target_link_options(ray-single PUBLIC -Wl,${MAP_FLAG},ray-single.map)
 endif()
+
+Include(FetchContent)
+FetchContent_Declare(Catch2 GIT_REPOSITORY https://github.com/catchorg/Catch2.git GIT_TAG v3.0.0-preview3)
+FetchContent_MakeAvailable(Catch2)
+
+add_executable(tests src/test.cc)
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain libray)
+
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+include(CTest)
+include(Catch)
+catch_discover_tests(tests)
