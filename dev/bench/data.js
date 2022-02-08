@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644315668282,
+  "lastUpdate": 1644316695296,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -6158,6 +6158,55 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/76e35d5c4952e58081d71d2bfba504489ae43169"
         },
         "date": 1644315667227,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 7632,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6817,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 965209062,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "70e29dc863e94ee24f1c6837196412f9f315198f",
+          "message": "Fix test file align on windows",
+          "timestamp": "2022-02-08T11:35:40+01:00",
+          "tree_id": "898bdc012613349e29e657dac48e17abae4a6201",
+          "url": "https://github.com/LaszloAshin/ray/commit/70e29dc863e94ee24f1c6837196412f9f315198f"
+        },
+        "date": 1644316694358,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
