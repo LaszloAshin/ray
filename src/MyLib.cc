@@ -1,17 +1,18 @@
 #include "MyLib.h"
 
+#include <cassert>
+
 int mysnprintOne(char* buf, int size, int value) {
-	if (!size) return 0;
-	char b[64];
+	assert(size > 0);
+	char b[12];
 	char *e = b + sizeof(b) - 1;
 	*e-- = '\0';
 	const bool negative = value < 0;
 	if (negative) value = -value;
-	if (!value) {
-		*e-- = '0';
-	} else for (; value; value /= 10) {
+	do {
 		*e-- = '0' + value % 10;
-	}
+		value /= 10;
+	} while (value);
 	if (negative) *e-- = '-';
 	++e;
 	int result = 0;
