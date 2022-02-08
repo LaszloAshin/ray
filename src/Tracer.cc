@@ -22,7 +22,7 @@ static float halton(int base, int n) {
 Vec3f Tracer::viewVec(int x0, int y0, float dx, float dy) const {
 	float x = dx + x0;
 	float y = dy + y0;
-	return Vec3f(x * invwhalf - 1.0f, (hhalf - y) * invwhalf, -0.5f).norm();
+	return Vec3f{x * invwhalf - 1.0f, (hhalf - y) * invwhalf, -0.5f}.norm();
 }
 
 int Tracer::getNextBlock() {

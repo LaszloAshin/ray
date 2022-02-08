@@ -5,19 +5,7 @@
 #include "config.h"
 
 struct Vec3f {
-	float x{}, y{}, z{};
-
-	constexpr Vec3f() = default;
-	constexpr Vec3f(float x, float y, float z) : x{x}, y{y}, z{z} {}
-
-	Vec3f& operator+=(const Vec3f &rhs) {
-		x += rhs.x, y += rhs.y, z += rhs.z;
-		return *this;
-	}
-
-	friend Vec3f operator+(Vec3f lhs, const Vec3f &rhs) {
-		return lhs += rhs;
-	}
+	float x, y, z;
 
 	Vec3f& operator-=(const Vec3f &rhs) {
 		x -= rhs.x, y -= rhs.y, z -= rhs.z;
