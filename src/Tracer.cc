@@ -70,7 +70,7 @@ Tracer::traceAntialiased()
 				r = Ray(Vec3f{}, viewVec(x, y, 1.0, 1.0));
 				Color right = scene.trace(r, DEPTH_LIMIT, 1.0f);
 				
-				Color c;
+				Color c{};
 				if ((up[i].dist(right) < 0.001f) && (up[i+1].dist(left) < 0.001f)) {
 					c = (up[i] + up[i+1] + left + right) * 0.25f;
 				} else {

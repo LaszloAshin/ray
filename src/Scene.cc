@@ -42,8 +42,7 @@ Scene::Scene(int frame)
 		mysincosf(angle, &sina, &cosa);
 		float x = 10.0f * sina;
 		float z = -10.0f * cosa;
-		Color c(sina, 0.5f, cosa);
-		lights.emplace_back(Vec3f(x, 10.0f, z - 25.0f), c);
+		lights.emplace_back(Vec3f(x, 10.0f, z - 25.0f), Color{sina, 0.5f, cosa});
 		angle += 2.0f * (float)M_PI * frame / (25.0f * 10.0f);
 		// 10 sec alatt fordul korbe 25 fps-nel
 		mysincosf(angle, &sina, &cosa);

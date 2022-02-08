@@ -57,6 +57,6 @@ public:
 		float u = 0.5f * (float)M_1_PI * (myatan2f(p.y / ry, p.x / rxz) + (float)M_PI);
 		int x = (int)(u * 16.0f);
 		int y = (int)(v * 16.0f);
-		return std::make_tuple(N, ((x ^ y) & 1) ? Color(0.0f, 0.0f, 0.0f) : Color(1.0f, 1.0f, 1.0f));
+		return std::make_tuple(N, ((x ^ y) & 1) ? Color::black() : Color::white());
 	}
 };
