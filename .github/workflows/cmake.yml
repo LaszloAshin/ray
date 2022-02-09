@@ -64,6 +64,7 @@ jobs:
           ${{github.workspace}}/build/MinSizeRel/ray-single.map
 
   measure:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
