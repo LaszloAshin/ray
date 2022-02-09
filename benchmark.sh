@@ -1,6 +1,5 @@
 #!/bin/sh -uex
 
-find .
 U=artifact-ubuntu-latest
 W=artifact-windows-latest
 M=artifact-macos-latest
@@ -20,7 +19,7 @@ cat << EOF
     {
         "name": "Benchmark - Win32 Executable Size",
         "unit": "Bytes",
-        "value": $(stat --format=%s $W/ray.exe)
+        "value": $(stat --format=%s $W/MinSizeRel/ray.exe)
     },
     {
         "name": "Benchmark - MacOS Executable Size",
