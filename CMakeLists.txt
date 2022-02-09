@@ -97,9 +97,26 @@ if(MSVC)
 	target_link_options(ray PRIVATE /REPORT:ray.html)
 	target_link_options(ray-single PRIVATE /REPORT:ray-single.html)
 else()
-	if(NOT APPLE)
-		target_link_options(ray PRIVATE -nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
-		target_link_options(ray-single PRIVATE -nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
+	if(APPLE)
+		target_link_options(ray PUBLIC -Wl,-map,ray.map)
+		target_link_options(ray-single PUBLIC -Wl,-map,ray-single.map)
+		add_custom_command(TARGET ray POST_BUILD
+			COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> ray
+			COMMENT "Stripping executable ray"
+		)
+		add_custom_command(TARGET ray-single POST_BUILD
+			COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> ray-single
+			COMMENT "Stripping executable ray-single"
+		)
+	else()
+		target_link_options(ray PRIVATE
+			-nostartfiles -nodefaultlibs -nolibc -nostdlib -static
+			-Wl,-Map,ray.map
+		)
+		target_link_options(ray-single PRIVATE
+			-nostartfiles -nodefaultlibs -nolibc -nostdlib -static
+			-Wl,-Map,ray-single.map
+		)
 		if(DO_STRIP)
 			set(VENDOR_DIR "${CMAKE_SOURCE_DIR}/vendor")
 			add_custom_command(TARGET ray POST_BUILD
@@ -114,9 +131,6 @@ else()
 			)
 		endif()
 	endif()
-	set(MAP_FLAG $<IF:$<PLATFORM_ID:Darwin>,-map,-Map>)
-	target_link_options(ray PUBLIC -Wl,${MAP_FLAG},ray.map)
-	target_link_options(ray-single PUBLIC -Wl,${MAP_FLAG},ray-single.map)
 
 	Include(FetchContent)
 	FetchContent_Declare(Catch2 GIT_REPOSITORY https://github.com/catchorg/Catch2.git GIT_TAG v3.0.0-preview3)
