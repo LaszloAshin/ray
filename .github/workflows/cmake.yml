@@ -3,8 +3,12 @@ name: CMake
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+
+permissions:
+  # deployments permission to deploy GitHub pages website
+  deployments: write
+  # contents permission to update benchmark contents in gh-pages branch
+  contents: write
 
 env:
   BUILD_TYPE: MinSizeRel
@@ -58,3 +62,30 @@ jobs:
           ${{github.workspace}}/build/MinSizeRel/ray.map
           ${{github.workspace}}/build/MinSizeRel/ray-single.exe
           ${{github.workspace}}/build/MinSizeRel/ray-single.map
+
+  measure:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2 # we need scripts to do the measurement
+
+    - uses: actions/download-artifact@v2
+
+    - name: Measure
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt update
+        sudo apt install --yes valgrind:i386
+        ./benchmark.sh > output.txt
+
+    # gh-pages branch is updated and pushed automatically with extracted benchmark data
+    - name: Store benchmark result
+      uses: benchmark-action/github-action-benchmark@v1
+      with:
+        name: Benchmark
+        tool: 'customSmallerIsBetter'
+        output-file-path: output.txt
+        # Access token to deploy GitHub Pages branch
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        # Push and deploy GitHub pages branch automatically
+        auto-push: true
