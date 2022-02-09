@@ -59,9 +59,9 @@ jobs:
           ${{github.workspace}}/build/ray-single.map
           ${{github.workspace}}/build/ray-single.vndh
           ${{github.workspace}}/build/MinSizeRel/ray.exe
-          ${{github.workspace}}/build/MinSizeRel/ray.map
+          ${{github.workspace}}/build/ray.html
           ${{github.workspace}}/build/MinSizeRel/ray-single.exe
-          ${{github.workspace}}/build/MinSizeRel/ray-single.map
+          ${{github.workspace}}/build/ray-single.html
 
   measure:
     needs: build
