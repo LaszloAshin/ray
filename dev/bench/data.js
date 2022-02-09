@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644402524991,
+  "lastUpdate": 1644405338898,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -6604,6 +6604,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Executable Size",
             "value": 4568,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6741,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 966363055,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "e51520d8f36bb55208df4ddf775e635f37150bc4",
+          "message": "Fix missing chmod +x",
+          "timestamp": "2022-02-09T12:11:52+01:00",
+          "tree_id": "833532d9bc9ff3f640f457edbe3a768683b87ce1",
+          "url": "https://github.com/LaszloAshin/ray/commit/e51520d8f36bb55208df4ddf775e635f37150bc4"
+        },
+        "date": 1644405337910,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4568,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 9312,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 57872,
             "unit": "Bytes"
           },
           {
