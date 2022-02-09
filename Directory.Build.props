@@ -1,5 +1,0 @@
-<Project>
-	<PropertyGroup>
-		<LinkToolExe>..\crinkler.exe</LinkToolExe>
-	</PropertyGroup>
-</Project>
