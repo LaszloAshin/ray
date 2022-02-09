@@ -32,14 +32,6 @@ if(MSVC)
 	add_definitions(-D_USE_MATH_DEFINES) # enable macros like M_PI
 	add_definitions(-DNOMINMAX) # prevent windows.h from defining min/max macros
 	add_compile_options(/GS-) # disable guardstack
-	add_link_options(/MANIFEST:NO)
-	add_link_options(/MERGE:.rdata=.text)
-	add_link_options(/MERGE:.pdata=.text)
-	add_link_options(/MAP)
-	add_link_options(/SAFESEH:NO)
-	add_link_options(/EMITPOGOPHASEINFO) # disable PGO debug info https://stackoverflow.com/a/45546715
-	add_link_options(/FIXED /DYNAMICBASE:NO) # disable relocations
-	add_link_options(/STUB:../mystub.exe)
 	list(APPEND libray_SOURCES src/MyMath-masm-x86.asm)
 	list(APPEND libray_SOURCES src/MappedWritableFile-windows.cc)
 	list(APPEND libray_SOURCES src/MyLib-windows.cc)
@@ -100,8 +92,8 @@ add_executable(ray ${ray_multi_SOURCES})
 target_link_libraries(ray libray ${CMAKE_THREAD_LIBS_INIT})
 
 if(MSVC)
-	target_link_options(ray PRIVATE /FILEALIGN:16 /ALIGN:16)
-	target_link_options(ray-single PRIVATE /FILEALIGN:16 /ALIGN:16)
+	target_link_options(ray PRIVATE /REPORT:ray.html)
+	target_link_options(ray-single PRIVATE /REPORT:ray-single.html)
 else()
 	if(NOT APPLE)
 		target_link_options(ray PRIVATE -nostartfiles -nodefaultlibs -nolibc -nostdlib -static)
@@ -123,16 +115,16 @@ else()
 	set(MAP_FLAG $<IF:$<PLATFORM_ID:Darwin>,-map,-Map>)
 	target_link_options(ray PUBLIC -Wl,${MAP_FLAG},ray.map)
 	target_link_options(ray-single PUBLIC -Wl,${MAP_FLAG},ray-single.map)
+
+	Include(FetchContent)
+	FetchContent_Declare(Catch2 GIT_REPOSITORY https://github.com/catchorg/Catch2.git GIT_TAG v3.0.0-preview3)
+	FetchContent_MakeAvailable(Catch2)
+
+	add_executable(tests src/test.cc)
+	target_link_libraries(tests PRIVATE Catch2::Catch2WithMain libray)
+
+	list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+	include(CTest)
+	include(Catch)
+	catch_discover_tests(tests)
 endif()
-
-Include(FetchContent)
-FetchContent_Declare(Catch2 GIT_REPOSITORY https://github.com/catchorg/Catch2.git GIT_TAG v3.0.0-preview3)
-FetchContent_MakeAvailable(Catch2)
-
-add_executable(tests src/test.cc)
-target_link_libraries(tests PRIVATE Catch2::Catch2WithMain libray)
-
-list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
-include(CTest)
-include(Catch)
-catch_discover_tests(tests)
