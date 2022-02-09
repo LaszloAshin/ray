@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644354925941,
+  "lastUpdate": 1644402524991,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -6555,6 +6555,55 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Executable Size",
             "value": 7536,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6741,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 966363055,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "3364d080f67f40ccffaabc6a2dd2313a4c8e5840",
+          "message": "Measure vndh size from now on",
+          "timestamp": "2022-02-09T11:25:18+01:00",
+          "tree_id": "1a66b76f71a4dca48e622a34c7239f70c5175a60",
+          "url": "https://github.com/LaszloAshin/ray/commit/3364d080f67f40ccffaabc6a2dd2313a4c8e5840"
+        },
+        "date": 1644402523345,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4568,
             "unit": "Bytes"
           },
           {
