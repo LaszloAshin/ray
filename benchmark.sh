@@ -10,7 +10,7 @@ cat << EOF
     {
         "name": "Benchmark - Executable Size",
         "unit": "Bytes",
-        "value": $(stat --format=%s ray)
+        "value": $(stat --format=%s ray.vndh)
     },
     {
         "name": "Benchmark - text Size",
