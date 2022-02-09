@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644411883838,
+  "lastUpdate": 1644413230421,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -6722,6 +6722,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - MacOS Executable Size",
             "value": 57872,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6741,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 966363055,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "1333136bfd2fa12dc781fb52032df347b4052518",
+          "message": "Enable stripping on MacOS",
+          "timestamp": "2022-02-09T14:22:11+01:00",
+          "tree_id": "2650e29f42f8d029c7b6edff8df58a3642cc41d1",
+          "url": "https://github.com/LaszloAshin/ray/commit/1333136bfd2fa12dc781fb52032df347b4052518"
+        },
+        "date": 1644413229888,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4568,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 4163,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 51424,
             "unit": "Bytes"
           },
           {
