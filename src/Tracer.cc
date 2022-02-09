@@ -28,7 +28,7 @@ Vec3f Tracer::viewVec(int x0, int y0, float dx, float dy) const {
 int Tracer::getNextBlock() {
 	const int result = next_block.fetch_add(1, std::memory_order_relaxed);
 	const int percent = std::min(100, result * 100 / blocks.all_blocks);
-	myprint("\r", percent, "% ");
+	MYPRINT("\r", percent, "% ");
 	return result;
 }
 

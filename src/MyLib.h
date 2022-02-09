@@ -70,7 +70,7 @@ int mysnprint(char* buf, int size, const T& value, const Args&... args) {
 	return n + mysnprint(buf + n, size - n, args...);
 }
 
-#define myprint(...) do { \
+#define MYPRINT(...) do { \
 		char buf[256]; \
 		const int n = mysnprint(buf, sizeof(buf), __VA_ARGS__); \
 		mywrite(buf, n); \

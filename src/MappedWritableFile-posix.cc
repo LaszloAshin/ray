@@ -134,16 +134,16 @@ MappedWritableFile::MappedWritableFile(const char* fname, int length)
 {
 	const int fd = myopen(fname, O_CREAT | O_RDWR, 0644);
 	if (fd < 0) {
-		myprint("Fail: open\n");
+		MYPRINT("Fail: open\n");
 		myexit(1);
 	}
 	if (myftruncate(fd, length)) {
-		myprint("Fail: ftruncate\n");
+		MYPRINT("Fail: ftruncate\n");
 		myexit(1);
 	}
 	address_ = static_cast<uint8_t*>(mymmap(NULL, length, PROT_WRITE, MAP_SHARED, fd, 0));
 	if (reinterpret_cast<unsigned long>(address_) > -4096UL) {
-		myprint("Fail: mmap\n");
+		MYPRINT("Fail: mmap\n");
 		myexit(1);
 	}
 #ifndef LEAK_RESOURCES_ATEXIT

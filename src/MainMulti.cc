@@ -134,7 +134,7 @@ main(int argc, char *argv[], char *envp[])
 
 	if (argc > 1) {
 		frame = myatoi(argv[1]);
-		myprint("frame: ", frame, "\n");
+		MYPRINT("frame: ", frame, "\n");
 	}
 	Scene scene(frame);
 	int width = WIDTH;
@@ -150,7 +150,7 @@ main(int argc, char *argv[], char *envp[])
 	const int nthreads = MyThread::hardware_concurrency();
 	Vector<MyThread, 64> threads;
 
-	myprint("Spawning ", nthreads, " threads...\n");
+	MYPRINT("Spawning ", nthreads, " threads...\n");
 	for (int i = 0; i < nthreads; ++i) {
 		threads.emplace_back(traceAntialiased, &tracer);
 	}
