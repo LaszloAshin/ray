@@ -16,40 +16,30 @@
 
 # x86_32 ABI syscall params: %ebx %ecx %edx %esi %edi %ebp
 create_thread: # arg1: thread_func; arg2: user data arg to thread_func
-	push   %ebp
-	mov    %esp, %ebp
-	push   %ebx
-	push   %ecx
-	push   %esi
-	push   %edi
+	pusha
 	xor    %ebx, %ebx
 	mov    $STACK_SIZE, %ecx
-	xor    %edx, %edx
-	mov    $(PROT_READ + PROT_WRITE), %dl
+	push   $(PROT_READ + PROT_WRITE)
+	pop    %edx
 	mov    $(MAP_ANONYMOUS + MAP_PRIVATE + MAP_GROWSDOWN), %esi
 	xor    %edi, %edi
-	push   %ebp
 	xor    %ebp, %ebp
 	xor    %eax, %eax
 	mov    $SYS_mmap2, %al
 	int    $0x80 # XXX: %eax points to a stack that we don't munmap -> resource leak!
-	pop    %ebp
-	pop    %edi
-	pop    %esi
-	lea    -24(%eax,%ecx), %ecx
-	mov    12(%ebp), %eax
-	mov    %eax, 20(%ecx)
-	mov    8(%ebp), %eax
-	mov    %eax, 16(%ecx)
+	lea    -44(%eax,%ecx), %ecx
+	mov    40(%esp), %eax
+	mov    %eax, 40(%ecx)
+	mov    36(%esp), %eax
+	mov    %eax, 36(%ecx)
 	mov    $callit, %eax
-	mov    %eax, 12(%ecx)
+	mov    %eax, 32(%ecx)
 	mov    $(CLONE_VM + CLONE_FS + CLONE_FILES + CLONE_SIGHAND + CLONE_IO), %ebx
 	push   $SYS_clone
 	pop    %eax
 	int    $0x80
-	pop    %ecx
-	pop    %ebx
-	pop    %ebp
+	mov    %eax, 28(%esp)
+	popa
 	ret
 
 callit:
