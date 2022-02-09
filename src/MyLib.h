@@ -52,26 +52,20 @@ inline int mywrite(const void* p, int size) {
 #endif
 
 template <int S>
-inline int mysnprintOne(char* buf, int size, const char (&s)[S]) {
-	if (S < size) size = S;
-	for (int i = 0; i < size; ++i) {
-		*buf++ = s[i];
+inline void myprint(const char (&s)[S]) {
+	mywrite(s, S - 1);
+}
+
+inline void* overwrite_int(void* p, int i) {
+	char* q = static_cast<char*>(p);
+	for (; i > 0; i /= 10) {
+		*q-- = '0' + i % 10;
 	}
-	return size - 1;
+	return q;
 }
 
-int mysnprintOne(char* buf, int size, int value);
-
-inline int mysnprint(char*, int) { return 0; }
-
-template <typename T, typename... Args>
-int mysnprint(char* buf, int size, const T& value, const Args&... args) {
-	const auto n = mysnprintOne(buf, size, value);
-	return n + mysnprint(buf + n, size - n, args...);
+inline void myprint(int i) {
+	char buf[12];
+	char* begin = static_cast<char*>(overwrite_int(buf + sizeof(buf) - 1, i)) + 1;
+	mywrite(begin, buf + sizeof(buf) - begin);
 }
-
-#define MYPRINT(...) do { \
-		char buf[256]; \
-		const int n = mysnprint(buf, sizeof(buf), __VA_ARGS__); \
-		mywrite(buf, n); \
-	} while (0)

@@ -134,16 +134,16 @@ MappedWritableFile::MappedWritableFile(const char* fname, int length)
 {
 	const int fd = myopen(fname, O_CREAT | O_RDWR, 0644);
 	if (fd < 0) {
-		MYPRINT("Fail: open\n");
+		myprint("open\n");
 		myexit(1);
 	}
 	if (myftruncate(fd, length)) {
-		MYPRINT("Fail: ftruncate\n");
+		myprint("ftruncate\n");
 		myexit(1);
 	}
 	address_ = static_cast<uint8_t*>(mymmap(NULL, length, PROT_WRITE, MAP_SHARED, fd, 0));
 	if (reinterpret_cast<unsigned long>(address_) > -4096UL) {
-		MYPRINT("Fail: mmap\n");
+		myprint("mmap\n");
 		myexit(1);
 	}
 #ifndef LEAK_RESOURCES_ATEXIT
@@ -154,7 +154,7 @@ MappedWritableFile::MappedWritableFile(const char* fname, int length)
 #ifndef LEAK_RESOURCES_ATEXIT
 MappedWritableFile::~MappedWritableFile() {
 	if (mymunmap(address_, length_)) {
-		myprint("Fail: munmap\n");
+		myprint("munmap\n");
 	}
 }
 #endif

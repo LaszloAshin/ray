@@ -8,13 +8,16 @@ Image::Image(const char* fname, int width, int height)
 : width{width}
 , height{height}
 {
-	char buf[64];
-	const int headerlen = mysnprint(buf, sizeof(buf), "P6\n", width, " ", height, "\n255\n");
+	static const char header_template[] = "P6\n                     \n255\n";
+	const int headerlen = sizeof(header_template) - 1;
 	map.emplace(fname, headerlen + width * height * 3);
 	data = static_cast<uint8_t*>(map->address());
 	for (int i = 0; i < headerlen; ++i) {
-		*data++ = buf[i];
+		data[i] = header_template[i];
 	}
+	overwrite_int(data + 12, width);
+	overwrite_int(data + 23, height);
+	data += headerlen;
 }
 
 void
