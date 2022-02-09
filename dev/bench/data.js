@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644405338898,
+  "lastUpdate": 1644411883838,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -6658,6 +6658,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Win32 Executable Size",
             "value": 9312,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 57872,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 6741,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 966363055,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "bc202ac9f51e91aa041a5d3e23035f3f1d68912c",
+          "message": "Fix existing props file",
+          "timestamp": "2022-02-09T14:00:26+01:00",
+          "tree_id": "26f03a58c562431b191ce4b005f530da2d50c414",
+          "url": "https://github.com/LaszloAshin/ray/commit/bc202ac9f51e91aa041a5d3e23035f3f1d68912c"
+        },
+        "date": 1644411883199,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4568,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 4163,
             "unit": "Bytes"
           },
           {
