@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644501504546,
+  "lastUpdate": 1644502091944,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -7332,6 +7332,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 1020101243,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "8495be420839f71106a0873268a2282cd3570d59",
+          "message": "Revert \"Extract multisample\"\n\nThis reverts commit 01b3aabb74412f16d3d006a424dcedafe30eda1b.\n\nOK, it looks like extracting functions at this part of the code\ndoesn't do any good on windows on mac, only on linux and only\nwithout compression.",
+          "timestamp": "2022-02-10T15:00:42+01:00",
+          "tree_id": "78c343eca92b85d327535c0fceef039f90304297",
+          "url": "https://github.com/LaszloAshin/ray/commit/8495be420839f71106a0873268a2282cd3570d59"
+        },
+        "date": 1644502091394,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4180,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3772,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 51240,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5773,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1019952507,
             "unit": "Cycles"
           }
         ]
