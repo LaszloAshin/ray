@@ -51,6 +51,16 @@ Tracer::trace()
 	}
 }
 
+Color Tracer::multisample(int x, int y) const {
+	Color result{};
+	for (int i = 0; i < SAMPLES; ++i) {
+		float hx = halton(2, i + 1);
+		float hy = halton(3, i + 1);
+		result += scene.trace(Ray{Vec3f{}, viewVec(x, y, hx, hy)});
+	}
+	return result * (1.0f / SAMPLES);
+}
+
 void
 Tracer::traceAntialiased()
 {
@@ -76,13 +86,7 @@ Tracer::traceAntialiased()
 				if ((up[i].dist(right) < 0.001f) && (up[i+1].dist(left) < 0.001f)) {
 					c = (up[i] + up[i+1] + left + right) * 0.25f;
 				} else {
-					for (int j = 0; j < SAMPLES; ++j) {
-						float hx = halton(2, j + 1);
-						float hy = halton(3, j + 1);
-						r.d = viewVec(x, y, hx, hy);
-						c += scene.trace(r);
-					}
-					c = c * (1.0f / SAMPLES);
+					c = multisample(x, y);
 				}
 				img->setPixel(x, y, c);
 

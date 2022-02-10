@@ -47,6 +47,7 @@ private:
 
 	Vec3f viewVec(int x0, int y0, float dx, float dy) const;
 	int getNextBlock();
+	Color multisample(int x, int y) const;
 
 	const Scene &scene;
 	Image *img;
