@@ -32,22 +32,22 @@ static const Plane planes[] = {
 
 Scene::Scene(int frame)
 {
+	lights[0] = Light{Vec3f{0.0f, 10.0f, -25.0f}, Color::white()};
+	spheroids[0] = Spheroid{Vec3f{0.0f, 4.0f, -25.0f}, MATERIAL_GLASS, 5.0f, 5.0f};
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina, cosa;
 		mysincosf(angle, &sina, &cosa);
 		float x = 10.0f * sina;
 		float z = -10.0f * cosa;
-		lights[i] = Light{Vec3f{x, 10.0f, z - 25.0f}, Color{sina, 0.5f, cosa}};
+		lights[1 + i] = Light{Vec3f{x, 10.0f, z - 25.0f}, Color{sina, 0.5f, cosa}};
 		angle += 2.0f * (float)M_PI * frame / (25.0f * 10.0f);
 		// 10 sec alatt fordul korbe 25 fps-nel
 		mysincosf(angle, &sina, &cosa);
 		x = 15.0f * sina;
 		z = -15.0f * cosa;
-		spheroids[i] = Spheroid{Vec3f{x, -4.0f, z - 25.0f}, MATERIAL_IRON, 5.0f, 2.0f};
+		spheroids[1 + i] = Spheroid{Vec3f{x, -4.0f, z - 25.0f}, MATERIAL_IRON, 5.0f, 2.0f};
 	}
-	lights[5] = Light{Vec3f{0.0f, 10.0f, -25.0f}, Color::white()};
-	spheroids[5] = Spheroid{Vec3f{0.0f, 4.0f, -25.0f}, MATERIAL_GLASS, 5.0f, 5.0f};
 }
 
 Scene::Intersection
