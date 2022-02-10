@@ -28,6 +28,7 @@ private:
 	};
 
 	Intersection intersect(const Ray &r) const;
+	void traceLights(const BaseObject* O, const Vec3f& mp, const Vec3f& N, const Vec3f& V, Color& rgb) const;
 
 	Spheroid spheroids[6];
 	Light lights[6];

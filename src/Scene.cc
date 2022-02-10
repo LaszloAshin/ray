@@ -64,6 +64,26 @@ static const BaseObject::ComputeIntersectionDetails cid[] = {
 	BaseObject::cid<Spheroid>,
 };
 
+void Scene::traceLights(const BaseObject* O, const Vec3f& mp, const Vec3f& N, const Vec3f& V, Color& rgb) const {
+	for (const auto& light : lights) {
+		const Vec3f d{mp.x - light.pos.x, mp.y - light.pos.y, mp.z - light.pos.z};
+		// light source doesn't take effect if we are in shadow
+		const auto [o, sh] = intersect(Ray(light.pos, d));
+		if (o != nullptr && o != O && sh < 1.0f)
+			continue;
+
+		float dsq = d.x * d.x + d.y * d.y + d.z * d.z;
+		if (dsq > EPSILON) {
+			dsq = 200.0f / dsq + 5.0f / mysqrtf(dsq);
+			const Vec3f L = Vec3f{-d.x, -d.y, -d.z}.norm();
+			const Color brdf = materials[O->mater].brdf(L, N, V);
+			rgb.r += light.c.r * brdf.r * dsq;
+			rgb.g += light.c.g * brdf.g * dsq;
+			rgb.b += light.c.b * brdf.b * dsq;
+		}
+	}
+}
+
 Color
 Scene::trace(const Ray &ray, int depth, float weight) const
 {
@@ -80,28 +100,12 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 
 	const Material& mater = materials[O->mater];
 	const Vec3f mp{ray.s.x + t * ray.d.x, ray.s.y + t * ray.d.y, ray.s.z + t * ray.d.z};
-	auto [r, g, b] = mater.ka;
+	Color rgb = mater.ka;
 
 	const auto [N, texel] = cid[O->type](O, mp);
 	const Vec3f V = Vec3f{ray.s.x - mp.x, ray.s.y - mp.y, ray.s.z - mp.z}.norm();
 
-	for (const auto& light : lights) {
-		const Vec3f d{mp.x - light.pos.x, mp.y - light.pos.y, mp.z - light.pos.z};
-		// light source doesn't take effect if we are in shadow
-		const auto [o, sh] = intersect(Ray(light.pos, d));
-		if (o != nullptr && o != O && sh < 1.0f)
-			continue;
-
-		float dsq = d.x * d.x + d.y * d.y + d.z * d.z;
-		if (dsq > EPSILON) {
-			dsq = 200.0f / dsq + 5.0f / mysqrtf(dsq);
-			const Vec3f L = Vec3f{-d.x, -d.y, -d.z}.norm();
-			const Color brdf = mater.brdf(L, N, V);
-			r += light.c.r * brdf.r * dsq;
-			g += light.c.g * brdf.g * dsq;
-			b += light.c.b * brdf.b * dsq;
-		}
-	}
+	traceLights(O, mp, N, V, rgb);
 
 	const float cosVN = V.x * N.x + V.y * N.y + V.z * N.z;
 	const float cosVN2 = cosVN * 2.0f;
@@ -111,9 +115,9 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 	Ray rR({mp.x + EPSILON * R.x, mp.y + EPSILON * R.y, mp.z + EPSILON * R.z}, R);
 	if (mater.isReflective()) {
 		const Color c = trace(rR, depth, weight * mater.kr);
-		r += c.r * mater.kr;
-		g += c.g * mater.kr;
-		b += c.b * mater.kr;
+		rgb.r += c.r * mater.kr;
+		rgb.g += c.g * mater.kr;
+		rgb.b += c.b * mater.kr;
 	}
 
 	if (mater.isRefractive()) {
@@ -133,14 +137,14 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 		}
 	
 		const Color c = trace(rR, depth, weight * mater.kt);
-		r += c.r * mater.kt;
-		g += c.g * mater.kt;
-		b += c.b * mater.kt;
+		rgb.r += c.r * mater.kt;
+		rgb.g += c.g * mater.kt;
+		rgb.b += c.b * mater.kt;
 	}
 
 	return {
-		(r * texel.r + r) * 0.5f,
-		(g * texel.g + g) * 0.5f,
-		(b * texel.b + b) * 0.5f
+		(rgb.r * texel.r + rgb.r) * 0.5f,
+		(rgb.g * texel.g + rgb.g) * 0.5f,
+		(rgb.b * texel.b + rgb.b) * 0.5f
 	};
 }
