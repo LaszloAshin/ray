@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Color.h"
-#include "Sphere.h"
 #include "Spheroid.h"
 #include "Light.h"
 #include "Plane.h"
@@ -30,6 +29,6 @@ private:
 
 	Intersection intersect(const Ray &r) const;
 
-	Spheroid spheroids[5];
+	Spheroid spheroids[6];
 	Light lights[6];
 };

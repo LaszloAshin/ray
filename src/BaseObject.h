@@ -51,7 +51,6 @@ private:
 
 enum ObjectType : short {
 	OT_PLANE,
-	OT_SPHERE,
 	OT_SPHEROID,
 };
 

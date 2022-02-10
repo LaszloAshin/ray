@@ -15,7 +15,6 @@ set(libray_SOURCES
 	src/MyLib.cc
 	src/Plane.cc
 	src/Scene.cc
-	src/Sphere.cc
 	src/Spheroid.cc
 	src/Tracer.cc
 	src/Vector.cc

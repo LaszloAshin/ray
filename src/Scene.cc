@@ -25,10 +25,6 @@ enum MaterialIds : short {
 	MATERIAL_MIRROR,
 };
 
-static const Sphere spheres[] = {
-	{Vec3f{0.0f, 4.0f, -25.0f}, MATERIAL_GLASS, 5.0f},
-};
-
 static const Plane planes[] = {
 	{Vec3f{0.0f, 1.0f, 0.0f}, -4.5f, MATERIAL_MIRROR},
 	{Vec3f{0.0f, -1.0f, 0.0f}, -15.0f, MATERIAL_MIRROR},
@@ -51,13 +47,13 @@ Scene::Scene(int frame)
 		spheroids[i] = Spheroid{Vec3f{x, -4.0f, z - 25.0f}, MATERIAL_IRON, 5.0f, 2.0f};
 	}
 	lights[5] = Light{Vec3f{0.0f, 10.0f, -25.0f}, Color::white()};
+	spheroids[5] = Spheroid{Vec3f{0.0f, 4.0f, -25.0f}, MATERIAL_GLASS, 5.0f, 5.0f};
 }
 
 Scene::Intersection
 Scene::intersect(const Ray &ray) const
 {
 	Intersection result;
-	result.addObjects(ray, spheres);
 	result.addObjects(ray, spheroids);
 	result.addObjects(ray, planes);
 	return result;
@@ -65,7 +61,6 @@ Scene::intersect(const Ray &ray) const
 
 static const BaseObject::ComputeIntersectionDetails cid[] = {
 	BaseObject::cid<Plane>,
-	BaseObject::cid<Sphere>,
 	BaseObject::cid<Spheroid>,
 };
 
