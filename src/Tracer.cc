@@ -45,7 +45,7 @@ Tracer::trace()
 		for (int y = b.y0; y < b.y1; ++y) {
 			for (int x = b.x0; x < b.x1; ++x) {
 				Ray r(Vec3f{}, viewVec(x, y, 0.5f, 0.5f));
-				img->setPixel(x, y, scene.trace(r, DEPTH_LIMIT, 1.0f));
+				img->setPixel(x, y, scene.trace(r));
 			}
 		}
 	}
@@ -62,15 +62,15 @@ Tracer::traceAntialiased()
 		Color up[MyBlocks::blockSize() + 1];
 		for (int x = b.x0, i = 0; x <= b.x1; ++x, ++i) {
 			Ray r(Vec3f{}, viewVec(x, b.y0, 0.0f, 0.0f));
-			up[i] = scene.trace(r, DEPTH_LIMIT, 1.0f);
+			up[i] = scene.trace(r);
 		}
 		for (int y = b.y0; y < b.y1; ++y) {
 			Ray r(Vec3f{}, viewVec(b.x0, y, 0.0, 1.0));
-			Color left = scene.trace(r, DEPTH_LIMIT, 1.0f);
+			Color left = scene.trace(r);
 			int i = 0;
 			for (int x = b.x0; x < b.x1; ++x, ++i) {
 				r = Ray(Vec3f{}, viewVec(x, y, 1.0, 1.0));
-				Color right = scene.trace(r, DEPTH_LIMIT, 1.0f);
+				Color right = scene.trace(r);
 				
 				Color c{};
 				if ((up[i].dist(right) < 0.001f) && (up[i+1].dist(left) < 0.001f)) {
@@ -80,7 +80,7 @@ Tracer::traceAntialiased()
 						float hx = halton(2, j + 1);
 						float hy = halton(3, j + 1);
 						r.d = viewVec(x, y, hx, hy);
-						c += scene.trace(r, DEPTH_LIMIT, 1.0f);
+						c += scene.trace(r);
 					}
 					c = c * (1.0f / SAMPLES);
 				}
