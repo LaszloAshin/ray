@@ -8,7 +8,7 @@
 struct Scene {
 	Scene(int frame);
 
-	Color trace(const Ray &r, int depth = DEPTH_LIMIT, float weight = 1.0f) const;
+	Color trace(const Ray &r, int depth, float weight) const;
 
 private:
 	struct Intersection {
