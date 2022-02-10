@@ -47,6 +47,7 @@ private:
 
 	Vec3f viewVec(int x0, int y0, float dx, float dy) const;
 	int getNextBlock();
+	Color computePixel(int x, int y, Color* up, Color& left);
 
 	const Scene &scene;
 	Image *img;

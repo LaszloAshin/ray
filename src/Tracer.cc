@@ -45,10 +45,29 @@ Tracer::trace()
 		for (int y = b.y0; y < b.y1; ++y) {
 			for (int x = b.x0; x < b.x1; ++x) {
 				Ray r(Vec3f{}, viewVec(x, y, 0.5f, 0.5f));
-				img->setPixel(x, y, scene.trace(r, DEPTH_LIMIT, 1.0f));
+				img->setPixel(x, y, scene.trace(r));
 			}
 		}
 	}
+}
+
+Color Tracer::computePixel(int x, int y, Color* up, Color& left) {
+	Color right = scene.trace(Ray{Vec3f{}, viewVec(x, y, 1.0f, 1.0f)});
+
+	Color c{};
+	if ((up[0].dist(right) < 0.001f) && (up[1].dist(left) < 0.001f)) {
+		c = (up[0] + up[1] + left + right) * 0.25f;
+	} else {
+		for (int j = 0; j < SAMPLES; ++j) {
+			float hx = halton(2, j + 1);
+			float hy = halton(3, j + 1);
+			c += scene.trace(Ray{Vec3f{}, viewVec(x, y, hx, hy)});
+		}
+		c = c * (1.0f / SAMPLES);
+	}
+	up[0] = left;
+	left = right;
+	return c;
 }
 
 void
@@ -61,36 +80,17 @@ Tracer::traceAntialiased()
 
 		Color up[MyBlocks::blockSize() + 1];
 		for (int x = b.x0, i = 0; x <= b.x1; ++x, ++i) {
-			Ray r(Vec3f{}, viewVec(x, b.y0, 0.0f, 0.0f));
-			up[i] = scene.trace(r, DEPTH_LIMIT, 1.0f);
+			Ray r{Vec3f{}, viewVec(x, b.y0, 0.0f, 0.0f)};
+			up[i] = scene.trace(r);
 		}
 		for (int y = b.y0; y < b.y1; ++y) {
-			Ray r(Vec3f{}, viewVec(b.x0, y, 0.0, 1.0));
-			Color left = scene.trace(r, DEPTH_LIMIT, 1.0f);
+			Ray r{Vec3f{}, viewVec(b.x0, y, 0.0f, 1.0f)};
+			Color left = scene.trace(r);
 			int i = 0;
 			for (int x = b.x0; x < b.x1; ++x, ++i) {
-				r = Ray(Vec3f{}, viewVec(x, y, 1.0, 1.0));
-				Color right = scene.trace(r, DEPTH_LIMIT, 1.0f);
-				
-				Color c{};
-				if ((up[i].dist(right) < 0.001f) && (up[i+1].dist(left) < 0.001f)) {
-					c = (up[i] + up[i+1] + left + right) * 0.25f;
-				} else {
-					for (int j = 0; j < SAMPLES; ++j) {
-						float hx = halton(2, j + 1);
-						float hy = halton(3, j + 1);
-						r.d = viewVec(x, y, hx, hy);
-						c += scene.trace(r, DEPTH_LIMIT, 1.0f);
-					}
-					c = c * (1.0f / SAMPLES);
-				}
-				img->setPixel(x, y, c);
-
-				up[i] = left;
-				left = right;
+				img->setPixel(x, y, computePixel(x, y, up + i, left));
 			}
 			up[i] = left;
 		}
-
 	}
 }
