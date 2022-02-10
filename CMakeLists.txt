@@ -39,6 +39,7 @@ if(MSVC)
 	find_program(CRINKLER NAMES Crinkler PATHS vendor/)
 	file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.props" "<Project><PropertyGroup><LinkToolExe>${CRINKLER}</LinkToolExe></PropertyGroup></Project>")
 else()
+	enable_language(ASM)
 	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 	add_compile_options(-g)
 	add_compile_options(-fno-exceptions -fno-rtti)
@@ -54,8 +55,8 @@ else()
 	list(APPEND libray_SOURCES src/MyLib-posix.cc)
 	if(APPLE)
 		add_link_options(-Wl,-dead_strip)
+		list(APPEND ray_single_SOURCES src/start-x86-64-macos.S)
 	else()
-		enable_language(ASM)
 		add_compile_options(-fno-align-loops -fno-align-labels -fno-align-jumps)
 		add_compile_options(-m32)
 		add_compile_options(-fno-pie)
@@ -98,15 +99,20 @@ if(MSVC)
 else()
 	if(APPLE)
 		target_link_options(ray PUBLIC -Wl,-map,ray.map)
-		target_link_options(ray-single PUBLIC -Wl,-map,ray-single.map)
-		add_custom_command(TARGET ray POST_BUILD
-			COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> ray
-			COMMENT "Stripping executable ray"
+		target_link_options(ray-single PUBLIC
+			-nostartfiles -nodefaultlibs -nostdlib -static
+			-Wl,-map,ray-single.map
 		)
-		add_custom_command(TARGET ray-single POST_BUILD
-			COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> ray-single
-			COMMENT "Stripping executable ray-single"
-		)
+		if(DO_STRIP)
+			add_custom_command(TARGET ray POST_BUILD
+				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> ray
+				COMMENT "Stripping executable ray"
+			)
+			add_custom_command(TARGET ray-single POST_BUILD
+				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> ray-single
+				COMMENT "Stripping executable ray-single"
+			)
+		endif()
 	else()
 		target_link_options(ray PRIVATE
 			-nostartfiles -nodefaultlibs -nolibc -nostdlib -static
