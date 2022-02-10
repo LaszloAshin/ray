@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644516721665,
+  "lastUpdate": 1644519263694,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -7474,6 +7474,65 @@ window.BENCHMARK_DATA = {
           "url": "https://github.com/LaszloAshin/ray/commit/561da624b5970823c7d6aa852da66ca36064accd"
         },
         "date": 1644516720508,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4180,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3772,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 51296,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5773,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1019952507,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "2cf6b4e4cd5d357ef08d9e5f99c64428b315ced9",
+          "message": "Fix segfault\n\nmacos probably clobbers some registers but this is undocumented afaik.",
+          "timestamp": "2022-02-10T19:50:02+01:00",
+          "tree_id": "fc4f2251418cf042e4a5ad7691c9a060e7efa24c",
+          "url": "https://github.com/LaszloAshin/ray/commit/2cf6b4e4cd5d357ef08d9e5f99c64428b315ced9"
+        },
+        "date": 1644519263064,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
