@@ -62,13 +62,13 @@ Tracer::traceAntialiased(Color *up)
 		const auto b = blocks.get(*img, block);
 
 		for (int x = b.x0, i = 0; x <= b.x1; ++x, ++i) {
-			up[i] = scene.trace(rayForPixel(x, b.y0));
+			up[i] = scene.trace(rayForPixel(x + 0.0f, b.y0 + 0.0f));
 		}
 		for (int y = b.y0; y < b.y1; ++y) {
-			Color left = scene.trace(rayForPixel(b.x0, y + 1));
+			Color left = scene.trace(rayForPixel(b.x0 + 0.0f, y + 1.0f));
 			int i = 0;
 			for (int x = b.x0; x < b.x1; ++x, ++i) {
-				Color right = scene.trace(rayForPixel(x + 1, y + 1));
+				Color right = scene.trace(rayForPixel(x + 1.0f, y + 1.0f));
 				
 				Color c{};
 				if ((up[i].dist(right) < 0.001f) && (up[i+1].dist(left) < 0.001f)) {
