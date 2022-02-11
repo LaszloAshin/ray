@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644570863291,
+  "lastUpdate": 1644574688629,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -7602,6 +7602,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Win32 Executable Size",
             "value": 3900,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 51296,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5773,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1019952507,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "12a89cdf178c0f09b469f7e5fb1cf1755adc679d",
+          "message": "Disable /Oy because it makes the code larger",
+          "timestamp": "2022-02-11T11:14:50+01:00",
+          "tree_id": "dad5e649743595fe566cded7ed8d65c8cc06fdd1",
+          "url": "https://github.com/LaszloAshin/ray/commit/12a89cdf178c0f09b469f7e5fb1cf1755adc679d"
+        },
+        "date": 1644574687647,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4180,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3772,
             "unit": "Bytes"
           },
           {
