@@ -63,33 +63,20 @@ private:
 	int id;
 };
 
+static void traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiased(); }
+
 #elif _WIN32
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-struct MyThreadData {
-	void (*func)(void*);
-	void *arg;
-};
-
-DWORD WINAPI MyThreadThunk( LPVOID lpParam ) {
-	MyThreadData* d = static_cast<MyThreadData*>(lpParam);
-	(*d->func)(d->arg);
-	return 0;
-}
-
 struct MyThread {
-	MyThread(void (*func)(void*), void* arg) {
-		MyThreadData d{ func, arg };
-		th = CreateThread(NULL, 0, MyThreadThunk, &d, 0, NULL);
-	}
+	MyThread(LPTHREAD_START_ROUTINE func, void* arg) : th{CreateThread(NULL, 0, func, arg, 0, NULL)} {}
 
 	MyThread(const MyThread&) = delete;
 	MyThread& operator=(const MyThread&) = delete;
 
 	~MyThread() {
-		myprint(""); // why does this prevent segfault?!
 		WaitForSingleObject(th, INFINITE);
 		CloseHandle(th);
 	}
@@ -103,6 +90,8 @@ struct MyThread {
 private:
 	HANDLE th;
 };
+
+static DWORD WINAPI traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiased(); return 0; }
 
 #else
 
@@ -140,9 +129,9 @@ private:
 	std::thread th;
 };
 
-#endif
-
 static void traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiased(); }
+
+#endif
 
 int
 main(int argc, char *argv[], char *envp[])
