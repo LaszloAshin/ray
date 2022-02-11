@@ -31,7 +31,7 @@ if(MSVC)
 	add_compile_options(/O1) # sets a combination of optimizations that generate minimum size code
 	add_compile_options(/Ob1) # Allows expansion only of functions marked inline, __inline, or __forceinline, or in a C++ member function defined in a class declaration
 	add_compile_options(/Oi) # generates intrinsic functions for appropriate function calls
-	add_compile_options(/Oy) # suppresses the creation of frame pointers on the call stack for quicker function calls
+#	add_compile_options(/Oy) # suppresses the creation of frame pointers on the call stack for quicker function calls
 	add_definitions(-D_HAS_EXCEPTIONS=0)
 	add_definitions(-D_USE_MATH_DEFINES) # enable macros like M_PI
 	add_definitions(-DNOMINMAX) # prevent windows.h from defining min/max macros

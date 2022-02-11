@@ -30,7 +30,7 @@ jobs:
       shell: bash
       run: |
         if [ "$RUNNER_OS" == "Windows" ]; then
-          cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -A Win32
+          cmake -B build -A Win32
         else
           cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
         fi
