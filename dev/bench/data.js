@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644519263694,
+  "lastUpdate": 1644570863291,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -7543,6 +7543,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Win32 Executable Size",
             "value": 3772,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 51296,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5773,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1019952507,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "8d379032afe0a8531baf415b173767b51affe384",
+          "message": "Tell MSVC to optimize for size\n\nWell, it is embarrassing that I haven't set this yet.",
+          "timestamp": "2022-02-11T10:10:27+01:00",
+          "tree_id": "d9637f75ee6da8720145e7b6da190ca57bc6c835",
+          "url": "https://github.com/LaszloAshin/ray/commit/8d379032afe0a8531baf415b173767b51affe384"
+        },
+        "date": 1644570862463,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4180,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3900,
             "unit": "Bytes"
           },
           {
