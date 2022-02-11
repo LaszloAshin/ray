@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644581115313,
+  "lastUpdate": 1644589097266,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -7725,6 +7725,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - MacOS Executable Size",
             "value": 51352,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5773,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1019952507,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "ecd8d0b9e957f25cd316c0b6594f0e023aa43497",
+          "message": "Revert \"Use -Oz on macos\"\n\nThis reverts commit 6e0bd08289b980fde8123dc4661d6c8f68973695.\n\nHow can -Oz produce bigger binaries than -Os? I don't believe I\nneed to revert this as well.",
+          "timestamp": "2022-02-11T15:13:51+01:00",
+          "tree_id": "dad5e649743595fe566cded7ed8d65c8cc06fdd1",
+          "url": "https://github.com/LaszloAshin/ray/commit/ecd8d0b9e957f25cd316c0b6594f0e023aa43497"
+        },
+        "date": 1644589096697,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4180,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3772,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 51296,
             "unit": "Bytes"
           },
           {
