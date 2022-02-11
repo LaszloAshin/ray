@@ -13,7 +13,7 @@ struct MappedWritableFile {
 	void* address() { return address_; }
 
 private:
-	void* address_{};
+	void* address_;
 #ifndef LEAK_RESOURCES_ATEXIT
 	int length_;
 #endif
