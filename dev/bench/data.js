@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644591648375,
+  "lastUpdate": 1644600501420,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -7838,6 +7838,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Win32 Executable Size",
             "value": 3793,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 51312,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5605,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1019943395,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "1edede389045d254fcdf7611a342ae8fca9d05ee",
+          "message": "Fix a data race and get rid of MyThreadThunk",
+          "timestamp": "2022-02-11T18:24:37+01:00",
+          "tree_id": "9b6f7f263bcb32fec7ab5d6a8a0edc4d25690eb9",
+          "url": "https://github.com/LaszloAshin/ray/commit/1edede389045d254fcdf7611a342ae8fca9d05ee"
+        },
+        "date": 1644600500400,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4126,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3775,
             "unit": "Bytes"
           },
           {
