@@ -19,10 +19,8 @@ static float halton(int base, int n) {
 	return ret;
 }
 
-Vec3f Tracer::viewVec(int x0, int y0, float dx, float dy) const {
-	float x = dx + x0;
-	float y = dy + y0;
-	return Vec3f{x * invwhalf - 1.0f, (hhalf - y) * invwhalf, -0.5f}.norm();
+Ray Tracer::rayForPixel(float x, float y) const {
+	return Ray{Vec3f{}, Vec3f{x * invwhalf - 1.0f, (hhalf - y) * invwhalf, -0.5f}.norm()};
 }
 
 int Tracer::getNextBlock() {
@@ -44,8 +42,7 @@ Tracer::trace()
 
 		for (int y = b.y0; y < b.y1; ++y) {
 			for (int x = b.x0; x < b.x1; ++x) {
-				Ray r(Vec3f{}, viewVec(x, y, 0.5f, 0.5f));
-				img->setPixel(x, y, scene.trace(r));
+				img->setPixel(x, y, scene.trace(rayForPixel(x + 0.5f, y + 0.5f)));
 			}
 		}
 	}
@@ -65,16 +62,13 @@ Tracer::traceAntialiased(Color *up)
 		const auto b = blocks.get(*img, block);
 
 		for (int x = b.x0, i = 0; x <= b.x1; ++x, ++i) {
-			Ray r(Vec3f{}, viewVec(x, b.y0, 0.0f, 0.0f));
-			up[i] = scene.trace(r);
+			up[i] = scene.trace(rayForPixel(x, b.y0));
 		}
 		for (int y = b.y0; y < b.y1; ++y) {
-			Ray r(Vec3f{}, viewVec(b.x0, y, 0.0, 1.0));
-			Color left = scene.trace(r);
+			Color left = scene.trace(rayForPixel(b.x0, y + 1));
 			int i = 0;
 			for (int x = b.x0; x < b.x1; ++x, ++i) {
-				r = Ray(Vec3f{}, viewVec(x, y, 1.0, 1.0));
-				Color right = scene.trace(r);
+				Color right = scene.trace(rayForPixel(x + 1, y + 1));
 				
 				Color c{};
 				if ((up[i].dist(right) < 0.001f) && (up[i+1].dist(left) < 0.001f)) {
@@ -83,8 +77,7 @@ Tracer::traceAntialiased(Color *up)
 					for (int j = 0; j < SAMPLES; ++j) {
 						float hx = halton(2, j + 1);
 						float hy = halton(3, j + 1);
-						r.d = viewVec(x, y, hx, hy);
-						c += scene.trace(r);
+						c += scene.trace(rayForPixel(x + hx, y + hy));
 					}
 					c = c * (1.0f / SAMPLES);
 				}

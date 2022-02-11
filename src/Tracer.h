@@ -45,7 +45,7 @@ struct Tracer {
 private:
 	using MyBlocks = Blocks<32>;
 
-	Vec3f viewVec(int x0, int y0, float dx, float dy) const;
+	Ray rayForPixel(float x, float y) const;
 	int getNextBlock();
 	void traceAntialiased(Color* c);
 
