@@ -51,15 +51,19 @@ Tracer::trace()
 	}
 }
 
+void Tracer::traceAntialiased() {
+	Color up[MyBlocks::blockSize() + 1];
+	traceAntialiased(up);
+}
+
 void
-Tracer::traceAntialiased()
+Tracer::traceAntialiased(Color *up)
 {
 	int block;
 
 	while ((block = getNextBlock()) < blocks.all_blocks) {
 		const auto b = blocks.get(*img, block);
 
-		Color up[MyBlocks::blockSize() + 1];
 		for (int x = b.x0, i = 0; x <= b.x1; ++x, ++i) {
 			Ray r(Vec3f{}, viewVec(x, b.y0, 0.0f, 0.0f));
 			up[i] = scene.trace(r);

@@ -47,6 +47,7 @@ private:
 
 	Vec3f viewVec(int x0, int y0, float dx, float dy) const;
 	int getNextBlock();
+	void traceAntialiased(Color* c);
 
 	const Scene &scene;
 	Image *img;
