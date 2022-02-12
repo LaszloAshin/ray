@@ -48,7 +48,7 @@ else()
 	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 	add_compile_options(-g)
 	add_compile_options(-fno-exceptions -fno-rtti)
-	add_compile_options(-fno-asynchronous-unwind-tables) # comment this line while profiling
+	add_compile_options(-fno-unwind-tables -fno-asynchronous-unwind-tables) # comment this line while profiling
 	add_compile_options(-fno-align-functions)
 	add_compile_options(-ffast-math)
 	add_compile_options(-fno-stack-protector)
@@ -60,9 +60,15 @@ else()
 	list(APPEND libray_SOURCES src/MappedWritableFile-posix.cc)
 	list(APPEND libray_SOURCES src/MyLib-posix.cc)
 	if(APPLE)
+		set(CMAKE_CXX_LINK_FLAGS "") # Avoid cmake to add the flags -search_paths_first and -headerpad_max_install_names
 		add_link_options(-Wl,-dead_strip)
+		add_link_options(-Wl,-dead_strip_dylibs)
 		add_link_options(-Wl,-no_pie)
-		list(APPEND ray_single_SOURCES src/start-x86-64-macos.S)
+		add_link_options(-Wl,-no_uuid)
+		add_link_options(-Wl,-no_function_starts)
+		add_link_options(-Wl,-no_eh_labels)
+		add_link_options(-Wl,-unexported_symbol,*)
+		list(APPEND libray_SOURCES src/start-x86-64-macos.S)
 	else()
 		add_compile_options(-fno-align-loops -fno-align-labels -fno-align-jumps)
 		add_compile_options(-m32)
@@ -70,8 +76,7 @@ else()
 		add_link_options(-Wl,--gc-sections -Wl,--as-needed)
 		add_link_options(-Wl,--build-id=none)
 
-		list(APPEND ray_single_SOURCES src/start-i386-linux.S)
-		list(APPEND ray_multi_SOURCES src/start-i386-linux.S)
+		list(APPEND libray_SOURCES src/start-i386-linux.S)
 		list(APPEND ray_multi_SOURCES src/thread-i386-linux.S)
 
 		add_link_options(-Wl,-z,noseparate-code) # merge rodata into text
@@ -104,7 +109,10 @@ if(MSVC)
 	target_link_options(ray-single PRIVATE /REPORT:ray-single.html)
 else()
 	if(APPLE)
-		target_link_options(ray PUBLIC -Wl,-map,ray.map)
+		target_link_options(ray PUBLIC
+			-nostartfiles
+			-Wl,-map,ray.map
+		)
 		target_link_options(ray-single PUBLIC
 			-nostartfiles -nodefaultlibs -nostdlib -static
 			-Wl,-map,ray-single.map
