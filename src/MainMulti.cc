@@ -95,17 +95,18 @@ static DWORD WINAPI traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAn
 
 #else
 
-#include <thread>
+#include <pthread.h>
 #include <sys/sysctl.h>
 
 struct MyThread {
-	template <typename... Args>
-	MyThread(Args&&... args) : th{std::forward<Args>(args)...} {}
+	MyThread(void* (*func)(void*), void* arg) {
+		pthread_create(&th, nullptr, func, arg);
+	}
 
 	MyThread(const MyThread&) = delete;
 	MyThread& operator=(const MyThread&) = delete;
 
-	~MyThread() { th.join(); }
+	~MyThread() { pthread_join(th, nullptr); }
 
 	static int hardware_concurrency() {
 		int result;
@@ -126,10 +127,10 @@ struct MyThread {
 	}
 
 private:
-	std::thread th;
+	pthread_t th;
 };
 
-static void traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiased(); }
+static void* traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiased(); return nullptr; }
 
 #endif
 
