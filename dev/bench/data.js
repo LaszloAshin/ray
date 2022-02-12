@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1644604665441,
+  "lastUpdate": 1644683074933,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -8020,6 +8020,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - MacOS Executable Size",
             "value": 51312,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5476,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1019893875,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "ee6b66a8e97ec3b073c49074666bcb91fb48f90f",
+          "message": "Reduce the number of imported symbols on macos\n\nThis is by using pthread directly instead of std::thread.\nThe only two imported symbols are pthread_create and pthread_join.",
+          "timestamp": "2022-02-12T17:19:43+01:00",
+          "tree_id": "e554de6077b8d3cf1b1359c26ef8b1af9b333916",
+          "url": "https://github.com/LaszloAshin/ray/commit/ee6b66a8e97ec3b073c49074666bcb91fb48f90f"
+        },
+        "date": 1644683073868,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 4088,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3742,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 50592,
             "unit": "Bytes"
           },
           {
