@@ -69,6 +69,7 @@ else()
 		add_link_options(-Wl,-no_eh_labels)
 		add_link_options(-Wl,-unexported_symbol,*)
 		list(APPEND libray_SOURCES src/start-x86-64-macos.S)
+		list(APPEND ray_multi_SOURCES src/thread-x86-64-macos.S)
 	else()
 		add_compile_options(-fno-align-loops -fno-align-labels -fno-align-jumps)
 		add_compile_options(-m32)
@@ -110,7 +111,7 @@ if(MSVC)
 else()
 	if(APPLE)
 		target_link_options(ray PUBLIC
-			-nostartfiles
+			-nostartfiles -nodefaultlibs -nostdlib -static
 			-Wl,-map,ray.map
 		)
 		target_link_options(ray-single PUBLIC

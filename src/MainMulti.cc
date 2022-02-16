@@ -8,6 +8,8 @@
 
 #ifdef __linux__
 
+#define THREADS_INIT
+
 extern "C" int create_thread(void (*func)(void*), void* arg);
 
 struct MyThread {
@@ -70,6 +72,8 @@ static void traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiase
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+#define THREADS_INIT
+
 struct MyThread {
 	MyThread(LPTHREAD_START_ROUTINE func, void* arg) : th{CreateThread(NULL, 0, func, arg, 0, NULL)} {}
 
@@ -95,18 +99,23 @@ static DWORD WINAPI traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAn
 
 #else
 
-#include <pthread.h>
 #include <sys/sysctl.h>
 
+#define THREADS_INIT do { threads_init(); } while (0)
+
+extern "C" {
+int threads_init();
+int create_thread(void (*)(void*), void*);
+void join_thread(int);
+}
+
 struct MyThread {
-	MyThread(void* (*func)(void*), void* arg) {
-		pthread_create(&th, nullptr, func, arg);
-	}
+	MyThread(void (*func)(void*), void* arg) : th{create_thread(func, arg)} {}
 
 	MyThread(const MyThread&) = delete;
 	MyThread& operator=(const MyThread&) = delete;
 
-	~MyThread() { pthread_join(th, nullptr); }
+	~MyThread() { join_thread(th); }
 
 	static int hardware_concurrency() {
 		int result;
@@ -127,16 +136,18 @@ struct MyThread {
 	}
 
 private:
-	pthread_t th;
+	int th;
 };
 
-static void* traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiased(); return nullptr; }
+static void traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiased(); }
 
 #endif
 
 int
 main(int argc, char *argv[], char *envp[])
 {
+	THREADS_INIT;
+
 	int frame = 0;
 
 	if (argc > 1) {
