@@ -119,13 +119,18 @@ else()
 			-Wl,-map,ray-single.map
 		)
 		if(DO_STRIP)
+			add_executable(compact-macho src/compact-macho.c)
+			add_dependencies(ray compact-macho)
+			add_dependencies(ray-single compact-macho)
 			add_custom_command(TARGET ray POST_BUILD
-				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> ray
-				COMMENT "Stripping executable ray"
+				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,compact-macho,true> ray
+				COMMAND chmod +x ray.compact
+				COMMENT "Compacting executable ray"
 			)
 			add_custom_command(TARGET ray-single POST_BUILD
-				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> ray-single
-				COMMENT "Stripping executable ray-single"
+				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,compact-macho,true> ray-single
+				COMMAND chmod +x ray-single.compact
+				COMMENT "Compacting executable ray-single"
 			)
 		endif()
 	else()
