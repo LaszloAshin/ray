@@ -25,7 +25,7 @@ cat << EOF
     {
         "name": "Benchmark - MacOS Executable Size",
         "unit": "Bytes",
-        "value": $(stat --format=%s "$M/ray")
+        "value": $(stat --format=%s "$M/ray.compact")
     },
     {
         "name": "Benchmark - text Size",
