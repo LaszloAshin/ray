@@ -46,7 +46,7 @@ payload:
 	lea edi, [byte edi + 1 + PAQ_OFFSET] ; 3
 	; onekpaq needs: ebx=src, edi=dest zeroed from start-13 to end+1 (PAQ_OFFSET=13)
 %define ONEKPAQ_NO_SECTIONS
-%include "../src/onekpaq_decompressor32.asm"
+%include "onekpaq-prefix/src/onekpaq/onekpaq_decompressor32.asm"
 %if PAYLOAD_ENTRY_POINT - PAYLOAD_ADDR
 	lea edi, [byte edi + PAYLOAD_ENTRY_POINT - PAYLOAD_ADDR] ; 3
 %endif
