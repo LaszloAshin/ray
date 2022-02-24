@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1645288293367,
+  "lastUpdate": 1645718773282,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -8482,6 +8482,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Executable Size",
             "value": 4092,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3740,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 8185,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5446,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1020471528,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "e472f306eeb4d9eb652d45ec8ec166d140637c78",
+          "message": "Fix unused result",
+          "timestamp": "2022-02-24T17:03:01+01:00",
+          "tree_id": "fc87194d6a03906c1b8201a3f2578f4f8037ebca",
+          "url": "https://github.com/LaszloAshin/ray/commit/e472f306eeb4d9eb652d45ec8ec166d140637c78"
+        },
+        "date": 1645718769335,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 3536,
             "unit": "Bytes"
           },
           {
