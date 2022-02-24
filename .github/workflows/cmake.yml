@@ -57,11 +57,9 @@ jobs:
           ${{github.workspace}}/build/ray
           ${{github.workspace}}/build/ray.compact
           ${{github.workspace}}/build/ray.map
-          ${{github.workspace}}/build/ray.vndh
           ${{github.workspace}}/build/ray-single
           ${{github.workspace}}/build/ray-single.compact
           ${{github.workspace}}/build/ray-single.map
-          ${{github.workspace}}/build/ray-single.vndh
           ${{github.workspace}}/build/MinSizeRel/ray.exe
           ${{github.workspace}}/build/ray.html
           ${{github.workspace}}/build/MinSizeRel/ray-single.exe

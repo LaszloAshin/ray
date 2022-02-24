@@ -47,7 +47,7 @@ else()
 	enable_language(ASM)
 	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 	add_compile_options(-g)
-	add_compile_options(-fno-exceptions -fno-rtti)
+	add_compile_options(-fno-exceptions $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>)
 	add_compile_options(-fno-unwind-tables -fno-asynchronous-unwind-tables) # comment this line while profiling
 	add_compile_options(-fno-align-functions)
 	add_compile_options(-ffast-math)
@@ -143,16 +143,29 @@ else()
 			-Wl,-Map,ray-single.map
 		)
 		if(DO_STRIP)
-			set(VENDOR_DIR "${CMAKE_SOURCE_DIR}/vendor")
+			include(ExternalProject)
+			ExternalProject_Add(onekpaq
+				GIT_REPOSITORY https://github.com/LaszloAshin/oneKpaq.git
+				GIT_TAG 1e5342b8849ea8a4acbfc53f2288061bde9495c2
+				UPDATE_DISCONNECTED ON
+				CONFIGURE_COMMAND ""
+				BUILD_IN_SOURCE ON
+				INSTALL_COMMAND
+					COMMAND ${CMAKE_COMMAND} -E copy onekpaq ${CMAKE_BINARY_DIR}
+			)
+			configure_file(src/onekpaq_context.cache.linux ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)
+			add_executable(compact-elf src/compact-elf.c)
+			add_dependencies(compact-elf onekpaq)
+			target_compile_options(compact-elf PRIVATE -Wno-unused-value)
+			add_dependencies(ray compact-elf)
+			add_dependencies(ray-single compact-elf)
 			add_custom_command(TARGET ray POST_BUILD
-				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray
-				COMMAND ${VENDOR_DIR}/autovndh.py --gzip --xz --lzma --zstd --zopfli --vndh ${VENDOR_DIR} -- ray ray.vndh
-				COMMENT "Minifying executable ray"
+				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,compact-elf,true> ray
+				COMMENT "Compacting executable ray"
 			)
 			add_custom_command(TARGET ray-single POST_BUILD
-				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,${CMAKE_STRIP},true> -s -R .comment ray-single
-				COMMAND ${VENDOR_DIR}/autovndh.py --gzip --xz --lzma --zstd --zopfli --vndh ${VENDOR_DIR} -- ray-single ray-single.vndh
-				COMMENT "Minifying executable ray-single"
+				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,compact-elf,true> ray-single
+				COMMENT "Compacting executable ray-single"
 			)
 		endif()
 	endif()

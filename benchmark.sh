@@ -15,7 +15,7 @@ cat << EOF
     {
         "name": "Benchmark - Executable Size",
         "unit": "Bytes",
-        "value": $(stat --format=%s "$U/ray.vndh")
+        "value": $(stat --format=%s "$U/ray.compact")
     },
     {
         "name": "Benchmark - Win32 Executable Size",

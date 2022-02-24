@@ -33,7 +33,6 @@ int main(int argc, char* argv[]) {
 	v && printf("number of load commands: %d\n", hd.ncmds);
 	v && printf("size of load commands: %d\n", hd.sizeofcmds);
 
-
 	char* p = (char*)malloc(hd.sizeofcmds);
 	fread(p, hd.sizeofcmds, 1, fp);
 	char* q = p;

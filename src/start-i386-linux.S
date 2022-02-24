@@ -15,7 +15,7 @@ _start:
 	lea    4(%esp, %edi, 4), %ebp # envp
 	pusha
 	call   main
-	xchg   %eax, %edi # exit status
+	xchg   %eax, %ebx # exit status
 	push   $SYS_exit
 	pop    %eax
 	int    $0x80
