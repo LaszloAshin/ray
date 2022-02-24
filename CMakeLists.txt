@@ -156,7 +156,7 @@ else()
 			configure_file(src/onekpaq_context.cache.linux ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)
 			add_executable(compact-elf src/compact-elf.c)
 			add_dependencies(compact-elf onekpaq)
-			target_compile_options(compact-elf PRIVATE -Wno-unused-value)
+			target_compile_options(compact-elf PRIVATE -Wno-unused-value -Wno-unused-result)
 			add_dependencies(ray compact-elf)
 			add_dependencies(ray-single compact-elf)
 			add_custom_command(TARGET ray POST_BUILD
