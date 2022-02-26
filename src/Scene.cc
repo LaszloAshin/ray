@@ -4,7 +4,7 @@
 
 #include "config.h"
 
-alignas(4) static const Material materials[] = {
+static const Material materials[] = {
 	{
 		Color::black(), Color::gray(0.1f), Color::gray(0.4f),
 		7, 0.1f, 0.9f, 2.0f
@@ -25,7 +25,7 @@ enum MaterialIds : short {
 	MATERIAL_MIRROR,
 };
 
-alignas(4) static const Plane planes[] = {
+static const Plane planes[] = {
 	{Vec3f{0.0f, 1.0f, 0.0f}, -4.5f, MATERIAL_MIRROR},
 	{Vec3f{0.0f, -1.0f, 0.0f}, -15.0f, MATERIAL_MIRROR},
 };
