@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1645912096487,
+  "lastUpdate": 1645913735040,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -8674,6 +8674,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - text Size",
             "value": 5422,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1020471528,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "b2f505a33690e9888ffac2d1ed2acfa268a9596f",
+          "message": "Revert alignas(4)\n\nThis hurts win32 and probably macos because those use SSE.\nOn linux this also adds one byte to final size for some reason,\nmaybe using onekpaq multi mode would help there a bit.",
+          "timestamp": "2022-02-26T23:09:06+01:00",
+          "tree_id": "955919fa546f56114258530ae754cfb78b9ee1dc",
+          "url": "https://github.com/LaszloAshin/ray/commit/b2f505a33690e9888ffac2d1ed2acfa268a9596f"
+        },
+        "date": 1645913734506,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 3536,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3799,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 8185,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5446,
             "unit": "Bytes"
           },
           {
