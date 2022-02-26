@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1645719435246,
+  "lastUpdate": 1645912096487,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -8615,6 +8615,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - text Size",
             "value": 5446,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1020471528,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "2aa08334770f881c29ba87a30ed84655752fbebc",
+          "message": "Use alignas properly",
+          "timestamp": "2022-02-26T22:43:35+01:00",
+          "tree_id": "fed30976d92d898b9b718804aa1af36d4c8e37f5",
+          "url": "https://github.com/LaszloAshin/ray/commit/2aa08334770f881c29ba87a30ed84655752fbebc"
+        },
+        "date": 1645912095367,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 3537,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3799,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 8185,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5422,
             "unit": "Bytes"
           },
           {
