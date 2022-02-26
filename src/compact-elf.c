@@ -46,8 +46,8 @@ int main(int argc, char* argv[]) {
 	Elf32_Ehdr ehdr;
 	fread(&ehdr, sizeof(Elf32_Ehdr), 1, fp);
 	v && printf("e_entry: 0x%x\n", ehdr.e_entry);
-	v && printf("e_phoff: 0x%x\n", ehdr.e_phoff);
-	v && printf("e_shoff: 0x%x\n", ehdr.e_shoff);
+	v && printf("e_phoff: 0x%x %d\n", ehdr.e_phoff, ehdr.e_phoff);
+	v && printf("e_shoff: 0x%x %d\n", ehdr.e_shoff, ehdr.e_shoff);
 	v && printf("e_phnum: %d\n", ehdr.e_phnum);
 	v && printf("e_shnum: %d\n", ehdr.e_shnum);
 	v && printf("e_shstrndx: %d\n", ehdr.e_shstrndx);
@@ -61,11 +61,11 @@ int main(int argc, char* argv[]) {
 		assert(sizeof(Elf32_Phdr) == ehdr.e_phentsize);
 		fread(&phdr, sizeof(Elf32_Phdr), 1, fp);
 		v && printf("- p_type: %s(0x%x)\n", name_program_header_type(phdr.p_type), phdr.p_type);
-		v && printf("  p_offset: 0x%x\n", phdr.p_offset);
+		v && printf("  p_offset: 0x%x %d\n", phdr.p_offset, phdr.p_offset);
 		v && printf("  p_vaddr: 0x%x\n", phdr.p_vaddr);
 		v && printf("  p_paddr: 0x%x\n", phdr.p_paddr);
-		v && printf("  p_filesz: 0x%x\n", phdr.p_filesz);
-		v && printf("  p_memsz: 0x%x\n", phdr.p_memsz);
+		v && printf("  p_filesz: 0x%x %d\n", phdr.p_filesz, phdr.p_filesz);
+		v && printf("  p_memsz: 0x%x %d\n", phdr.p_memsz, phdr.p_memsz);
 		v && printf("  p_flags: %c%c%c\n",
 			(phdr.p_flags & PF_R) ? 'R' : ' ',
 			(phdr.p_flags & PF_W) ? 'W' : ' ',
@@ -99,8 +99,9 @@ int main(int argc, char* argv[]) {
 		v && printf("- s_name: \"%s\"\n", names + shdr.sh_name);
 		v && printf("  s_type: %s(%d)\n", name_section_header_type(shdr.sh_type), shdr.sh_type);
 		v && printf("  s_addr: 0x%x\n", shdr.sh_addr);
-		v && printf("  s_offset: 0x%x\n", shdr.sh_offset);
-		v && printf("  s_size: 0x%x\n", shdr.sh_size);
+		v && printf("  s_offset: 0x%x %d\n", shdr.sh_offset, shdr.sh_offset);
+		v && printf("  s_size: 0x%x %d\n", shdr.sh_size, shdr.sh_size);
+		v && printf("  s_addralign: 0x%x\n", shdr.sh_addralign);
 		if (is_payload_eligible(&shdr, names)) {
 			if (first_payload_section) {
 				first_payload_section = 0;
@@ -173,5 +174,6 @@ int main(int argc, char* argv[]) {
 	int ret = system(nasm_command_line);
 	if (ret) return ret;
 
+	v && printf("chmod 0755 %s\n", output_filename);
 	chmod(output_filename, 0755);
 }
