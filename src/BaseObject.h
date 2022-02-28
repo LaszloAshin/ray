@@ -8,15 +8,15 @@
 #include <tuple>
 
 struct Material {
-	Color ka; // ambient
-	Color kd; // diffuse
-	Color ks; // specular
+	float ka; // ambient
+	float kd; // diffuse
+	float ks; // specular
 	float kr; // reflection
 	float kt; // refraction
 	float v; // refraction index
 	char n; // shinyness
 
-	Color brdf(const Vec3f &L, const Vec3f &N, const Vec3f &V) const {
+	float brdf(const Vec3f &L, const Vec3f &N, const Vec3f &V) const {
 		const float cosLN = L.x * N.x + L.y * N.y + L.z * N.z;
 		if (cosLN < 0.0f)
 			return {}; // watching from the back
@@ -30,11 +30,7 @@ struct Material {
 		};
 		const float cosRV = std::max(R.x * V.x + R.y * V.y + R.z * V.z, 0.0f);
 		const float spec = powi(cosRV, n);
-		return {
-			kd.r * cosLN + ks.r * spec,
-			kd.g * cosLN + ks.g * spec,
-			kd.b * cosLN + ks.b * spec,
-		};
+		return kd * cosLN + ks * spec;
 	}
 
 	bool isReflective() const { return kr > EPSILON; }

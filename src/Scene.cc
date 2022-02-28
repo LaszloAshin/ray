@@ -5,18 +5,9 @@
 #include "config.h"
 
 static const Material materials[] = {
-	{
-		Color::black(), Color::gray(0.1f), Color::gray(0.4f),
-		0.1f, 0.9f, 2.0f, 7
-	},
-	{
-		Color::gray(0.2f), Color::gray(0.4f), Color::gray(0.1f),
-		0.4f, 0.0f, 1.0f, 7
-	},
-	{
-		Color::black(), Color::gray(0.1f), Color::gray(0.8f),
-		0.2f, 0.0f, 1.0f, 7
-	},
+	{ 0.0f, 0.1f, 0.4f, 0.1f, 0.9f, 2.0f, 7 },
+	{ 0.2f, 0.4f, 0.1f, 0.4f, 0.0f, 1.0f, 7 },
+	{ 0.0f, 0.1f, 0.8f, 0.2f, 0.0f, 1.0f, 7 },
 };
 
 enum MaterialIds : short {
@@ -71,10 +62,10 @@ void Scene::traceLights(const BaseObject* O, const Vec3f& mp, const Vec3f& N, co
 		if (dsq > EPSILON) {
 			dsq = 200.0f / dsq + 5.0f / mysqrtf(dsq);
 			const Vec3f L = Vec3f{-d.x, -d.y, -d.z}.norm();
-			const Color brdf = materials[O->mater].brdf(L, N, V);
-			rgb.r += light.c.r * brdf.r * dsq;
-			rgb.g += light.c.g * brdf.g * dsq;
-			rgb.b += light.c.b * brdf.b * dsq;
+			const float brdf = materials[O->mater].brdf(L, N, V);
+			rgb.r += light.c.r * brdf * dsq;
+			rgb.g += light.c.g * brdf * dsq;
+			rgb.b += light.c.b * brdf * dsq;
 		}
 	}
 }
@@ -95,7 +86,7 @@ Scene::trace(const Ray &ray, int depth, float weight) const
 
 	const Material& mater = materials[O->mater];
 	const Vec3f mp{ray.s.x + t * ray.d.x, ray.s.y + t * ray.d.y, ray.s.z + t * ray.d.z};
-	Color rgb = mater.ka;
+	Color rgb{ mater.ka, mater.ka, mater.ka };
 
 	const auto [N, texel] = ((O->type == OT_PLANE) ? BaseObject::cid<Plane> : BaseObject::cid<Spheroid>)(O, mp);
 	const Vec3f V = Vec3f{ray.s.x - mp.x, ray.s.y - mp.y, ray.s.z - mp.z}.norm();
