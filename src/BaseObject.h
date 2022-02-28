@@ -11,10 +11,10 @@ struct Material {
 	Color ka; // ambient
 	Color kd; // diffuse
 	Color ks; // specular
-	int n; // shinyness
-	const float kr; // reflection
-	const float kt; // refraction
+	float kr; // reflection
+	float kt; // refraction
 	float v; // refraction index
+	char n; // shinyness
 
 	Color brdf(const Vec3f &L, const Vec3f &N, const Vec3f &V) const {
 		const float cosLN = L.x * N.x + L.y * N.y + L.z * N.z;
