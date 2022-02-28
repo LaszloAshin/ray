@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1645913735040,
+  "lastUpdate": 1646045784047,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -8718,6 +8718,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Executable Size",
             "value": 3536,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3799,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 8185,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5446,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1020471528,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "30da970d858867c7b54a046b2d7f13b40ea02fd1",
+          "message": "Shave off 2 bytes on linux",
+          "timestamp": "2022-02-28T11:50:31+01:00",
+          "tree_id": "da36260ff925452f46b51b1774e3d0a7816d266f",
+          "url": "https://github.com/LaszloAshin/ray/commit/30da970d858867c7b54a046b2d7f13b40ea02fd1"
+        },
+        "date": 1646045782901,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 3534,
             "unit": "Bytes"
           },
           {
