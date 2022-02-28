@@ -42,7 +42,8 @@ payload:
 	cld ; 1
 
 	pop ebx ; 1
-	lea ebx, [ebx + compressed - payload + PAQ_OFFSET] ; 6
+	mov al, compressed - payload + PAQ_OFFSET ; 2
+	add ebx, eax ; 2
 	lea edi, [byte edi + 1 + PAQ_OFFSET] ; 3
 	; onekpaq needs: ebx=src, edi=dest zeroed from start-13 to end+1 (PAQ_OFFSET=13)
 %define ONEKPAQ_NO_SECTIONS
