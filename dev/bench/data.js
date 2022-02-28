@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1646048869039,
+  "lastUpdate": 1646053904201,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -8841,6 +8841,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - Win32 Executable Size",
             "value": 3799,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 8185,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5446,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 1020471528,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "494008608377fca7e05d8c3b551c9dc36bb5dadd",
+          "message": "Group float fields together in Material",
+          "timestamp": "2022-02-28T14:00:56+01:00",
+          "tree_id": "5e846e348d310bf6423303ffb80a98923e1969e8",
+          "url": "https://github.com/LaszloAshin/ray/commit/494008608377fca7e05d8c3b551c9dc36bb5dadd"
+        },
+        "date": 1646053903699,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 3526,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3800,
             "unit": "Bytes"
           },
           {
