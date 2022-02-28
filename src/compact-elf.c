@@ -152,6 +152,16 @@ int main(int argc, char* argv[]) {
 	fscanf(fp, "P offset=%d shift=%d\n", &paq_offset, &paq_shift);
 	fclose(fp);
 
+	fp = fopen(paq_filename, "rb");
+	int paq_size = -1;
+	for (int i = -1;; --i) {
+		fseek(fp, i, SEEK_END);
+		paq_size = ftell(fp) + 1;
+		char ch;
+		fread(&ch, 1, 1, fp);
+		if (ch) break;
+	}
+
 	char output_filename[64];
 	snprintf(output_filename, 64, "%s.compact", argv[1]);
 
@@ -165,6 +175,7 @@ int main(int argc, char* argv[]) {
 	p += snprintf(p, end - p, " -DPAYLOAD_ENTRY_POINT=0x%x", payload_entry_point);
 	p += snprintf(p, end - p, " -DPAQ_FILENAME='\"%s\"'", paq_filename);
 	p += snprintf(p, end - p, " -DPAQ_OFFSET=%d", paq_offset);
+	p += snprintf(p, end - p, " -DPAQ_SIZE=%d", paq_size);
 	p += snprintf(p, end - p, " -DONEKPAQ_DECOMPRESSOR_MODE=%d", paq_mode);
 	p += snprintf(p, end - p, " -DONEKPAQ_DECOMPRESSOR_SHIFT=%d", paq_shift);
 	p += snprintf(p, end - p, " -o%s", output_filename);

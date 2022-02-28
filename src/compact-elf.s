@@ -31,7 +31,7 @@ start.4:
 	push edi ; p_addr byte 2
 	jmp edi; p_addr byte 3 & 4
 	dd payload.end - $$ ; p_filesz
-	dd PAYLOAD_ADDR - $$ + PAYLOAD_SIZE + payload.end - payload + 1 ; memsz
+	dd PAYLOAD_ADDR - $$ + PAYLOAD_SIZE + payload.end - payload + 1 ; memsz XXX we should add paq_trailing_zeroes
 ;	dd 7 ; p_flags
 ;	dd 0 ; p_align
 
@@ -53,5 +53,5 @@ payload:
 %endif
 	jmp edi ; 2
 compressed:
-	incbin PAQ_FILENAME
+	incbin PAQ_FILENAME, 0, PAQ_SIZE
 payload.end:
