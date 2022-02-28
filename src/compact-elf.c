@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
 	char paq_filename[64];
 	snprintf(paq_filename, 64, "%s.paq", argv[1]);
 
-	const int paq_mode = 1;
+	const int paq_mode = 3;
 	const int paq_complexity = 1;
 
 	char onekpaq_command_line[4096];
