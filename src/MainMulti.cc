@@ -143,6 +143,11 @@ static void traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiase
 
 #endif
 
+#define MAX_THREADS 64
+
+static char threads_buffer[sizeof(MyThread) * MAX_THREADS];
+static char scene_buffer[sizeof(Scene)];
+
 int
 main(int argc, char *argv[], char *envp[])
 {
@@ -154,7 +159,8 @@ main(int argc, char *argv[], char *envp[])
 		frame = myatoi(argv[1]);
 		myprint("frame: "), myprint(frame), myprint("\n");
 	}
-	Scene scene(frame);
+	Scene* scene = reinterpret_cast<Scene*>(scene_buffer);
+	new(scene) Scene{frame};
 	int width = WIDTH;
 	if (const char* p = mygetenv(envp, "WIDTH")) {
 		width = myatoi(p);
@@ -164,12 +170,16 @@ main(int argc, char *argv[], char *envp[])
 		height = myatoi(p);
 	}
 	Image img("tracement.ppm", width, height);
-	Tracer tracer{scene, &img};
+	Tracer tracer{*scene, &img};
 	const int nthreads = MyThread::hardware_concurrency();
-	Vector<MyThread, 64> threads;
+	MyThread* threads = reinterpret_cast<MyThread*>(threads_buffer);
 
 	myprint("Spawning "), myprint(nthreads), myprint(" threads...\n");
-	for (int i = 0; i < nthreads; ++i) {
-		threads.emplace_back(traceAntialiased, &tracer);
+	for (int i = nthreads; i; --i) {
+		new(threads++) MyThread{traceAntialiased, &tracer};
+	}
+
+	for (int i = nthreads; i; --i) {
+		(--threads)->~MyThread();
 	}
 }
