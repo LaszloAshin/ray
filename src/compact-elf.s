@@ -33,7 +33,7 @@ start.3:
 	push edi ; p_addr byte 2
 	jmp edi; p_addr byte 3 & 4; jump to relocated payload
 	dd payload.end - $$ ; p_filesz
-	dd PAYLOAD_ADDR - $$ + PAYLOAD_SIZE + payload.end - payload + 1 ; memsz XXX we should add paq_trailing_zeroes
+	dd 0x100000 ; memsz
 ;	dd 7 ; p_flags
 ;	dd 0 ; p_align
 
