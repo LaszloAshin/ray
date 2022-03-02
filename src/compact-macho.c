@@ -22,6 +22,10 @@ struct thread_command_unixthread64 {
 	x86_thread_state64_t state;
 };
 
+int is_payload_eligible(const struct segment_command_64* seg, const struct section_64* sect) {
+	return !strcmp(seg->segname, "__TEXT") || (!strcmp(seg->segname, "__DATA") && !strcmp(sect->sectname, "__data"));
+}
+
 int main(int argc, char* argv[]) {
 	(void)argc;
 	int v = !strcmp(argv[1], "-v");
@@ -36,10 +40,12 @@ int main(int argc, char* argv[]) {
 	char* p = (char*)malloc(hd.sizeofcmds);
 	fread(p, hd.sizeofcmds, 1, fp);
 	char* q = p;
-	uint64_t payload_file_offset = 0;
+	uint32_t payload_file_offset = 0;
 	uint64_t payload_file_size = 0;
 	uint64_t payload_addr = 0;
 	uint64_t payload_entry_point = 0;
+	int eligible_section_index = 0;
+
 	for (unsigned i = 0; i < hd.ncmds; ++i) {
 		struct load_command* lc = (struct load_command*)q;
 		v && printf("- load_command: %s(%d)\n", name_load_command(lc->cmd), lc->cmd);
@@ -55,17 +61,20 @@ int main(int argc, char* argv[]) {
 			v && printf("  number of sections: %d\n", seg->nsects);
 
 			struct section_64* sect = (struct section_64*)(q + sizeof(struct segment_command_64));
-			for (unsigned j = 0; j < seg->nsects; ++j) {
-				v && printf("  - section name: %s\n", sect[j].sectname);
-				v && printf("    addr: 0x%llx\n", sect[j].addr);
-				v && printf("    size: 0x%llx\n", sect[j].size);
-				v && printf("    offset: 0x%x\n", sect[j].offset);
-			}
+			for (unsigned j = seg->nsects; j; --j, ++sect) {
+				v && printf("  - section name: %s\n", sect->sectname);
+				v && printf("    addr: 0x%llx\n", sect->addr);
+				v && printf("    size: 0x%llx\n", sect->size);
+				v && printf("    offset: 0x%x\n", sect->offset);
 
-			if (!strcmp(seg->segname, "__TEXT")) {
-				payload_file_offset = sect[0].offset;
-				payload_file_size = sect[seg->nsects-1].offset + sect[seg->nsects-1].size - sect[0].offset;
-				payload_addr = sect[0].addr;
+				if (is_payload_eligible(seg, sect)) {
+					if (!eligible_section_index) {
+						payload_addr = sect->addr;
+						payload_file_offset = sect->offset;
+					}
+					payload_file_size = sect->offset + sect->size - payload_file_offset;
+					++eligible_section_index;
+				}
 			}
 		} else if (lc->cmd == LC_UNIXTHREAD) {
 			struct thread_command_unixthread64* tc = (struct thread_command_unixthread64*)lc;
@@ -77,7 +86,7 @@ int main(int argc, char* argv[]) {
 
 	free(p);
 
-	v && printf("payload_file_offset = 0x%llx\n", payload_file_offset);
+	v && printf("payload_file_offset = 0x%x\n", payload_file_offset);
 	v && printf("payload_file_size = 0x%llx\n", payload_file_size);
 
 	p = (char*)malloc(payload_file_size);
