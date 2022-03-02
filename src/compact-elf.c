@@ -27,7 +27,8 @@ int is_payload_eligible(const Elf32_Shdr* shdr, const char* names) {
 
 	static const char* payload_sections[] = {
 		".text",
-		".rodata"
+		".rodata",
+		".data",
 	};
 	for (unsigned i = 0; i < sizeof(payload_sections) / sizeof(payload_sections[0]); ++i) {
 		if (!strcmp(payload_sections[i], names + shdr->sh_name)) {
@@ -86,15 +87,19 @@ int main(int argc, char* argv[]) {
 	}
 
 	uint32_t payload_addr = 0;
-	uint32_t payload_file_offset = 0;
-	uint32_t payload_file_size = 0;
-	int first_payload_section = !0;
+	uint32_t payload_end = 0;
+	int payload_section_index = 0;
+
+	char payload_filename[64];
+	snprintf(payload_filename, 64, "%s.payload", argv[1]);
+
+	FILE* fp2 = fopen(payload_filename, "wb");
 
 	v && puts("Section headers");
-	fseek(fp, ehdr.e_shoff, SEEK_SET);
 	for (int i = 0; i < ehdr.e_shnum; ++i) {
 		Elf32_Shdr shdr;
 		assert(sizeof(Elf32_Shdr) == ehdr.e_shentsize);
+		fseek(fp, ehdr.e_shoff + i * sizeof(Elf32_Shdr), SEEK_SET);
 		fread(&shdr, sizeof(Elf32_Shdr), 1, fp);
 		v && printf("- s_name: \"%s\"\n", names + shdr.sh_name);
 		v && printf("  s_type: %s(%d)\n", name_section_header_type(shdr.sh_type), shdr.sh_type);
@@ -103,33 +108,28 @@ int main(int argc, char* argv[]) {
 		v && printf("  s_size: 0x%x %d\n", shdr.sh_size, shdr.sh_size);
 		v && printf("  s_addralign: 0x%x\n", shdr.sh_addralign);
 		if (is_payload_eligible(&shdr, names)) {
-			if (first_payload_section) {
-				first_payload_section = 0;
-				payload_addr = shdr.sh_addr;
-				payload_file_offset = shdr.sh_offset;
+			if (!payload_section_index) {
+				payload_end = payload_addr = shdr.sh_addr;
 			}
-			payload_file_size = shdr.sh_offset + shdr.sh_size - payload_file_offset;
+			const int padding = shdr.sh_addr - payload_end;
+			payload_end = shdr.sh_addr + shdr.sh_size;
+
+			char* p = (char*)malloc(padding + shdr.sh_size);
+			memset(p, 0, padding);
+			fseek(fp, shdr.sh_offset, SEEK_SET);
+			fread(p + padding, shdr.sh_size, 1, fp);
+
+			fwrite(p, padding + shdr.sh_size, 1, fp2);
+
+			free(p);
+
+			++payload_section_index;
 		}
 	}
 
+	fclose(fp2);
 	free(names), names = NULL;
-
-	v && printf("payload_file_offset = 0x%x\n", payload_file_offset);
-	v && printf("payload_file_size = 0x%x\n", payload_file_size);
-
-	char* p = (char*)malloc(payload_file_size);
-	fseek(fp, payload_file_offset, SEEK_SET);
-	fread(p, payload_file_size, 1, fp);
 	fclose(fp);
-
-	char payload_filename[64];
-	snprintf(payload_filename, 64, "%s.payload", argv[1]);
-
-	fp = fopen(payload_filename, "wb");
-	fwrite(p, payload_file_size, 1, fp);
-	fclose(fp);
-
-	free(p);
 
 	char paq_filename[64];
 	snprintf(paq_filename, 64, "%s.paq", argv[1]);
@@ -167,11 +167,11 @@ int main(int argc, char* argv[]) {
 
 	char nasm_command_line[4096];
 	char* const end = nasm_command_line + 4096;
-	p = nasm_command_line;
+	char* p = nasm_command_line;
 
 	p += snprintf(p, end - p, "nasm");
 	p += snprintf(p, end - p, " -DPAYLOAD_ADDR=0x%x", payload_addr);
-	p += snprintf(p, end - p, " -DPAYLOAD_SIZE=0x%x", payload_file_size);
+	p += snprintf(p, end - p, " -DPAYLOAD_SIZE=0x%x", payload_end - payload_addr);
 	p += snprintf(p, end - p, " -DPAYLOAD_ENTRY_POINT=0x%x", payload_entry_point);
 	p += snprintf(p, end - p, " -DPAQ_FILENAME='\"%s\"'", paq_filename);
 	p += snprintf(p, end - p, " -DPAQ_OFFSET=%d", paq_offset);

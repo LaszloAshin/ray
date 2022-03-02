@@ -21,23 +21,39 @@ static const Plane planes[] = {
 	{Vec3f{0.0f, -1.0f, 0.0f}, -15.0f, MATERIAL_MIRROR},
 };
 
+static Spheroid spheroids[] = {
+	{Vec3f{0.0f, -4.0f, 0.0f}, MATERIAL_IRON, 5.0f, 2.0f},
+	{Vec3f{0.0f, -4.0f, 0.0f}, MATERIAL_IRON, 5.0f, 2.0f},
+	{Vec3f{0.0f, -4.0f, 0.0f}, MATERIAL_IRON, 5.0f, 2.0f},
+	{Vec3f{0.0f, -4.0f, 0.0f}, MATERIAL_IRON, 5.0f, 2.0f},
+	{Vec3f{0.0f, -4.0f, 0.0f}, MATERIAL_IRON, 5.0f, 2.0f},
+	{Vec3f{0.0f, 4.0f, -25.0f}, MATERIAL_GLASS, 5.0f, 5.0f},
+};
+
+static Light lights[] = {
+	{Vec3f{0.0f, 10.0f, 0.0f}, Color{0.0f, 0.5f, 0.0f}},
+	{Vec3f{0.0f, 10.0f, 0.0f}, Color{0.0f, 0.5f, 0.0f}},
+	{Vec3f{0.0f, 10.0f, 0.0f}, Color{0.0f, 0.5f, 0.0f}},
+	{Vec3f{0.0f, 10.0f, 0.0f}, Color{0.0f, 0.5f, 0.0f}},
+	{Vec3f{0.0f, 10.0f, 0.0f}, Color{0.0f, 0.5f, 0.0f}},
+	{Vec3f{0.0f, 10.0f, -25.0f}, Color::white()},
+};
+
 Scene::Scene(int frame)
 {
-	lights[0] = Light{Vec3f{0.0f, 10.0f, -25.0f}, Color::white()};
-	spheroids[0] = Spheroid{Vec3f{0.0f, 4.0f, -25.0f}, MATERIAL_GLASS, 5.0f, 5.0f};
 	for (int i = 0; i < 5; ++i) {
 		float angle = (float)(i) / (0.5f * 5) * (float)M_PI;
 		float sina, cosa;
 		mysincosf(angle, &sina, &cosa);
-		float x = 10.0f * sina;
-		float z = -10.0f * cosa;
-		lights[1 + i] = Light{Vec3f{x, 10.0f, z - 25.0f}, Color{sina, 0.5f, cosa}};
+		lights[i].pos.x = 10.0f * sina;
+		lights[i].pos.z = -10.0f * cosa - 25.0f;
+		lights[i].c.r = sina;
+		lights[i].c.b = cosa;
 		angle += 2.0f * (float)M_PI * frame / (25.0f * 10.0f);
 		// 10 sec alatt fordul korbe 25 fps-nel
 		mysincosf(angle, &sina, &cosa);
-		x = 15.0f * sina;
-		z = -15.0f * cosa;
-		spheroids[1 + i] = Spheroid{Vec3f{x, -4.0f, z - 25.0f}, MATERIAL_IRON, 5.0f, 2.0f};
+		spheroids[i].pos.x = 15.0f * sina;
+		spheroids[i].pos.z = -15.0f * cosa - 25.0f;
 	}
 }
 

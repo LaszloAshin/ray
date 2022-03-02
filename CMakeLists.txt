@@ -136,11 +136,11 @@ else()
 	else()
 		target_link_options(ray PRIVATE
 			-nostartfiles -nodefaultlibs -nolibc -nostdlib -static
-			-Wl,-Map,ray.map
+			-Wl,-Map,ray.map -Wl,--omagic
 		)
 		target_link_options(ray-single PRIVATE
 			-nostartfiles -nodefaultlibs -nolibc -nostdlib -static
-			-Wl,-Map,ray-single.map
+			-Wl,-Map,ray-single.map -Wl,--omagic
 		)
 		if(DO_STRIP)
 			include(ExternalProject)

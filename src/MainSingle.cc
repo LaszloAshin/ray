@@ -5,8 +5,6 @@
 
 #include "config.h"
 
-static char scene_buffer[sizeof(Scene)];
-
 int
 main(int, char*[], char* envp[])
 {
@@ -19,7 +17,5 @@ main(int, char*[], char* envp[])
 		height = myatoi(p);
 	}
 	Image img("tracement.ppm", width, height);
-	Scene* scene = reinterpret_cast<Scene*>(scene_buffer);
-	new(scene) Scene{0};
-	Tracer{*scene, &img}.traceAntialiased();
+	Tracer{Scene{0}, &img}.traceAntialiased();
 }
