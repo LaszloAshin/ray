@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1646171389231,
+  "lastUpdate": 1646211993384,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -9161,6 +9161,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 1010414986,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "fa070854843cd530af0e9cca02c9a6f499fd7203",
+          "message": "Use .data section",
+          "timestamp": "2022-03-02T10:00:48+01:00",
+          "tree_id": "091f8885fd2a9f0f2f44e17933ea92bd01b91d79",
+          "url": "https://github.com/LaszloAshin/ray/commit/fa070854843cd530af0e9cca02c9a6f499fd7203"
+        },
+        "date": 1646211991582,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 3452,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3608,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 7845,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5130,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 352,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 983385327,
             "unit": "Cycles"
           }
         ]
