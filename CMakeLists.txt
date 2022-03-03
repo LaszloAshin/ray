@@ -133,6 +133,7 @@ else()
 			)
 			configure_file(src/onekpaq_context.cache.macos ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)
 			add_executable(compact-macho src/compact-macho.c)
+			add_dependencies(compact-macho onekpaq)
 			add_dependencies(ray compact-macho)
 			add_dependencies(ray-single compact-macho)
 			add_custom_command(TARGET ray POST_BUILD
