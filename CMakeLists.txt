@@ -112,13 +112,26 @@ else()
 	if(APPLE)
 		target_link_options(ray PUBLIC
 			-nostartfiles -nodefaultlibs -nostdlib -static
-			-Wl,-map,ray.map
+			-Wl,-map,ray.map -Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
 		)
 		target_link_options(ray-single PUBLIC
 			-nostartfiles -nodefaultlibs -nostdlib -static
-			-Wl,-map,ray-single.map
+			-Wl,-map,ray-single.map -Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
 		)
 		if(DO_STRIP)
+			include(ExternalProject)
+			ExternalProject_Add(onekpaq
+				GIT_REPOSITORY https://github.com/LaszloAshin/oneKpaq.git
+				GIT_TAG 1e5342b8849ea8a4acbfc53f2288061bde9495c2
+				UPDATE_DISCONNECTED ON
+				PATCH_COMMAND
+					COMMAND ${CMAKE_COMMAND} -E make_directory obj
+				CONFIGURE_COMMAND ""
+				BUILD_IN_SOURCE ON
+				INSTALL_COMMAND
+					COMMAND ${CMAKE_COMMAND} -E copy onekpaq ${CMAKE_BINARY_DIR}
+			)
+			configure_file(src/onekpaq_context.cache.macos ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)
 			add_executable(compact-macho src/compact-macho.c)
 			add_dependencies(ray compact-macho)
 			add_dependencies(ray-single compact-macho)

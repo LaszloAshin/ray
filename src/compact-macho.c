@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+#include <sys/stat.h> // chmod
 
 const char* name_load_command(uint32_t cmd) {
 	switch (cmd) {
@@ -103,22 +103,61 @@ int main(int argc, char* argv[]) {
 
 	free(p);
 
-	char arg_payload_addr[64];
-	snprintf(arg_payload_addr, 64, "-DPAYLOAD_ADDR=0x%llx", payload_addr);
-	v && puts(arg_payload_addr);
+	char paq_filename[64];
+	snprintf(paq_filename, 64, "%s.paq", argv[1]);
 
-	char arg_payload_entry_point[64];
-	snprintf(arg_payload_entry_point, 64, "-DPAYLOAD_ENTRY_POINT=0x%llx", payload_entry_point);
-	v && puts(arg_payload_entry_point);
+	const int paq_mode = 3;
+	const int paq_complexity = 1;
 
-	char arg_payload_filename[64];
-	snprintf(arg_payload_filename, 64, "-DPAYLOAD_FILENAME=\"%s\"", payload_filename);
-	v && puts(arg_payload_filename);
+	char onekpaq_command_line[4096];
+	snprintf(onekpaq_command_line, 4096, "./onekpaq %d %d %s %s", paq_mode, paq_complexity, payload_filename, paq_filename);
+	v && puts(onekpaq_command_line);
 
-	char arg_output_filename[64];
-	snprintf(arg_output_filename, 64, "-o%s.compact", argv[1]);
-	v && puts(arg_output_filename);
+	fp = popen(onekpaq_command_line, "r");
+	if (!fp) {
+		fprintf(stderr, "onekpaq failed\n");
+		return !0;
+	}
 
-	execlp("nasm", "nasm", arg_payload_addr, arg_payload_entry_point, arg_payload_filename, arg_output_filename, "../src/compact-macho.s", NULL);
-	perror("execlp");
+	int paq_offset = -1;
+	int paq_shift = -1;
+	fscanf(fp, "P offset=%d shift=%d\n", &paq_offset, &paq_shift);
+	fclose(fp);
+
+	fp = fopen(paq_filename, "rb");
+	int paq_size = -1;
+	for (int i = -1;; --i) {
+		fseek(fp, i, SEEK_END);
+		paq_size = ftell(fp) + 1;
+		char ch;
+		fread(&ch, 1, 1, fp);
+		if (ch) break;
+	}
+
+	char output_filename[64];
+	snprintf(output_filename, 64, "%s.compact", argv[1]);
+
+	char nasm_command_line[4096];
+	char* const end = nasm_command_line + 4096;
+	p = nasm_command_line;
+
+	p += snprintf(p, end - p, "nasm");
+	p += snprintf(p, end - p, " -DPAYLOAD_ADDR=0x%llx", payload_addr);
+	p += snprintf(p, end - p, " -DPAYLOAD_SIZE=0x%llx", payload_file_size);
+	p += snprintf(p, end - p, " -DPAYLOAD_ENTRY_POINT=0x%llx", payload_entry_point);
+	p += snprintf(p, end - p, " -DPAYLOAD_FILENAME='\"%s\"'", payload_filename); // XXX this needs to go
+	p += snprintf(p, end - p, " -DPAQ_FILENAME='\"%s\"'", paq_filename);
+	p += snprintf(p, end - p, " -DPAQ_OFFSET=%d", paq_offset);
+	p += snprintf(p, end - p, " -DPAQ_SIZE=%d", paq_size);
+	p += snprintf(p, end - p, " -DONEKPAQ_DECOMPRESSOR_MODE=%d", paq_mode);
+	p += snprintf(p, end - p, " -DONEKPAQ_DECOMPRESSOR_SHIFT=%d", paq_shift);
+	p += snprintf(p, end - p, " -o%s", output_filename);
+	p += snprintf(p, end - p, " ../src/compact-macho.s");
+	v && puts(nasm_command_line);
+
+	int ret = system(nasm_command_line);
+	if (ret) return ret;
+
+	v && printf("chmod 0755 %s\n", output_filename);
+	chmod(output_filename, 0755);
 }
