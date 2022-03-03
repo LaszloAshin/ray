@@ -45,9 +45,11 @@ struct Tracer {
 private:
 	using MyBlocks = Blocks<32>;
 
-	Ray rayForPixel(float x, float y) const;
-	int getNextBlock();
-	void traceAntialiased(Color* c);
+	inline Ray rayForPixel(float x, float y) const;
+	inline int getNextBlock();
+	inline void traceAntialiased(Color* c);
+	inline Color multiSample(int x, int y) const;
+	inline void traceAntialiasedPixel(int x, int y, Color* up, Color* left);
 
 	const Scene &scene;
 	Image *img;

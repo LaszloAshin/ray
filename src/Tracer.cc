@@ -53,6 +53,32 @@ void Tracer::traceAntialiased() {
 	traceAntialiased(up);
 }
 
+Color
+Tracer::multiSample(int x, int y) const
+{
+	Color result{};
+	for (int i = 0; i < SAMPLES; ++i) {
+		float hx = halton(2, i + 1);
+		float hy = halton(3, i + 1);
+		result += scene.trace(rayForPixel(x + hx, y + hy));
+	}
+	return result * (1.0f / SAMPLES);
+}
+
+void
+Tracer::traceAntialiasedPixel(int x, int y, Color* up, Color* left)
+{
+	Color right = scene.trace(rayForPixel(x + 1.0f, y + 1.0f));
+
+	Color c = ((up[0].dist(right) < 0.001f) && (up[1].dist(*left) < 0.001f))
+		? (up[0] + up[1] + *left + right) * 0.25f
+		: multiSample(x, y);
+	img->setPixel(x, y, c);
+
+	up[0] = *left;
+	*left = right;
+}
+
 void
 Tracer::traceAntialiased(Color *up)
 {
@@ -68,23 +94,7 @@ Tracer::traceAntialiased(Color *up)
 			Color left = scene.trace(rayForPixel(b.x0 + 0.0f, y + 1.0f));
 			int i = 0;
 			for (int x = b.x0; x < b.x1; ++x, ++i) {
-				Color right = scene.trace(rayForPixel(x + 1.0f, y + 1.0f));
-				
-				Color c{};
-				if ((up[i].dist(right) < 0.001f) && (up[i+1].dist(left) < 0.001f)) {
-					c = (up[i] + up[i+1] + left + right) * 0.25f;
-				} else {
-					for (int j = 0; j < SAMPLES; ++j) {
-						float hx = halton(2, j + 1);
-						float hy = halton(3, j + 1);
-						c += scene.trace(rayForPixel(x + hx, y + hy));
-					}
-					c = c * (1.0f / SAMPLES);
-				}
-				img->setPixel(x, y, c);
-
-				up[i] = left;
-				left = right;
+				traceAntialiasedPixel(x, y, up + i, &left);
 			}
 			up[i] = left;
 		}
