@@ -113,7 +113,7 @@ else()
 		include(ExternalProject)
 		ExternalProject_Add(onekpaq
 			GIT_REPOSITORY https://github.com/LaszloAshin/oneKpaq.git
-			GIT_TAG c6504c1380302d0d365ea87d141ccf2f267303a9
+			GIT_TAG 9d57f8dfc2f2acb76ab85e6dbf35b55707ad5b4d
 			UPDATE_DISCONNECTED ON
 			CONFIGURE_COMMAND ""
 			BUILD_IN_SOURCE ON
