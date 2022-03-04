@@ -109,6 +109,18 @@ if(MSVC)
 	target_link_options(ray PRIVATE /REPORT:ray.html)
 	target_link_options(ray-single PRIVATE /REPORT:ray-single.html)
 else()
+	if(DO_STRIP)
+		include(ExternalProject)
+		ExternalProject_Add(onekpaq
+			GIT_REPOSITORY https://github.com/LaszloAshin/oneKpaq.git
+			GIT_TAG c6504c1380302d0d365ea87d141ccf2f267303a9
+			UPDATE_DISCONNECTED ON
+			CONFIGURE_COMMAND ""
+			BUILD_IN_SOURCE ON
+			INSTALL_COMMAND
+				COMMAND ${CMAKE_COMMAND} -E copy onekpaq ${CMAKE_BINARY_DIR}
+		)
+	endif()
 	if(APPLE)
 		target_link_options(ray PUBLIC
 			-nostartfiles -nodefaultlibs -nostdlib -static
@@ -119,18 +131,6 @@ else()
 			-Wl,-map,ray-single.map -Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
 		)
 		if(DO_STRIP)
-			include(ExternalProject)
-			ExternalProject_Add(onekpaq
-				GIT_REPOSITORY https://github.com/LaszloAshin/oneKpaq.git
-				GIT_TAG 1e5342b8849ea8a4acbfc53f2288061bde9495c2
-				UPDATE_DISCONNECTED ON
-				PATCH_COMMAND
-					COMMAND ${CMAKE_COMMAND} -E make_directory obj
-				CONFIGURE_COMMAND ""
-				BUILD_IN_SOURCE ON
-				INSTALL_COMMAND
-					COMMAND ${CMAKE_COMMAND} -E copy onekpaq ${CMAKE_BINARY_DIR}
-			)
 			configure_file(src/onekpaq_context.cache.macos ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)
 			add_executable(compact-macho src/compact-macho.c)
 			add_dependencies(compact-macho onekpaq)
@@ -157,16 +157,6 @@ else()
 			-Wl,-Map,ray-single.map -Wl,--omagic
 		)
 		if(DO_STRIP)
-			include(ExternalProject)
-			ExternalProject_Add(onekpaq
-				GIT_REPOSITORY https://github.com/LaszloAshin/oneKpaq.git
-				GIT_TAG 1e5342b8849ea8a4acbfc53f2288061bde9495c2
-				UPDATE_DISCONNECTED ON
-				CONFIGURE_COMMAND ""
-				BUILD_IN_SOURCE ON
-				INSTALL_COMMAND
-					COMMAND ${CMAKE_COMMAND} -E copy onekpaq ${CMAKE_BINARY_DIR}
-			)
 			configure_file(src/onekpaq_context.cache.linux ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)
 			add_executable(compact-elf src/compact-elf.c)
 			add_dependencies(compact-elf onekpaq)
