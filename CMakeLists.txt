@@ -126,10 +126,12 @@ else()
 		target_link_options(ray PUBLIC
 			-nostartfiles -nodefaultlibs -nostdlib -static
 			-Wl,-map,ray.map -Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
+			-Wl,-pagezero_size,0x1f000
 		)
 		target_link_options(ray-single PUBLIC
 			-nostartfiles -nodefaultlibs -nostdlib -static
 			-Wl,-map,ray-single.map -Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
+			-Wl,-pagezero_size,0x20000
 		)
 		if(DO_STRIP)
 			configure_file(src/onekpaq_context.cache.macos ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)
@@ -139,12 +141,10 @@ else()
 			add_dependencies(ray-single compact-macho)
 			add_custom_command(TARGET ray POST_BUILD
 				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,compact-macho,true> ray
-				COMMAND chmod +x ray.compact
 				COMMENT "Compacting executable ray"
 			)
 			add_custom_command(TARGET ray-single POST_BUILD
 				COMMAND $<IF:$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>,compact-macho,true> ray-single
-				COMMAND chmod +x ray-single.compact
 				COMMENT "Compacting executable ray-single"
 			)
 		endif()
