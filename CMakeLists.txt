@@ -82,6 +82,7 @@ else()
 
 		add_link_options(-Wl,-z,noseparate-code) # merge rodata into text
 		add_link_options(-Wl,-z,norelro)
+		add_link_options(-Wl,-Ttext,0x20074) # 0x74 = Ehdr + 1 * Phdr
 	endif()
 endif()
 
