@@ -19,10 +19,8 @@ org ORIGIN
 ehdr:
 	db 0x7F,"ELF"
 start.1:
-	dec bx ; 2
-	lea edi, [byte ebx * 2 + PAYLOAD_ENTRY_POINT - 0x20000 + 2] ; 4
-	mov al, compressed - $$ + PAQ_OFFSET + 1 ; 2
-	add ebx, eax ; 2
+	mov ebx, compressed + PAQ_OFFSET ; 5
+	mov edi, PAYLOAD_ADDR ; 5
 	jmp short start.3 ; 2
 	dw 2 ; e_type (ET_EXEC)
 	dw 3 ; e_machine (EM_386)
