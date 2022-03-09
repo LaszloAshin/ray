@@ -16,16 +16,8 @@
 %define x86_THREAD_STATE64          0x4
 %define x86_EXCEPTION_STATE64_COUNT 42
 
-%ifidn ONEKPAQ_DECOMPRESSOR_MODE,1
-%elifidn ONEKPAQ_DECOMPRESSOR_MODE,2
-%define ONEKPAQ_DECOMPRESSOR_MULTI_SECTION 1
-%elifidn ONEKPAQ_DECOMPRESSOR_MODE,3
-%define ONEKPAQ_DECOMPRESSOR_FAST 1
-%elifidn ONEKPAQ_DECOMPRESSOR_MODE,4
-%define ONEKPAQ_DECOMPRESSOR_FAST 1
-%define ONEKPAQ_DECOMPRESSOR_MULTI_SECTION 1
-%else
-%error "ONEKPAQ_DECOMPRESSOR_MODE is not valid (1 - 4)"
+%ifnidn ONEKPAQ_DECOMPRESSOR_MODE,3
+%error "Sorry, this oneKpaq version is hand tuned for mode 3"
 %endif
 
 bits 64
@@ -38,7 +30,7 @@ main_header:
 	dd    CPU_SUBTYPE_LIB64 | CPU_SUBTYPE_I386_ALL ; cpusubtype
 	dd    MH_EXECUTE                               ; filetype
 	dd    3                                        ; ncmds
-	dd    commands.end  - commands +3*8            ; sizeofcmds
+	dd    commands.end  - commands                 ; sizeofcmds
 	dd    MH_NOUNDEFS                              ; flags
 	dd    0                                        ; reserved
 
@@ -47,8 +39,12 @@ commands:
 pagezero:
 	dd    LC_SEGMENT_64           ; cmd
 	dd    pagezero.end - pagezero ; command size
-.name:	db    '__PAGEZERO', 0
-	times 16 - $ + .name db 0     ; segment name (pad to 16 bytes)
+..@decomp.1: ; segment name (pad to 16 bytes)
+	mov edi, PAYLOAD_ADDR ; 5
+	mov ebx, compressed + PAQ_OFFSET ; 5
+	lea esi, [byte rdi - (9+4)] ; 3 ; rsi=dest, rdi=window start
+	lodsd ; 1
+	jmp ..@decomp.2 ; 2
 	dq    0                       ; vmaddr
 	dq    main_header             ; vmsize
 	dq    0                       ; fileoff
@@ -62,8 +58,15 @@ pagezero:
 text:
 	dd    LC_SEGMENT_64             ; cmd
 	dd    text.end - text           ; command size
-.name:	db    '__TEXT', 0               ; segment name (pad to 16 bytes)
-	times 16 - $ + .name db 0
+..@decomp.2: ; segment name (pad to 16 bytes)
+	inc eax ; 2
+	mov ecx, eax ; 2
+	lea edx, [byte rbx + 3] ; 3 ; header=src-1 (src has -4 offset)
+..@normalize_loop:
+	shl byte [byte rbx + 4], 1 ; 3
+	jnz short ..@src_byte_has_data ; 2
+	inc ebx ; 2
+	jmp ..@decomp.3 ; 2
 	dq    main_header               ; vmaddr
 	dq    0x100000 ; vmsize
 	dq    0                         ; fileoff
@@ -76,285 +79,123 @@ text:
 
 unixthread:
 	dd    LC_UNIXTHREAD                                    ; cmd
-	dd    unixthread.end - unixthread + 3*8                ; cmdsize
+	dd    unixthread.end - unixthread                      ; cmdsize
 	dd    x86_THREAD_STATE64                               ; flavor
 	dd    x86_EXCEPTION_STATE64_COUNT                      ; count
-	dq    0, 0, 0, 0 ; rax, rbx, rcx, rdx
-	dq    0, 0, 0, 0 ; rdi, rsi, rbp, rsp(must be zero)
-	dq    0, 0, 0, 0                                       ; r8, r9, r10, r11
-	dq    0, 0, 0, 0                                       ; r12, r13, r14, r15
-	dq    decompressor, 0;, 0, 0, 0                         ; rip, rflags(DF), cs, fs, gs
-.end:
+..@decomp.3: ; rax, rbx, rcx, rdx, rdi, rsi, rbp
+	rcl byte [byte rbx + 4], 1 ; 3 ; CF==1
+..@src_byte_has_data:
+	rcl ebp, 1 ; 2
+..@bit_loop:
+	add eax, eax ; 2
+	jns short ..@normalize_loop ; 2
+	fld1 ; 2
+	fld1 ; 2
 
-commands.end:
+	push rax ; 1
+	push rcx ; 1
+	push rdx ; 1
 
-decompressor:
-	mov edi, PAYLOAD_ADDR
-	mov ebx, compressed + PAQ_OFFSET
+	mov al, 00h ; 2
+..@context_loop:
+	mov ch, [rdx] ; 2
 
-onekpaq_decompressor:
-	lea esi,[byte rdi-(9+4)]	; rsi=dest, rdi=window start
-	lodsd
-	inc eax
-	mov ecx,eax
+	push rax ; 1
+	push rcx ; 1
+	push rdx ; 1
+	push rdi ; 1
+	cdq ; 1
+	mov [rbx], edx ; 2 ; c0 = c1 = -1
 
-%ifdef ONEKPAQ_DECOMPRESSOR_MULTI_SECTION
-	lea edx,[byte rbx+1]		; header=src-3 (src has -4 offset)
-%else
-	lea edx,[byte rbx+3]		; header=src-1 (src has -4 offset)
-%endif
-	; ebp unitialized, will be cleaned by following loop + first decode
-	; which will result into 0 bit, before actual data
+	movq xmm0, [rsi] ; 4 ; SSE
 
-.normalize_loop:
-	shl byte [byte rbx+4],1
-	jnz short .src_byte_has_data
-	inc ebx
-	rcl byte [byte rbx+4],1		; CF==1
-.src_byte_has_data:
-	rcl ebp,1
+..@model_loop:
+	movq xmm1, [rdi] ; 4 ; SSE
+	pcmpeqb xmm1, xmm0 ; 4 ; SSE
+	pmovmskb eax, xmm1 ; 4 ; SSE
+	or al, ch ; 2
+	inc ax ; 3
+	jnz short ..@match_no_hit ; 2
+	mov al, [byte rsi+8] ; 3
 
-.block_loop:
-	; loop level 1
-	; eax range
-	; rbx src
-	; ecx dest bit shift
-	; rdx header
-	; rsi dest
-	; rdi window start
-	; ebp value
-.byte_loop:
-.bit_loop:
-	; loop level 2
-	; eax range
-	; rbx src
-	; ecx dest bit shift
-	; rdx header
-	; rsi dest
-	; rdi window start
-	; ebp value
-.normalize_start:
-	add eax,eax
-	jns short .normalize_loop
+	nop
+	jmp ..@decomp.4 ; 2
+	dq 0 ; rsp(must be zero)
+..@decomp.4: ; r8, r9, r10, r11, r12, r13, r14, r15
+	rol al, cl ; 2
+	xor al, [byte rdi+8] ; 3
+	shr eax, cl ; 2
+	jnz short ..@match_no_hit ; 2
+	dec edx ; 2
+	dec dword [rbx] ; 2
 
-	; for subrange calculation
-	fld1
-	; p = 1
-	fld1
-
-	push rax
-	push rcx
-	push rdx
-
-	mov al, 00h
-.context_loop:
-	; loop level 3
-	; al 0
-	; eax negative
-	; rbx src
-	; cl dest bit shift
- 	; ch model
-	; rdx header
-	; rsi dest
-	; rdi window start
-	; ebp value
-	; st0 p
-	; [rsp] ad
-
-	mov ch,[rdx]
-
-	push rax
-	push rcx
-	push rdx
-	push rdi
-	cdq
-	mov [rbx],edx			; c0 = c1 = -1
-
-%ifdef ONEKPAQ_DECOMPRESSOR_FAST
-	movq xmm0,[rsi]			; SSE
-%endif
-
-.model_loop:
-	; loop level 4
-	; al 0
-	; [rbx] c1
-	; cl dest bit shift
-	; ch model
-	; edx c0
-	; rsi dest
-	; rdi window start
-	; st0 p
-	; [rsp] ad
-	; [rsp+32] ad
-
-%ifdef ONEKPAQ_DECOMPRESSOR_FAST
-	movq xmm1,[rdi]			; SSE
-	pcmpeqb xmm1,xmm0		; SSE
-	pmovmskb eax,xmm1		; SSE
-	or al,ch
-	inc ax
-	jnz short .match_no_hit
-
-	mov al,[byte rsi+8]
-	rol al,cl
-	xor al,[byte rdi+8]
-	shr eax,cl
-	jnz short .match_no_hit
-%else
-	; deepest stack usage 24+32+32 bytes = 88 bytes
-	push rax
-	push rcx
-	push rsi
-	push rdi
-
-.match_byte_loop:
-	; loop level 5
-	cmpsb
-	rcr ch,1			; ror would work as well
-	ja short .match_mask_miss	; CF==0 && ZF==0
-	add al,0x60			; any odd multiplier of 0x20 works
-	jnz short .match_byte_loop
-
-	lodsb
-	rol al,cl
-	xor al,[rdi]
-	shr al,cl			; undefined CF when cl=8, still works though
-					; To make this conform to Intel spec
-					; add 'xor eax,eax' after 'pushad'
-					; and replace 'shr al,cl' with 'shr eax,cl'
-					; -> +2 bytes
-.match_mask_miss:
-	pop rdi
-	pop rsi
-	pop rcx
-	pop rax
-	jnz short .match_no_hit
-%endif
-	; modify c1 and c0
-	dec edx
-	dec dword [rbx]
-
-	jc short .match_bit_set
-	sar edx,1
-%ifndef ONEKPAQ_DECOMPRESSOR_FAST
-.match_no_hit:
-%endif
+	jc short .match_bit_set ; 2
+	sar edx, 1 ; 2
 	db 0xc0				; rcl cl,0x3b -> nop (0x3b&31=3*9)
 .match_bit_set:
-	sar dword [rbx],1
+	sar dword [rbx], 1 ; 2
 
-;	DEBUG "Model+bit: %hx, new weights %d/%d",ecx,dword [ebx],edx
-%ifdef ONEKPAQ_DECOMPRESSOR_FAST
-.match_no_hit:
-%endif
-	inc edi
-
-	; matching done
-	cmp edi,esi
-%ifdef ONEKPAQ_DECOMPRESSOR_MULTI_SECTION
-	ja short .model_early_start
-	jnz short .model_loop
-%else
-	; will do underflow matching with zeros...
-	; not ideal if data starts with lots of ones.
-	; Usally impact is 1 or 2 bytes, thus mildly
-	; better than +2 bytes of code
-	jc short .model_loop
-%endif
-	; scale the probabilities before loading them to FPU
-	; p *= c1/c0 =>  p = c1/(c0/p)
+..@match_no_hit:
+	inc edi ; 2
+	cmp edi, esi ; 2
+	jc short ..@model_loop ; 2
 .weight_upload_loop:
-.shift:	equ $+2
-	rol dword [rbx],byte ONEKPAQ_DECOMPRESSOR_SHIFT
-	fidivr dword [rbx]
-	mov [rbx],edx
+	rol dword [rbx],byte ONEKPAQ_DECOMPRESSOR_SHIFT ; 3
+	fidivr dword [rbx] ; 2
+	mov [rbx],edx ; 2
 
-%ifdef ONEKPAQ_DECOMPRESSOR_FAST
-	neg ecx
-	js short .weight_upload_loop
-%else
-	dec eax
-	jp short .weight_upload_loop
-%endif
+	neg ecx ; 2
+	js short .weight_upload_loop ; 2
 
-.model_early_start:
-	pop rdi
-	pop rdx
-	pop rcx
-	pop rax
+	pop rdi ; 1
+	pop rdx ; 1
+	pop rcx ; 1
+	pop rax ; 1
 
 .context_reload:
-	dec edx
-	cmp ch,[rdx]
-	jc short .context_next
-	fsqrt
-	jbe short .context_reload
+	dec edx ; 2
+	cmp ch,[rdx] ; 2
+	jc short .context_next ; 2
+	fsqrt ; 2
+	jbe short .context_reload ; 2
 
 .context_next:
-	cmp al,[rdx]
-	jnz short .context_loop
+	cmp al,[rdx] ; 2
+	jnz short ..@context_loop ; 2
 
-	pop rdx
-	pop rcx
-	pop rax
+	pop rdx ; 1
+	pop rcx ; 1
+	pop rax ; 1
 
-	; restore range
-	shr eax,1
+	shr eax,1 ; 2
 
-	; subrange = range/(p+1)
-	faddp st1
-	mov [rbx],eax
-	fidivr dword [rbx]
-	fistp dword [rbx]
+	faddp st1 ; 2
+	jmp ..@decomp.5 ; 2
+	dq ..@decomp.1; rip
+	db 0, 0 ; at least the two lower bytes of rflags needs to be zero
+.end:	equ $ + 6 + 3*8 ; rflags remaining bytes, cs, fs, gs
+
+commands.end: equ $ + 6 + 3*8
+
+..@decomp.5:
+	mov [rbx], eax ; 2
+	fidivr dword [rbx] ; 2
+	fistp dword [rbx] ; 2
 
 	; Arith decode
-	sub eax,[rbx]
-	cmp ebp,eax
-%ifdef ONEKPAQ_DECOMPRESSOR_MULTI_SECTION
-	jc .dest_bit_is_set;short .dest_bit_is_set
-%else
-	jbe .dest_bit_is_set;short .dest_bit_is_set
-	inc eax
-%endif
-	sub ebp,eax
-	mov eax,[rbx]
-;	uncommenting the next command would make the single-section decompressor "correct"
-;	i.e. under %ifndef ONEKPAQ_DECOMPRESSOR_MULTI_SECTION
-;	does not seem to be a practical problem though
-	;dec eax
+	sub eax, [rbx] ; 2
+	cmp ebp, eax ; 2
+	jbe .dest_bit_is_set;short .dest_bit_is_set ; 2
+	inc eax ; 2
+	sub ebp, eax ; 2
+	mov eax, [rbx] ; 2
 .dest_bit_is_set:
-	rcl byte [byte rsi+8],1
-
-%ifndef ONEKPAQ_DECOMPRESSOR_MULTI_SECTION
-	; preserves ZF when it matters i.e. on a non-byte boundary ...
-	loop .no_full_byte
-	inc esi
-	mov cl,8
+	rcl byte [byte rsi+8], 1 ; 3
+	loop .no_full_byte ; 2
+	inc esi ; 2
+	mov cl,8 ; 2
 .no_full_byte:
-	jnz .bit_loop;short .bit_loop
-
-%else
-.block_loop_trampoline:
-	dec cl
-	jnz .bit_loop
-;	loop .bit_loop
-	inc esi
-
-	dec word [byte rdx+1]
-	jnz .new_byte;short .new_byte
-
-	; next header
-.skip_header_loop:
-	dec edx
-	cmp ch,[rdx]
-	jnz .skip_header_loop;short .skip_header_loop
-	lea edx,[byte rdx-3]
-	cmp cx,[byte rdx+1]
-	lea edi,[byte rsi+8]
-.new_byte:
-	mov cl,9
-	jnz .block_loop_trampoline;short .block_loop_trampoline
-%endif
+	jnz ..@bit_loop;short .bit_loop ; 6
 
 %if PAYLOAD_ENTRY_POINT - PAYLOAD_ADDR
 	lea edi, [byte rdi + PAYLOAD_ENTRY_POINT - PAYLOAD_ADDR] ; 3
