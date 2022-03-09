@@ -204,3 +204,6 @@ commands.end: equ $ + 6 + 3*8
 compressed:
 	incbin PAQ_FILENAME, 0, PAQ_SIZE
 payload.end:
+%if $ - $$ < 4096
+	times (4096 - ($ - $$)) db 0
+%endif

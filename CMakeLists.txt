@@ -60,6 +60,7 @@ else()
 	list(APPEND libray_SOURCES src/MappedWritableFile-posix.cc)
 	list(APPEND libray_SOURCES src/MyLib-posix.cc)
 	if(APPLE)
+		string(REPLACE -Os -Oz CMAKE_CXX_FLAGS_MINSIZEREL ${CMAKE_CXX_FLAGS_MINSIZEREL})
 		set(CMAKE_CXX_LINK_FLAGS "") # Avoid cmake to add the flags -search_paths_first and -headerpad_max_install_names
 		add_link_options(-Wl,-dead_strip)
 		add_link_options(-Wl,-dead_strip_dylibs)
@@ -70,6 +71,7 @@ else()
 		add_link_options(-Wl,-unexported_symbol,*)
 		list(APPEND libray_SOURCES src/start-x86-64-macos.S)
 		list(APPEND ray_multi_SOURCES src/thread-x86-64-macos.S)
+		add_link_options(-Wl,-pagezero_size,0x20000)
 	else()
 		add_compile_options(-fno-align-loops -fno-align-labels -fno-align-jumps)
 		add_compile_options(-m32)
@@ -126,12 +128,10 @@ else()
 		target_link_options(ray PUBLIC
 			-nostartfiles -nodefaultlibs -nostdlib -static
 			-Wl,-map,ray.map -Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
-			-Wl,-pagezero_size,0x1f000
 		)
 		target_link_options(ray-single PUBLIC
 			-nostartfiles -nodefaultlibs -nostdlib -static
 			-Wl,-map,ray-single.map -Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
-			-Wl,-pagezero_size,0x20000
 		)
 		if(DO_STRIP)
 			configure_file(src/onekpaq_context.cache.macos ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)

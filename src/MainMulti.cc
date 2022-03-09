@@ -119,17 +119,16 @@ struct MyThread {
 
 	static int hardware_concurrency() {
 		int result;
+		int *presult = &result;
 		size_t len = sizeof(result);
 		static const int name[2] = { CTL_HW, HW_NCPU };
 		__asm __volatile__("\n\t"
 			"movq %4, %%r10\n\t"
 			"xor %%r8d, %%r8d\n\t"
 			"xor %%r9d, %%r9d\n\t"
-			"push %%rdx\n\t"
 			"syscall\n\t"
-			"pop %%rdx\n\t"
-			:
-			: "a"(MY_SYSCALL_NR(SYS_sysctl)), "D"(name), "S"(2), "d"(&result), "r"(&len)
+			: "+d"(presult)
+			: "a"(MY_SYSCALL_NR(SYS_sysctl)), "D"(name), "S"(2), "r"(&len)
 			: "%rcx", "%r11", "memory", "%r10", "%r8", "%r9"
 		);
 		return result;
