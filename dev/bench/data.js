@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1646827302182,
+  "lastUpdate": 1646842936580,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -9731,6 +9731,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - MacOS Executable Size",
             "value": 4222,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5058,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 352,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 983537979,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "f05ef259f90b7a4c20973ab8eacd901b239d5d6b",
+          "message": "Use -Oz on macos",
+          "timestamp": "2022-03-09T17:01:59+01:00",
+          "tree_id": "d203ee89a12ca70d20334a8eff1b4711b1039551",
+          "url": "https://github.com/LaszloAshin/ray/commit/f05ef259f90b7a4c20973ab8eacd901b239d5d6b"
+        },
+        "date": 1646842936024,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 3385,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3763,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 4096,
             "unit": "Bytes"
           },
           {
