@@ -23,7 +23,7 @@ struct thread_command_unixthread64 {
 };
 
 int is_payload_eligible(const struct segment_command_64* seg, const struct section_64* sect) {
-	return !strcmp(seg->segname, "__TEXT") || (!strcmp(seg->segname, "__DATA") && !strcmp(sect->sectname, "__data"));
+	return !strcmp(seg->segname, SEG_TEXT) || (!strcmp(seg->segname, SEG_DATA) && !strcmp(sect->sectname, SECT_DATA));
 }
 
 int main(int argc, char* argv[]) {
@@ -40,11 +40,15 @@ int main(int argc, char* argv[]) {
 	char* p = (char*)malloc(hd.sizeofcmds);
 	fread(p, hd.sizeofcmds, 1, fp);
 	char* q = p;
-	uint32_t payload_file_offset = 0;
-	uint64_t payload_file_size = 0;
 	uint64_t payload_addr = 0;
+	uint64_t payload_end = 0;
 	uint64_t payload_entry_point = 0;
-	int eligible_section_index = 0;
+	int payload_section_index = 0;
+
+	char payload_filename[64];
+	snprintf(payload_filename, 64, "%s.payload", argv[1]);
+
+	FILE* fp2 = fopen(payload_filename, "wb");
 
 	for (unsigned i = 0; i < hd.ncmds; ++i) {
 		struct load_command* lc = (struct load_command*)q;
@@ -68,12 +72,22 @@ int main(int argc, char* argv[]) {
 				v && printf("    offset: 0x%x\n", sect->offset);
 
 				if (is_payload_eligible(seg, sect)) {
-					if (!eligible_section_index) {
-						payload_addr = sect->addr;
-						payload_file_offset = sect->offset;
+					if (!payload_section_index) {
+						payload_end = payload_addr = sect->addr;
 					}
-					payload_file_size = sect->offset + sect->size - payload_file_offset;
-					++eligible_section_index;
+					const int padding = sect->addr - payload_end;
+					payload_end = sect->addr + sect->size;
+
+					char* p = (char*)malloc(padding + sect->size);
+					memset(p, 0, padding);
+					fseek(fp, sect->offset, SEEK_SET);
+					fread(p + padding, sect->size, 1, fp);
+
+					fwrite(p, padding + sect->size, 1, fp2);
+
+					free(p);
+
+					++payload_section_index;
 				}
 			}
 		} else if (lc->cmd == LC_UNIXTHREAD) {
@@ -84,23 +98,7 @@ int main(int argc, char* argv[]) {
 		q += lc->cmdsize;
 	}
 
-	free(p);
-
-	v && printf("payload_file_offset = 0x%x\n", payload_file_offset);
-	v && printf("payload_file_size = 0x%llx\n", payload_file_size);
-
-	p = (char*)malloc(payload_file_size);
-	fseek(fp, payload_file_offset, SEEK_SET);
-	fread(p, payload_file_size, 1, fp);
-	fclose(fp);
-
-	char payload_filename[64];
-	snprintf(payload_filename, 64, "%s.payload", argv[1]);
-
-	fp = fopen(payload_filename, "wb");
-	fwrite(p, payload_file_size, 1, fp);
-	fclose(fp);
-
+	fclose(fp2);
 	free(p);
 
 	char paq_filename[64];
@@ -143,9 +141,8 @@ int main(int argc, char* argv[]) {
 
 	p += snprintf(p, end - p, "nasm");
 	p += snprintf(p, end - p, " -DPAYLOAD_ADDR=0x%llx", payload_addr);
-	p += snprintf(p, end - p, " -DPAYLOAD_SIZE=0x%llx", payload_file_size);
+	p += snprintf(p, end - p, " -DPAYLOAD_SIZE=0x%llx", payload_end - payload_addr);
 	p += snprintf(p, end - p, " -DPAYLOAD_ENTRY_POINT=0x%llx", payload_entry_point);
-	p += snprintf(p, end - p, " -DPAYLOAD_FILENAME='\"%s\"'", payload_filename); // XXX this needs to go
 	p += snprintf(p, end - p, " -DPAQ_FILENAME='\"%s\"'", paq_filename);
 	p += snprintf(p, end - p, " -DPAQ_OFFSET=%d", paq_offset);
 	p += snprintf(p, end - p, " -DPAQ_SIZE=%d", paq_size);
