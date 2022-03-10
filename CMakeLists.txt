@@ -103,10 +103,8 @@ add_library(libray ${libray_SOURCES})
 add_executable(ray-single ${ray_single_SOURCES})
 target_link_libraries(ray-single libray)
 
-find_package(Threads)
-
 add_executable(ray ${ray_multi_SOURCES})
-target_link_libraries(ray libray ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(ray libray)
 
 if(MSVC)
 	target_link_options(ray PRIVATE /REPORT:ray.html)
