@@ -155,6 +155,31 @@ int main(int argc, char* argv[]) {
 	int ret = system(nasm_command_line);
 	if (ret) return ret;
 
+	char zopfli_command_line[4096];
+	snprintf(zopfli_command_line, 4096, "zopfli --deflate --i1000 %s", output_filename);
+	v && puts(zopfli_command_line);
+
+	ret = system(zopfli_command_line);
+	if (ret) return ret;
+
+	char zopfli_filename[64];
+	snprintf(zopfli_filename, 64, "%s.compact.deflate", argv[1]);
+
+	fp = fopen(zopfli_filename, "rb");
+	fseek(fp, 0, SEEK_END);
+	const int zopfli_size = ftell(fp);
+	p = (char*)malloc(zopfli_size);
+	fseek(fp, 0, SEEK_SET);
+	fread(p, zopfli_size, 1, fp);
+	fclose(fp);
+
+	fp = fopen(output_filename, "wb");
+	static const char shelldrop_preamble[] = "cp $0 /tmp/z;(sed 1d $0|zcat\n\x1f\x8b\x08\x10)>$_;$_\n)";
+	fwrite(shelldrop_preamble, sizeof(shelldrop_preamble), 1, fp); // including EOS
+	fwrite(p, zopfli_size, 1, fp);
+	free(p);
+	fclose(fp);
+
 	v && printf("chmod 0755 %s\n", output_filename);
 	chmod(output_filename, 0755);
 }

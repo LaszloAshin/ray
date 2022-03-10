@@ -42,7 +42,7 @@ jobs:
           sudo apt update
           sudo apt install --yes g++-multilib nasm
         elif [ "$RUNNER_OS" == "macOS" ]; then
-          brew install nasm
+          brew install nasm zopfli
         fi
         cmake --build build --config ${{env.BUILD_TYPE}}
 
