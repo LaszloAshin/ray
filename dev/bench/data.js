@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1646842936580,
+  "lastUpdate": 1646951455491,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -9790,6 +9790,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - MacOS Executable Size",
             "value": 4096,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 5058,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 352,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 0,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 983537979,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "a016471d9e12ba647a7001fb2b4da28915ef3e9e",
+          "message": "Implement shelldropping on macos",
+          "timestamp": "2022-03-10T23:23:13+01:00",
+          "tree_id": "ae7de438ff9b739607111c78e83b1b9f44c0f26a",
+          "url": "https://github.com/LaszloAshin/ray/commit/a016471d9e12ba647a7001fb2b4da28915ef3e9e"
+        },
+        "date": 1646951454938,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 3385,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3763,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 3975,
             "unit": "Bytes"
           },
           {
