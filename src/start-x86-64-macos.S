@@ -1,6 +1,6 @@
 	.text
 	.globl start
-	.extern environ
+	.extern _environ
 
 #include <sys/syscall.h>
 
@@ -12,7 +12,7 @@ start:
 	pop    %rdi # argc
 	mov    %rsp, %rsi # argv
 	lea    8(%rsi, %rdi, 8), %rdx # envp
-	mov    %rdx, environ(%rip)
+	mov    %rdx, _environ(%rip)
 	and    $-16, %rsp # align stack
 	call   _main # x86_64 ABI function params: %rdi %rsi %rdx %rcx %r8 %r9
 	xchg   %eax, %edi # exit status to edi
