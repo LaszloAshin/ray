@@ -166,7 +166,7 @@ main(int argc, char *argv[], char *envp[])
 	if (const char* p = mygetenv(envp, "HEIGHT")) {
 		height = myatoi(p);
 	}
-	Image img("tracement.ppm", width, height);
+	Image img(width, height);
 	Tracer tracer{scene, &img};
 	const int nthreads = MyThread::hardware_concurrency();
 	MyThread* threads = reinterpret_cast<MyThread*>(threads_buffer);

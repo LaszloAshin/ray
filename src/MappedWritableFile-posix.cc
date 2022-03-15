@@ -127,12 +127,12 @@ inline void* mymmap(void* addr, long length, int prot, int flags, int fd, long o
 	return result;
 }
 
-MappedWritableFile::MappedWritableFile(const char* fname, int length)
+MappedWritableFile::MappedWritableFile(int length)
 #ifndef LEAK_RESOURCES_ATEXIT
 : length_{length}
 #endif
 {
-	const int fd = myopen(fname, O_CREAT | O_RDWR, 0644);
+	const int fd = myopen("tracement.ppm", O_CREAT | O_RDWR, 0644);
 	if (fd < 0) {
 		myprint("open\n");
 		myexit(1);

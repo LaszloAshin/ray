@@ -3,7 +3,7 @@
 #include "config.h"
 
 struct MappedWritableFile {
-	MappedWritableFile(const char* fname, int length);
+	MappedWritableFile(int length);
 	MappedWritableFile(const MappedWritableFile&) = delete;
 	MappedWritableFile& operator=(const MappedWritableFile&) = delete;
 #ifndef LEAK_RESOURCES_ATEXIT

@@ -4,13 +4,13 @@
 
 #include <cassert>
 
-Image::Image(const char* fname, int width, int height)
+Image::Image(int width, int height)
 : width{width}
 , height{height}
 {
 	static const char header_template[] = "P6\n                     \n255\n";
 	const int headerlen = sizeof(header_template) - 1;
-	map.emplace(fname, headerlen + width * height * 3);
+	map.emplace(headerlen + width * height * 3);
 	data = static_cast<uint8_t*>(map->address());
 	for (int i = 0; i < headerlen; ++i) {
 		data[i] = header_template[i];

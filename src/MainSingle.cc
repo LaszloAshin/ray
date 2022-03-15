@@ -16,6 +16,6 @@ main(int, char*[], char* envp[])
 	if (const char* p = mygetenv(envp, "HEIGHT")) {
 		height = myatoi(p);
 	}
-	Image img("tracement.ppm", width, height);
+	Image img(width, height);
 	Tracer{Scene{0}, &img}.traceAntialiased();
 }
