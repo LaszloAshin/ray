@@ -8,7 +8,7 @@ inline int myatoi(const char* nptr) {
 	return result;
 }
 
-char* mygetenv(char* envp[], const char* name);
+int mygetintfromenv(const char* name, int default_);
 
 #ifdef _WIN32
 

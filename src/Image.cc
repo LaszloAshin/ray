@@ -4,9 +4,9 @@
 
 #include <cassert>
 
-Image::Image(int width, int height)
-: width{width}
-, height{height}
+Image::Image()
+: width{mygetintfromenv("WIDTH", WIDTH)}
+, height{mygetintfromenv("HEIGHT", HEIGHT)}
 {
 	static const char header_template[] = "P6\n                     \n255\n";
 	const int headerlen = sizeof(header_template) - 1;

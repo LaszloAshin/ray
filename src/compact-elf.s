@@ -1,7 +1,3 @@
-bits 32
-
-%define ORIGIN 0x10000
-
 %ifidn ONEKPAQ_DECOMPRESSOR_MODE,1
 %elifidn ONEKPAQ_DECOMPRESSOR_MODE,2
 %define ONEKPAQ_DECOMPRESSOR_MULTI_SECTION 1
@@ -14,7 +10,9 @@ bits 32
 %error "ONEKPAQ_DECOMPRESSOR_MODE is not valid (1 - 4)"
 %endif
 
-org ORIGIN
+bits 32
+;db "cp $0 /tmp;sed -i 1d $_/$0;$_<>tracement.ppm",10
+org 0x10000-($-$$)
 
 ehdr:
 	db 0x7F,"ELF"
@@ -29,7 +27,7 @@ start.2:
 	inc eax ; 1; e_version byte 2
 	jmp short start.4; 2; e_version bytes 3..4
 	dd start.1 ; e_entry
-	dd phdr - $$ ; e_phoff ; (sub 0, al; add [eax], al)
+	dd phdr - ehdr ; e_phoff ; (sub 0, al; add [eax], al)
 start.3:
 	lea esi, [byte edi - (9+4)] ; 3; esi=dest, edi=window start ; e_shoff bytes 1..3
 %ifdef ONEKPAQ_DECOMPRESSOR_MULTI_SECTION
@@ -43,11 +41,11 @@ start.3:
 phdr:
 	dd 1 ; e_phnum; e_shentsize; p_type = PT_LOAD
 	dd 0 ; e_shnum; e_shstrndx; p_offset
-	dd $$ ; p_vaddr
+	dd ehdr ; p_vaddr
 start.4:
 	mov ecx, eax ; 2; p_addr bytes 1..2
 	jmp short onekpaq_decompressor ; 2; p_addr bytes 3..4
-	dd payload.end - $$ ; p_filesz
+	dd payload.end - ehdr ; p_filesz
 	dd 0x100000 ; memsz
 	db 7 ; p_flags
 ;	dd 0 ; p_align

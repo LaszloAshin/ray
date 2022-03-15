@@ -2,8 +2,10 @@
 
 #include <cstddef>
 
-char* mygetenv(char* envp[], const char* name) {
-	for (; *envp; ++envp) {
+char** environ;
+
+static char* mygetenv(const char* name) {
+	for (char** envp = environ; *envp; ++envp) {
 		char* line = *envp;
 		const char* n = name;
 		while (*n && *n == *line) ++n, ++line;
@@ -12,6 +14,11 @@ char* mygetenv(char* envp[], const char* name) {
 		}
 	}
 	return nullptr;
+}
+
+int mygetintfromenv(const char* name, int default_) {
+	const char* p = mygetenv(name);
+	return p ? myatoi(p) : default_;
 }
 
 extern "C" void __bzero(void* p, size_t len) {

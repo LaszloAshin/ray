@@ -147,7 +147,7 @@ static void traceAntialiased(void* t) { static_cast<Tracer*>(t)->traceAntialiase
 static char threads_buffer[sizeof(MyThread) * MAX_THREADS];
 
 int
-main(int argc, char *argv[], char *envp[])
+main(int argc, char *argv[])
 {
 	THREADS_INIT;
 
@@ -158,15 +158,7 @@ main(int argc, char *argv[], char *envp[])
 		myprint("frame: "), myprint(frame), myprint("\n");
 	}
 	Scene scene{frame};
-	int width = WIDTH;
-	if (const char* p = mygetenv(envp, "WIDTH")) {
-		width = myatoi(p);
-	}
-	int height = HEIGHT;
-	if (const char* p = mygetenv(envp, "HEIGHT")) {
-		height = myatoi(p);
-	}
-	Image img(width, height);
+	Image img;
 	Tracer tracer{scene, &img};
 	const int nthreads = MyThread::hardware_concurrency();
 	MyThread* threads = reinterpret_cast<MyThread*>(threads_buffer);

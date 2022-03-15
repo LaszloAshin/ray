@@ -7,7 +7,7 @@
 #include <optional>
 
 struct Image {
-	Image(int width, int height);
+	Image();
 
 	void setPixel(int x, int y, Color c);
 

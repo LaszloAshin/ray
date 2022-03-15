@@ -2,6 +2,7 @@
 	.globl _start
 	.type _start,@function
 	.section .text.exit
+	.extern environ
 
 #include <sys/syscall.h>
 
@@ -13,6 +14,7 @@ _start:
 	pop    %edx # argc
 	mov    %esp, %ebp # argv
 	lea    4(%ebp, %edx, 4), %eax # envp
+	mov    %eax, environ
 	push   %eax
 	push   %ebp
 	push   %edx
