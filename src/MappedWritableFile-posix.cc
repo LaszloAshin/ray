@@ -134,17 +134,14 @@ MappedWritableFile::MappedWritableFile(int length)
 {
 	const int fd = myopen("tracement.ppm", O_CREAT | O_RDWR, 0644);
 	if (fd < 0) {
-		myprint("open\n");
-		myexit(1);
+		myexit(2);
 	}
 	if (myftruncate(fd, length)) {
-		myprint("ftruncate\n");
-		myexit(1);
+		myexit(3);
 	}
 	address_ = static_cast<uint8_t*>(mymmap(NULL, length, PROT_WRITE, MAP_SHARED, fd, 0));
 	if (reinterpret_cast<unsigned long>(address_) > -4096UL) {
-		myprint("mmap\n");
-		myexit(1);
+		myexit(4);
 	}
 #ifndef LEAK_RESOURCES_ATEXIT
 	myclose(fd);

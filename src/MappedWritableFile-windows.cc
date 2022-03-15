@@ -10,11 +10,11 @@ MappedWritableFile::MappedWritableFile(int length)
 {
 	HANDLE fh = CreateFileA("tracement.ppm", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (fh == INVALID_HANDLE_VALUE) {
-		ExitProcess(1);
+		ExitProcess(2);
 	}
 	HANDLE mh = CreateFileMappingA(fh, NULL, PAGE_READWRITE, 0, length, NULL);
 	if (mh == NULL) {
-		ExitProcess(1);
+		ExitProcess(3);
 	}
 	address_ = MapViewOfFile(mh, FILE_MAP_WRITE, 0, 0, 0);
 #ifndef LEAK_RESOURCES_ATEXIT
@@ -22,7 +22,7 @@ MappedWritableFile::MappedWritableFile(int length)
 	CloseHandle(mh);
 #endif
 	if (address_ == NULL) {
-		ExitProcess(1);
+		ExitProcess(4);
 	}
 }
 
