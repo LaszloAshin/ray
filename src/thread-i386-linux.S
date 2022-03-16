@@ -18,32 +18,31 @@
 create_thread: # arg1: thread_func; arg2: user data arg to thread_func
 	push   %ebp
 	mov    %esp, %ebp
-	push   %edi
 	push   %esi
 	push   %ebx
+	push   %eax # thread func
+	push   %edx # user data
 	xor    %ebx, %ebx
 	mov    $STACK_SIZE, %ecx
 	mov    $(PROT_READ + PROT_WRITE), %edx
 	mov    $(MAP_ANONYMOUS + MAP_PRIVATE + MAP_GROWSDOWN), %esi
 	mov    $SYS_mmap2, %eax
 	int    $0x80 # XXX: %eax points to a stack that we don't munmap -> resource leak!
-	lea    -28(%eax,%ecx), %ecx
-	lea    8(%ebp), %esi
-	lea    20(%ecx), %edi
-	movsd
-	movsd
-	movl   $callit, 16(%ecx)
+	lea    -20(%eax,%ecx), %ecx
+	pop    %eax # user data
+	mov    %eax, 16(%ecx)
+	movl   $callit, 12(%ecx)
+	pop    %edx # thread func
 	mov    $(CLONE_VM + CLONE_FS + CLONE_FILES + CLONE_SIGHAND + CLONE_IO), %ebx
 	mov    $SYS_clone, %eax
 	int    $0x80
 	pop    %ebx
 	pop    %esi
-	pop    %edi
 	pop    %ebp
 	ret
 
 callit:
 	pop    %eax
-	call   *%eax
+	call   *%edx
 	mov    $SYS_exit, %eax
 	int    $0x80

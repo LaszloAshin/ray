@@ -155,6 +155,7 @@ else()
 			-nostartfiles -nodefaultlibs -nolibc -nostdlib -static
 			-Wl,-Map,ray-single.map -Wl,--omagic
 		)
+		target_compile_options(libray PUBLIC -mregparm=3)
 		if(DO_STRIP)
 			configure_file(src/onekpaq_context.cache.linux ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)
 			add_executable(compact-elf src/compact-elf.c)
