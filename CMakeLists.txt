@@ -41,7 +41,15 @@ if(MSVC)
 	list(APPEND libray_SOURCES src/MyLib-windows.cc)
 	list(APPEND ray_single_SOURCES src/start-windows.c)
 	list(APPEND ray_multi_SOURCES src/start-windows.c)
-	find_program(CRINKLER NAMES Crinkler PATHS vendor/)
+	file(DOWNLOAD
+		https://github.com/runestubbe/Crinkler/releases/download/v2.3/crinkler23.zip
+		crinkler.zip
+		SHOW_PROGRESS
+		EXPECTED_HASH SHA256=a0456c53cdd754e4cb710649760c0f9459285da684b9304a18d717d3803c42d6
+	)
+	file(ARCHIVE_EXTRACT INPUT crinkler.zip VERBOSE)
+	find_program(CRINKLER NAMES Crinkler PATHS ${CMAKE_BINARY_DIR}/crinkler23/Win32 REQUIRED)
+	message(STATUS "Found crinkler: ${CRINKLER}")
 	file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.props" "<Project><PropertyGroup><LinkToolExe>${CRINKLER}</LinkToolExe></PropertyGroup></Project>")
 else()
 	enable_language(ASM)
