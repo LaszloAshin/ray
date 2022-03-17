@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 project(ray VERSION 0.0.1 LANGUAGES C CXX)
 enable_testing()
+message(STATUS "cmake version: ${CMAKE_VERSION}")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -47,6 +48,8 @@ if(MSVC)
 		SHOW_PROGRESS
 		EXPECTED_HASH SHA256=a0456c53cdd754e4cb710649760c0f9459285da684b9304a18d717d3803c42d6
 	)
+	file(GLOB X ${CMAKE_BINARY_DIR}/*)
+	message(STATUS "Files in CMAKE_BINARY_DIR: ${X}")
 	file(ARCHIVE_EXTRACT INPUT crinkler.zip VERBOSE)
 	find_program(CRINKLER NAMES Crinkler PATHS ${CMAKE_BINARY_DIR}/crinkler23/Win32 REQUIRED)
 	message(STATUS "Found crinkler: ${CRINKLER}")
