@@ -45,46 +45,15 @@ if(MSVC)
 	file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.props" "<Project><PropertyGroup><LinkToolExe>${CRINKLER}</LinkToolExe></PropertyGroup></Project>")
 else()
 	enable_language(ASM)
-	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
-	add_compile_options(-g)
-	add_compile_options(-fno-exceptions $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>)
-	add_compile_options(-fno-unwind-tables -fno-asynchronous-unwind-tables) # comment this line while profiling
-	add_compile_options(-fno-align-functions)
-	add_compile_options(-ffast-math)
-	add_compile_options(-fno-stack-protector)
-	add_compile_options(-fno-pie)
-
-	add_compile_options(-ffunction-sections -fdata-sections)
-
 	list(APPEND libray_SOURCES src/MyMath-inlineasm.cc)
 	list(APPEND libray_SOURCES src/MappedWritableFile-posix.cc)
 	list(APPEND libray_SOURCES src/MyLib-posix.cc)
 	if(APPLE)
-		string(REPLACE -Os -Oz CMAKE_CXX_FLAGS_MINSIZEREL ${CMAKE_CXX_FLAGS_MINSIZEREL})
-		set(CMAKE_CXX_LINK_FLAGS "") # Avoid cmake to add the flags -search_paths_first and -headerpad_max_install_names
-		add_link_options(-Wl,-dead_strip)
-		add_link_options(-Wl,-dead_strip_dylibs)
-		add_link_options(-Wl,-no_pie)
-		add_link_options(-Wl,-no_uuid)
-		add_link_options(-Wl,-no_function_starts)
-		add_link_options(-Wl,-no_eh_labels)
-		add_link_options(-Wl,-unexported_symbol,*)
 		list(APPEND libray_SOURCES src/start-x86-64-macos.S)
 		list(APPEND ray_multi_SOURCES src/thread-x86-64-macos.S)
-		add_link_options(-Wl,-pagezero_size,0x20000)
 	else()
-		add_compile_options(-fno-align-loops -fno-align-labels -fno-align-jumps)
-		add_compile_options(-m32)
-		add_link_options(-m32)
-		add_link_options(-Wl,--gc-sections -Wl,--as-needed)
-		add_link_options(-Wl,--build-id=none)
-
 		list(APPEND libray_SOURCES src/start-i386-linux.S)
 		list(APPEND ray_multi_SOURCES src/thread-i386-linux.S)
-
-		add_link_options(-Wl,-z,noseparate-code) # merge rodata into text
-		add_link_options(-Wl,-z,norelro)
-		add_link_options(-Wl,-Ttext,0x20074) # 0x74 = Ehdr + 1 * Phdr
 	endif()
 endif()
 
@@ -110,6 +79,18 @@ if(MSVC)
 	target_link_options(ray PRIVATE /REPORT:ray.html)
 	target_link_options(ray-single PRIVATE /REPORT:ray-single.html)
 else()
+	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+	target_compile_options(libray PUBLIC
+		-g
+		-fno-exceptions $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
+		-fno-unwind-tables -fno-asynchronous-unwind-tables # comment this line while profiling
+		-fno-align-functions
+		-ffast-math
+		-fno-stack-protector
+		-fno-pie
+		-ffunction-sections -fdata-sections
+	)
+
 	if(DO_STRIP)
 		include(ExternalProject)
 		ExternalProject_Add(onekpaq
@@ -123,14 +104,22 @@ else()
 		)
 	endif()
 	if(APPLE)
-		target_link_options(ray PUBLIC
+		string(REPLACE -Os -Oz CMAKE_CXX_FLAGS_MINSIZEREL ${CMAKE_CXX_FLAGS_MINSIZEREL})
+		set(CMAKE_CXX_LINK_FLAGS "") # Avoid cmake to add the flags -search_paths_first and -headerpad_max_install_names
+		target_link_options(libray INTERFACE
 			-nostartfiles -nodefaultlibs -nostdlib -static
-			-Wl,-map,ray.map -Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
+			-Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
+			-Wl,-dead_strip
+			-Wl,-dead_strip_dylibs
+			-Wl,-no_pie
+			-Wl,-no_uuid
+			-Wl,-no_function_starts
+			-Wl,-no_eh_labels
+			-Wl,-unexported_symbol,*
+			-Wl,-pagezero_size,0x20000
 		)
-		target_link_options(ray-single PUBLIC
-			-nostartfiles -nodefaultlibs -nostdlib -static
-			-Wl,-map,ray-single.map -Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
-		)
+		target_link_options(ray PRIVATE -Wl,-map,ray.map)
+		target_link_options(ray-single PRIVATE -Wl,-map,ray-single.map)
 		if(DO_STRIP)
 			configure_file(src/onekpaq_context.cache.macos ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)
 			add_executable(compact-macho src/compact-macho.c)
@@ -147,15 +136,22 @@ else()
 			)
 		endif()
 	else()
-		target_link_options(ray PRIVATE
-			-nostartfiles -nodefaultlibs -nolibc -nostdlib -static
-			-Wl,-Map,ray.map -Wl,--omagic
+		target_compile_options(libray PUBLIC
+			-m32 -mregparm=3
+			-fno-align-loops -fno-align-labels -fno-align-jumps
 		)
-		target_link_options(ray-single PRIVATE
+		target_link_options(libray INTERFACE
+			-m32
+			-Wl,--gc-sections -Wl,--as-needed
+			-Wl,--build-id=none
+			-Wl,-z,noseparate-code # merge rodata into text
+			-Wl,-z,norelro
+			-Wl,-Ttext,0x20074 # 0x74 = Ehdr + 1 * Phdr
 			-nostartfiles -nodefaultlibs -nolibc -nostdlib -static
-			-Wl,-Map,ray-single.map -Wl,--omagic
+			-Wl,--omagic
 		)
-		target_compile_options(libray PUBLIC -mregparm=3)
+		target_link_options(ray PRIVATE -Wl,-Map,ray.map)
+		target_link_options(ray-single PRIVATE -Wl,-Map,ray-single.map)
 		if(DO_STRIP)
 			configure_file(src/onekpaq_context.cache.linux ${CMAKE_BINARY_DIR}/onekpaq_context.cache COPYONLY)
 			add_executable(compact-elf src/compact-elf.c)
