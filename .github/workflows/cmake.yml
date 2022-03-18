@@ -19,16 +19,16 @@ jobs:
     strategy:
       matrix:
         include:
-        - os: macos-latest
-          asset_name: ray-macos-amd64
+        - asset_name: ray-macos-amd64
+          os: macos-latest
           artifact_name: build/ray.compact
-        - os: windows-latest
-          asset_name: ray-windows-x86.exe
+        - asset_name: ray-windows-x86.exe
+          os: windows-latest
           artifact_name: build/MinSizeRel/ray.exe
           platform: Win32
           generator: "Visual Studio 17 2022"
-        - os: ubuntu-latest
-          asset_name: ray-linux-x86
+        - asset_name: ray-linux-x86
+          os: ubuntu-latest
           artifact_name: build/ray.compact
 
     steps:
