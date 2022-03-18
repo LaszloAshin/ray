@@ -21,19 +21,16 @@ jobs:
         include:
         - os: macos-latest
         - os: windows-latest
+          platform: Win32
         - os: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Configure CMake
-      shell: bash
-      run: |
-        if [ "$RUNNER_OS" == "Windows" ]; then
-          cmake -B build -A Win32
-        else
-          cmake -B build
-        fi
+      env:
+        CMAKE_GENERATOR_PLATFORM: ${{ matrix.platform }}
+      run: cmake -B build
 
     - name: Build
       shell: bash
