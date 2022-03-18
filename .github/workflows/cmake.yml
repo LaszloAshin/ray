@@ -22,6 +22,7 @@ jobs:
         - os: macos-latest
         - os: windows-latest
           platform: Win32
+          generator: "Visual Studio 17 2022"
         - os: ubuntu-latest
 
     steps:
@@ -29,6 +30,7 @@ jobs:
 
     - name: Configure CMake
       env:
+        CMAKE_GENERATOR: ${{ matrix.generator }}
         CMAKE_GENERATOR_PLATFORM: ${{ matrix.platform }}
       run: cmake -B build
 
