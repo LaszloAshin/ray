@@ -44,16 +44,24 @@ if(MSVC)
 	list(APPEND ray_multi_SOURCES src/start-windows.c)
 	file(DOWNLOAD
 		https://github.com/runestubbe/Crinkler/releases/download/v2.3/crinkler23.zip
-		crinkler.zip
+		"${CMAKE_BINARY_DIR}/crinkler.zip"
 		SHOW_PROGRESS
 		EXPECTED_HASH SHA256=a0456c53cdd754e4cb710649760c0f9459285da684b9304a18d717d3803c42d6
 	)
-	file(GLOB X ${CMAKE_BINARY_DIR}/*)
+	file(GLOB X "${CMAKE_SOURCE_DIR}/*")
+	FOREACH(f ${X})
+		message(STATUS "File in CMAKE_SOURCE_DIR: ${f}")
+	ENDFOREACH()
+	file(ARCHIVE_EXTRACT INPUT "${CMAKE_BINARY_DIR}/crinkler.zip" VERBOSE)
+	file(GLOB X "${CMAKE_SOURCE_DIR}/*")
+	FOREACH(f ${X})
+		message(STATUS "File in CMAKE_SOURCE_DIR: ${f}")
+	ENDFOREACH()
+	file(GLOB X "${CMAKE_BINARY_DIR}/*")
 	FOREACH(f ${X})
 		message(STATUS "File in CMAKE_BINARY_DIR: ${f}")
 	ENDFOREACH()
-	file(ARCHIVE_EXTRACT INPUT crinkler.zip VERBOSE)
-	find_program(CRINKLER NAMES Crinkler PATHS ${CMAKE_BINARY_DIR}/crinkler23/Win32 REQUIRED)
+	find_program(CRINKLER NAMES Crinkler PATHS "${CMAKE_BINARY_DIR}/crinkler23/Win32" REQUIRED)
 	message(STATUS "Found crinkler: ${CRINKLER}")
 	file(WRITE "${CMAKE_BINARY_DIR}/Directory.Build.props" "<Project><PropertyGroup><LinkToolExe>${CRINKLER}</LinkToolExe></PropertyGroup></Project>")
 else()
