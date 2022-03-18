@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 env:
-  BUILD_TYPE: MinSizeRel
+  CMAKE_BUILD_TYPE: MinSizeRel
 
 jobs:
   build:
@@ -32,7 +32,7 @@ jobs:
         if [ "$RUNNER_OS" == "Windows" ]; then
           cmake -B build -A Win32
         else
-          cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+          cmake -B build
         fi
 
     - name: Build
@@ -44,11 +44,11 @@ jobs:
         elif [ "$RUNNER_OS" == "macOS" ]; then
           brew install nasm zopfli
         fi
-        cmake --build build --config ${{env.BUILD_TYPE}}
+        cmake --build build --config ${{env.CMAKE_BUILD_TYPE}}
 
     - name: Test
       working-directory: ${{github.workspace}}/build
-      run: ctest -C ${{env.BUILD_TYPE}}
+      run: ctest -C ${{env.CMAKE_BUILD_TYPE}}
 
     - uses: actions/upload-artifact@v2
       with:
