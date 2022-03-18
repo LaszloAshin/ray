@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1647595713591,
+  "lastUpdate": 1647596770927,
   "repoUrl": "https://github.com/LaszloAshin/ray",
   "entries": {
     "Benchmark": [
@@ -10282,6 +10282,65 @@ window.BENCHMARK_DATA = {
           {
             "name": "Benchmark - CPU Cycles",
             "value": 923013290,
+            "unit": "Cycles"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "committer": {
+            "email": "laszlo@ashin.hu",
+            "name": "Laszlo Ashin",
+            "username": "LaszloAshin"
+          },
+          "distinct": true,
+          "id": "d3f6518b909beea150a0c3b47ff9d86573e66826",
+          "message": "Switch to target-specific options on windows",
+          "timestamp": "2022-03-18T10:40:50+01:00",
+          "tree_id": "556d245b28cde60563e0e66f67086eaebf45682f",
+          "url": "https://github.com/LaszloAshin/ray/commit/d3f6518b909beea150a0c3b47ff9d86573e66826"
+        },
+        "date": 1647596770400,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Benchmark - Executable Size",
+            "value": 3270,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - Win32 Executable Size",
+            "value": 3765,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - MacOS Executable Size",
+            "value": 3935,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - text Size",
+            "value": 4851,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - data Size",
+            "value": 352,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - bss Size",
+            "value": 4,
+            "unit": "Bytes"
+          },
+          {
+            "name": "Benchmark - CPU Cycles",
+            "value": 923013322,
             "unit": "Cycles"
           }
         ]
