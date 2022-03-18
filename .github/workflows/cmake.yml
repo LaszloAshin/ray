@@ -23,7 +23,6 @@ jobs:
         - asset_name: ray-macos-amd64
           os: macos-latest
           artifact_name: build/ray.compact
-          generator: Ninja
         - asset_name: ray-windows-x86.exe
           os: windows-latest
           artifact_name: build/MinSizeRel/ray.exe
@@ -32,7 +31,6 @@ jobs:
         - asset_name: ray-linux-x86
           os: ubuntu-latest
           artifact_name: build/ray.compact
-          generator: Ninja
 
     steps:
     - uses: actions/checkout@v2
@@ -46,12 +44,11 @@ jobs:
     - name: Build
       shell: bash
       run: |
-        echo "github.ref = '${{ github.ref }}'"
         if [ "$RUNNER_OS" == "Linux" ]; then
           sudo apt update
-          sudo apt install --yes g++-multilib nasm ninja-build
+          sudo apt install --yes g++-multilib nasm
         elif [ "$RUNNER_OS" == "macOS" ]; then
-          brew install nasm zopfli ninja
+          brew install nasm zopfli
         fi
         cmake --build build --config ${{env.CMAKE_BUILD_TYPE}}
 
