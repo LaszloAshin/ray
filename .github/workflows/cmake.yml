@@ -31,6 +31,7 @@ jobs:
         - asset_name: ray-linux-x86
           os: ubuntu-latest
           artifact_name: build/ray.compact
+          generator: Ninja
 
     steps:
     - uses: actions/checkout@v2
