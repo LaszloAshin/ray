@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.11)
 project(ray VERSION 0.0.1 LANGUAGES C CXX)
 enable_testing()
-message(STATUS "cmake version: ${CMAKE_VERSION}")
+message(STATUS "CMake version: ${CMAKE_VERSION}")
+message(STATUS "CMake generator platform: ${CMAKE_GENERATOR_PLATFORM}")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -26,17 +27,6 @@ set(ray_multi_SOURCES src/MainMulti.cc)
 
 if(MSVC)
 	enable_language(ASM_MASM)
-	add_compile_options(/W4 /WX) # highest warning level
-	add_compile_options(/EHs-c- /GR-) # disable exceptions and rtti
-	add_compile_options(/Os) # tells the compiler to favor optimizations for size over optimizations for speed
-	add_compile_options(/O1) # sets a combination of optimizations that generate minimum size code
-	add_compile_options(/Ob1) # Allows expansion only of functions marked inline, __inline, or __forceinline, or in a C++ member function defined in a class declaration
-	add_compile_options(/Oi) # generates intrinsic functions for appropriate function calls
-#	add_compile_options(/Oy) # suppresses the creation of frame pointers on the call stack for quicker function calls
-	add_definitions(-D_HAS_EXCEPTIONS=0)
-	add_definitions(-D_USE_MATH_DEFINES) # enable macros like M_PI
-	add_definitions(-DNOMINMAX) # prevent windows.h from defining min/max macros
-	add_compile_options(/GS-) # disable guardstack
 	list(APPEND libray_SOURCES src/MyMath-masm-x86.asm)
 	list(APPEND libray_SOURCES src/MappedWritableFile-windows.cc)
 	list(APPEND libray_SOURCES src/MyLib-windows.cc)
@@ -85,6 +75,21 @@ add_executable(ray ${ray_multi_SOURCES})
 target_link_libraries(ray libray)
 
 if(MSVC)
+	add_compile_options(/W4 /WX) # highest warning level
+	target_compile_options(libray PUBLIC
+		/EHs-c- /GR- # disable exceptions and rtti
+		/Os # tells the compiler to favor optimizations for size over optimizations for speed
+		/O1 # sets a combination of optimizations that generate minimum size code
+		/Ob1 # Allows expansion only of functions marked inline, __inline, or __forceinline, or in a C++ member function defined in a class declaration
+		/Oi # generates intrinsic functions for appropriate function calls
+#		/Oy # suppresses the creation of frame pointers on the call stack for quicker function calls
+		/GS- # disable guardstack
+	)
+	target_compile_definitions(libray PUBLIC
+		-D_HAS_EXCEPTIONS=0
+		-D_USE_MATH_DEFINES # enable macros like M_PI
+		-DNOMINMAX # prevent windows.h from defining min/max macros
+	)
 	target_link_options(ray PRIVATE /REPORT:ray.html)
 	target_link_options(ray-single PRIVATE /REPORT:ray-single.html)
 else()
