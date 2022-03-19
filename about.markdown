@@ -4,15 +4,13 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+My name is Laszlo, I am a software developer and one day I looked at one
+of my old projects, [ray][]. This is a very simple raytracer written in C++.
+At first
+the slowness of the code was my biggest concern so I resolved some
+bottlenecks. After the program seemed fast enough I decided to reduce the
+size.
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+This blog details my results and the way I achieved them.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
-
-[jekyll-organization]: https://github.com/jekyll
+[ray]: https://github.com/LaszloAshin/ray
