@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.11)
 project(ray VERSION 0.0.1 LANGUAGES C CXX)
 enable_testing()
 message(STATUS "CMake version: ${CMAKE_VERSION}")
+message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
 message(STATUS "CMake generator platform: ${CMAKE_GENERATOR_PLATFORM}")
 
 set(CMAKE_CXX_STANDARD 17)
