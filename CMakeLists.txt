@@ -105,6 +105,9 @@ else()
 		-fno-pie
 		-ffunction-sections -fdata-sections
 	)
+	target_link_options(libray INTERFACE
+		-nostartfiles -static
+	)
 
 	if(DO_STRIP)
 		include(ExternalProject)
@@ -122,7 +125,7 @@ else()
 		string(REPLACE -Os -Oz CMAKE_CXX_FLAGS_MINSIZEREL ${CMAKE_CXX_FLAGS_MINSIZEREL})
 		set(CMAKE_CXX_LINK_FLAGS "") # Avoid cmake to add the flags -search_paths_first and -headerpad_max_install_names
 		target_link_options(libray INTERFACE
-			-nostartfiles -nodefaultlibs -nostdlib -static
+			-nodefaultlibs -nostdlib
 			-Wl,-order_file,${CMAKE_SOURCE_DIR}/src/macos-link-order
 			-Wl,-dead_strip
 			-Wl,-dead_strip_dylibs
@@ -159,10 +162,7 @@ else()
 			-m32
 			-Wl,--gc-sections -Wl,--as-needed
 			-Wl,--build-id=none
-			-Wl,-z,noseparate-code # merge rodata into text
-			-Wl,-z,norelro
 			-Wl,-Ttext,0x20074 # 0x74 = Ehdr + 1 * Phdr
-			-nostartfiles -nodefaultlibs -nolibc -nostdlib -static
 			-Wl,--omagic
 		)
 		target_link_options(ray PRIVATE -Wl,-Map,ray.map)
