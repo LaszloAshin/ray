@@ -21,9 +21,8 @@
 title: Space-optimizing my old toy-raytracer
 email: ray@ashin.hu
 description: >- # this means to ignore newlines until "baseurl:"
-  The story of fighting software bloat by reducing the size of my toy
-  raytracer. I managed to get it under 4096 bytes on Linux, Windows and
-  MacOS.
+  The story of fighting software bloat by reducing the size of a toy
+  raytracer under 4096 bytes on Linux, Windows and MacOS.
 domain: "laszloashin.github.io"
 baseurl: "/ray" # the subpath of your site, e.g. /blog
 url: "https://laszloashin.github.io" # the base hostname & protocol for your site, e.g. http://example.com
