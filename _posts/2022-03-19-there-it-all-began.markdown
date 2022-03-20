@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The beginning"
+title:  "Where it all began"
 date:   2022-03-19 16:19:22 +0100
 categories: jekyll update
 ---
