@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Space-optimizing my old toy-raytracer
+title: Size-optimizing my old toy-raytracer
 email: ray@ashin.hu
 description: >- # this means to ignore newlines until "baseurl:"
   The story of fighting software bloat by reducing the size of a toy
