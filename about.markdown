@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-As a software developer one day I looked at my old project, [ray][].
+One day I looked at my old project, [ray][].
 This is a very simple raytracer written in C++.
 At first the performance of the code was my biggest concern so I resolved
 some bottlenecks there. After the program seemed to be fast enough I
